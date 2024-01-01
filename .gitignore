@@ -120,5 +120,11 @@ launch.json
 .DS_Store
 **/.DS_Store
 
-muze
-
+# npm
+node_modules
+# next.js build files
+.next
+# environment variables
+.env
+.env.*
+!.env.example
