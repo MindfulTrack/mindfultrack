@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -8,8 +9,28 @@ import ListItem from '@mui/material/ListItem';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import MediaCard from '@/components/MediaCard';
+import Skeleton from '@mui/material/Skeleton';
+import { useRouter } from 'next/navigation';
+import {signIn, useSession} from "next-auth/react";
 
 export default function HomePage() {
+  const router = useRouter();
+  const {data: session, status} = useSession();
+
+  if (status == "loading") {
+    return <Box><Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+      <Skeleton variant="circular" width={40} height={40} />
+      <Skeleton variant="rectangular" width={210} height={60} />
+      <Skeleton variant="rounded" width={210} height={60} />
+            </Box>
+  }
+
+  // If the user is authenticated redirect to `/profile`
+  if (session) {
+    router.push("profile");
+    return;
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <div>
