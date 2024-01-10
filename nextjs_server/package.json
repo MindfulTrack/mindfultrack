@@ -1,0 +1,24 @@
+{
+  "name": "nextjs_server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
+    "@mui/material-nextjs": "^5.15.4",
+    "axios": "^1.6.5",
+    "next": "14.0.4",
+    "next-auth": "^5.0.0-beta.4",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}
