@@ -25,14 +25,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import theme from '@/theme';
 
 export const metadata = {
-  title: 'Next.js App Router + Material UI v5',
-  description: 'Next.js App Router + Material UI v5',
+  title: 'MindfulTrack',
+  description: 'MindfulTrack',
 };
 
 const DRAWER_WIDTH = 240;
 
 const LINKS = [
-  { text: 'Home', href: '/', icon: HomeIcon },
+  { text: 'Home', href: '/login', icon: HomeIcon },
   { text: 'Starred', href: '/starred', icon: StarIcon },
   { text: 'Tasks', href: '/tasks', icon: ChecklistIcon },
   { text: 'Logout', icon: LogoutIcon, href: '/login' },
@@ -54,55 +54,19 @@ export default function RootLayout({ children }) {
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
               <AppBar position="fixed" sx={{ zIndex: 2000 }}>
-                <Toolbar sx={{ backgroundColor: 'background.paper' }}>
+                <Toolbar sx={{ backgroundColor: 'background.paper', width: "100%" }}>
                   <DashboardIcon sx={{ color: '#444', mr: 2, transform: 'translateY(-2px)' }} />
+                  {/* <div className='navBar'> */}
                   <Typography variant="h6" noWrap component="div" color="black">
-                    Next.js App Router
+                    MindfulTrack
                   </Typography>
+                    <Typography variant="h6" noWrap component="div" color="black">
+                      <Link href="/login">Login</Link>
+                    </Typography>
+                  {/* </div> */}
                 </Toolbar>
               </AppBar>
-              <Drawer
-                sx={{
-                  width: DRAWER_WIDTH,
-                  flexShrink: 0,
-                  '& .MuiDrawer-paper': {
-                    width: DRAWER_WIDTH,
-                    boxSizing: 'border-box',
-                    top: ['48px', '56px', '64px'],
-                    height: 'auto',
-                    bottom: 0,
-                  },
-                }}
-                variant="permanent"
-                anchor="left"
-              >
-                <Divider />
-                <List>
-                  {LINKS.map(({ text, href, icon: Icon }) => (
-                    <ListItem key={href} disablePadding>
-                      <ListItemButton component={Link} href={href}>
-                        <ListItemIcon>
-                          <Icon />
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-                <Divider sx={{ mt: 'auto' }} />
-                <List>
-                  {PLACEHOLDER_LINKS.map(({ text, href, icon: Icon }) => (
-                    <ListItem key={text} disablePadding>
-                      <ListItemButton href={href}>
-                        <ListItemIcon>
-                          <Icon />
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Drawer>
+              
               <Box
                 component="main"
                 sx={{
@@ -111,6 +75,7 @@ export default function RootLayout({ children }) {
                   ml: `${DRAWER_WIDTH}px`,
                   mt: ['48px', '56px', '64px'],
                   p: 3,
+                  marginLeft: 0
                 }}
               >
                 {children}

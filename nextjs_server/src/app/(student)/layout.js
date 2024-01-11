@@ -23,6 +23,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SupportIcon from '@mui/icons-material/Support';
 import LogoutIcon from '@mui/icons-material/Logout';
 import theme from '@/theme';
+import Sidebar from '@/components/Sidebar';
 
 export const metadata = {
   title: 'MindfulTrack',
@@ -30,19 +31,6 @@ export const metadata = {
 };
 
 const DRAWER_WIDTH = 240;
-
-const LINKS = [
-  { text: 'Home', href: '/', icon: HomeIcon },
-  { text: 'Starred', href: '/starred', icon: StarIcon },
-  { text: 'Tasks', href: '/tasks', icon: ChecklistIcon },
-  { text: 'Logout', icon: LogoutIcon, href: '/login' },
-];
-
-const PLACEHOLDER_LINKS = [
-  { text: 'Settings', icon: SettingsIcon, href: '/setting' },
-  { text: 'Support', icon: SupportIcon, href: '/support' },
-  { text: 'Logout', icon: LogoutIcon, href: '/login' },
-];
 
 export default function RootLayout({ children }) {
   return (
@@ -53,16 +41,15 @@ export default function RootLayout({ children }) {
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
-
               <AppBar position="fixed" sx={{ zIndex: 2000 }}>
                 <Toolbar sx={{ backgroundColor: 'background.paper' }}>
                   <DashboardIcon sx={{ color: '#444', mr: 2, transform: 'translateY(-2px)' }} />
                   <Typography variant="h6" noWrap component="div" color="black">
-                    TEST
+                    MindfulTrack
                   </Typography>
                 </Toolbar>
               </AppBar>
-
+              <Sidebar />
               <Box
                 component="main"
                 sx={{
@@ -71,12 +58,10 @@ export default function RootLayout({ children }) {
                   ml: `${DRAWER_WIDTH}px`,
                   mt: ['48px', '56px', '64px'],
                   p: 3,
-                  marginLeft: 'none'
                 }}
               >
                 {children}
               </Box>
-              
             </ThemeProvider>
           </SessionProvider>
         </AppRouterCacheProvider>

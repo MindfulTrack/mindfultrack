@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -12,6 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 function Copyright(props) {
   return (
@@ -36,6 +39,11 @@ export default function SignIn() {
   //     password: data.get('password'),
   //   });
   // };
+  const router = useRouter();
+
+  const handleSignIn = () => {
+    router.push('/index')
+  }
 
   return (
       <Container component="main" maxWidth="xs">
@@ -45,7 +53,7 @@ export default function SignIn() {
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -85,6 +93,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={() => handleSignIn()}
             >
               Sign In
             </Button>
