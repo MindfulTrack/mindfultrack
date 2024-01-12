@@ -4,6 +4,9 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Image from 'next/image';
+import picture from '../static/images/test..jpg';
+import { Box } from '@mui/material';
+
 
 function Copyright(props) {
   return (
@@ -22,19 +25,9 @@ function Copyright(props) {
 export default function LandingPage() {
 
   return (
-      <Container component="main" maxWidth="xs">
+      <Container maxWidth disableGutters>
         <CssBaseline />
-        <Image
-        alt="Random image"
-        src="https://source.unsplash.com/random"
-        width={640}
-        height={480}
-        style={{
-          maxWidth: '100%',
-          height: '200px',
-          objectFit: 'cover',
-        }}
-      />
+        <Typography variant='h1' align='center'>Welcome to MindfulTrack!</Typography>
       </Container>
   );
 }
