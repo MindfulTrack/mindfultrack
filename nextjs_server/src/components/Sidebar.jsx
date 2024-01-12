@@ -29,7 +29,7 @@ export default function Sidebar() {
   const DRAWER_WIDTH = 240;
 
   const LINKS = [
-    { text: 'Home', href: '/login', icon: HomeIcon },
+    { text: 'Home', href: '/home', icon: HomeIcon },
     { text: 'Starred', href: '/starred', icon: StarIcon },
     { text: 'Tasks', href: '/tasks', icon: ChecklistIcon },
     { text: 'Logout', icon: LogoutIcon, href: '/' },

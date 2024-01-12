@@ -42,7 +42,7 @@ export default function SignIn() {
   const router = useRouter();
 
   const handleSignIn = () => {
-    router.push('/index')
+    router.push('/home');
   }
 
   return (
