@@ -51,7 +51,7 @@ export default function RootLayout(props) {
     <html lang="en">
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <SessionProvider>
+          <SessionProvider session={props.session}>
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
