@@ -25,17 +25,42 @@ function Copyright(props) {
     </Typography>
   );
 }
+import {useRouter} from "next/router";
+import {signIn, useSession} from "next-auth/react";
+import {Box, Button, Spinner, Text, VStack} from "@chakra-ui/react";
 
+
+
+  const router = useRouter();
+  const {data: session, status} = useSession();
+
+  if (status == "loading") {
+    return <Spinner size="lg"/>;
+  }
+
+  // If the user is authenticated redirect to `/profile`
+  if (session) {
+    router.push("profile");
+    return;
+  }
+
+  return (
+    <Box m={8}>
+      <VStack>
+        <Text>You are not authenticated.</Text>
+        <Button
+            colorScheme="blue"
+            onClick={() => signIn(undefined, {callbackUrl: "/profile"})}
+        >
+          Sign in
+        </Button>
+      </VStack>
+    </Box>
+  );
+  
 // TODO remove, this demo shouldn't need to reset the theme.
 export default function SignIn() {
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  // };
+
 
   return (
       <Container component="main" maxWidth="xs">

@@ -5,16 +5,17 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter
 import { ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import StarIcon from '@mui/icons-material/Star';
@@ -23,7 +24,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SupportIcon from '@mui/icons-material/Support';
 import LogoutIcon from '@mui/icons-material/Logout';
 import theme from '@/theme';
-
+import { Card, CardContent } from '@mui/material';
 
 export const metadata = {
   title: 'Login',
@@ -45,7 +46,7 @@ const PLACEHOLDER_LINKS = [
   { text: 'Logout', icon: LogoutIcon, href: '/login' },
 ];
 
-export default function RootLayout({ children }) {
+export default function RootLayout(props) {
   return (
     <html lang="en">
       <body>
@@ -58,11 +59,11 @@ export default function RootLayout({ children }) {
                 <Toolbar sx={{ backgroundColor: 'background.paper' }}>
                   <DashboardIcon sx={{ color: '#444', mr: 2, transform: 'translateY(-2px)' }} />
                   <Typography variant="h6" noWrap component="div" color="black">
-                    TEST
+                    TEST HERE
                   </Typography>
                 </Toolbar>
               </AppBar>
-              {/* <Drawer
+              <Drawer
                 sx={{
                   width: DRAWER_WIDTH,
                   flexShrink: 0,
@@ -103,18 +104,19 @@ export default function RootLayout({ children }) {
                     </ListItem>
                   ))}
                 </List>
-              </Drawer> */}
+              </Drawer>
+              
               <Box
                 component="main"
                 sx={{
                   flexGrow: 1,
                   bgcolor: 'background.default',
-                  // ml: `${DRAWER_WIDTH}px`,
-                  // mt: ['48px', '56px', '64px'],
+                  mt: ['48px', '56px', '64px'],
+                  ml: `${DRAWER_WIDTH}px`,
                   p: 3,
                 }}
               >
-                {children}
+              {props.children}
               </Box>
             </ThemeProvider>
           </SessionProvider>
