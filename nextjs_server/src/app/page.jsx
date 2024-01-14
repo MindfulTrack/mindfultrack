@@ -5,8 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Image from 'next/image';
-import picture from '../static/images/headingMountain.JPG';
+import Image from "next/legacy/image";
+import picture from './static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Grid } from '@mui/icons-material';
@@ -37,20 +37,19 @@ export default function LandingPage() {
   }));
 
   return (
-      <Container maxWidth disableGutters
-        sx={{
-          mt: 0,
-          mb: 14,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%'
-        }}
-      >
-        <CssBaseline />
+    <Container disableGutters maxWidth='false'
+      sx={{
+        mt: 0,
+        mb: 14,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}
+    >
+    <CssBaseline />
         <Image 
           src={picture}
-          layout='responsive'
+          style={{objectFit: 'contain', objectPosition: 'top center'}}
           priority='true'
         >
         </Image>
