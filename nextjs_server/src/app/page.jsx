@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Image from 'next/image';
-import picture from '../static/images/headingMountain.JPG';
+import picture from './static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Grid } from '@mui/icons-material';
