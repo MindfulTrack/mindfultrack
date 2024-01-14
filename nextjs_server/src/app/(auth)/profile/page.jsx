@@ -1,9 +1,15 @@
+'use client'
 import {useState} from "react";
 import {signOut, useSession} from "next-auth/react";
-import {Box, Button, Code, HStack, Spinner, Text, VStack} from "@chakra-ui/react";
+// import {Box, Button, Code, HStack, Spinner, Typography, VStack} from "@chakra-ui/react";
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+
 import axios from "axios";
 
-export default function Home() {
+export default function Profile() {
 
   const {data: session, status} = useSession({required: true});
   const [response, setResponse] = useState("{}");
@@ -21,24 +27,24 @@ export default function Home() {
     }
     }
 
-  };
 
   if (status == "loading") {
-    return <Spinner size="lg"/>;
+    console.log("HERE")
+    return <CircularProgress size="lg"/>;
   }
 
   if (session) {
     return (
       <Box m={8}>
-        <VStack>
-          <Text>PK: {session.user.pk}</Text>
-          <Text>Username: {session.user.username}</Text>
-          <Text>Email: {session.user.email || "Not provided"}</Text>
-          <Code>
+        {/* <VStack> */}
+          <Typography>PK: {session.user.pk}</Typography>
+          <Typography>Username: {session.user.username}</Typography>
+          <Typography>Email: {session.user.email || "Not provided"}</Typography>
+          <Typography variant="code">
             {response}
-          </Code>
-        </VStack>
-        <HStack justifyContent="center" mt={4}>
+          </Typography>
+        {/* </VStack> */}
+        {/* <HStack justifyContent="center" mt={4}> */}
           <Button colorScheme="blue" onClick={() => getUserDetails(true)}>
             User details (with token)
           </Button>
@@ -48,9 +54,10 @@ export default function Home() {
           <Button colorScheme="red" onClick={() => signOut({callbackUrl: "/"})}>
             Sign out
           </Button>
-        </HStack>
+        {/* </HStack> */}
       </Box>
     );
   }
 
   return <></>;
+};
