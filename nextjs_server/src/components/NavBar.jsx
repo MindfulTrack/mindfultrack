@@ -17,7 +17,7 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           
           <SelfImprovement sx={{mr: 2, fontSize: 35}} onClick={() => window.location.href='/'}/>

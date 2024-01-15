@@ -37,7 +37,7 @@ export default function SignUp() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{height: 'calc(100vh - 9rem)', display: 'flex', flexDirection: 'column'}}>
       <CssBaseline />
       <Box
         sx={{
@@ -109,19 +109,19 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            color='tertiary'
           >
-            Sign Up
+            <Typography color='text.tertiary' variant='body1'>Sign Up</Typography>
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
     </Container>
   );
 }

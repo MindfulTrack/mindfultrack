@@ -1,5 +1,18 @@
 import * as React from 'react';
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, Link } from "@mui/material";
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color='text.tertiary' align="center" {...props} sx={{pt: '2rem'}}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://byu.edu">
+        MindfulTrack
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function Footer() {
   return (
@@ -9,14 +22,15 @@ export default function Footer() {
           bottom: 0,
           left: 0,
           right: 0,
-          p: 0,
           textAlign: 'center',
-          backgroundColor: 'primary.main'
+          backgroundColor: 'primary.main',
+          height: '5rem',
+          flexShrink: 0
         }} 
         component='footer' 
         square
       >
-        <Typography variant='h2' component="div" color="secondary.main" sx={{padding: 5}}>hello this is my foot</Typography>
+        <Copyright />
       </Paper>
     </Box>
   );
