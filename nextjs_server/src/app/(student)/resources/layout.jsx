@@ -23,7 +23,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SupportIcon from '@mui/icons-material/Support';
 import LogoutIcon from '@mui/icons-material/Logout';
 import theme from '@/theme';
-import Sidebar from '@/components/Sidebar.jsx';
+import Sidebar from '@/app/components/Sidebar.jsx';
 
 export const metadata = {
   title: 'MindfulTrack',
