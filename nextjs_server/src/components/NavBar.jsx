@@ -21,11 +21,23 @@ export default function NavBar() {
       <AppBar position="static">
         <Toolbar>
           
-          <SelfImprovement sx={{mr: 2, fontSize: 35}} onClick={() => window.location.href='/'}/>
+        <div style={{display: 'inline-flex'}}>
+            <Typography variant="h4" component="div" sx={{pr: "15px", cursor: 'pointer'}} onClick={handleGoHome}>MindfulTrack</Typography>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            MindfulTrack
-          </Typography>
+            <Divider orientation='vertical' flexItem sx={{backgroundColor: "secondary.main"}}/>
+
+            <div style={{paddingLeft: "15px"}}>
+                
+              <Image
+                src={byuLogo}
+                width={140}
+                height={40}
+                priority="true"
+                backgroundColor='tertiary'
+              />
+
+            </div>
+          </div>
           <Button 
             color="inherit"
             href="/profile"
