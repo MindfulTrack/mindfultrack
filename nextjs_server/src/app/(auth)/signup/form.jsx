@@ -17,7 +17,10 @@ import Divider from '@mui/material/Divider';
 
 export default function SignUpForm() {
   const router = useRouter();
+
   const handleSubmit = async (event) => {
+    console.log("NORMAL AUTH")
+
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -25,46 +28,22 @@ export default function SignUpForm() {
       method: 'POST',
       body: JSON.stringify({
         email: data.get('email'),
+        username: data.get('email'),
         password: data.get('password'),
         password2: data.get('password2'),
         first_name: data.get('firstName'),
         last_name: data.get('lastName'),
       })
     });
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    console.log({response})
-
-    if(!response.error){
-      router.push("profile");
+    if(response.status == 200){
+      router.push("/");
     }
+    console.log(response)
   };
 
-  const handleSignupWithGoogle = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    const response = await fetch("api/auth/signupGoogle", {
-      method: 'POST',
-      body: JSON.stringify({
-        email: data.get('email'),
-        password: data.get('password'),
-        password2: data.get('password2'),
-        first_name: data.get('firstName'),
-        last_name: data.get('lastName'),
-      })
-    });
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    console.log({response})
-
-    if(!response.error){
-      router.push("profile");
-    }
+  const handleLoginWithGoogle = () => {
+    console.log("GOOGLE AUTH")
+    signIn('google', {callbackUrl: "/profile",})
   };
 
   return (
@@ -112,6 +91,7 @@ export default function SignUpForm() {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
               />
             </Grid>
@@ -154,7 +134,7 @@ export default function SignUpForm() {
           </Button>
           <Divider></Divider>
           {/* GOOGLE SIGN IN */}
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSignupWithGoogle}>Log in with Google</Button>
+          <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link onClick={() => signIn(undefined, {callbackUrl: "/profile"})} variant="body2">

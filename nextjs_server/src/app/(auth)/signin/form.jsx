@@ -13,37 +13,21 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {signIn} from "next-auth/react";
 import Divider from '@mui/material/Divider';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
-export default function SignInForm({providers}) {
+export default function SignInForm() {
   // const router = useRouter();
-  console.log(providers)
   const handleLoginWithGoogle = () => {
     signIn('google', {callbackUrl: "/profile",}) // Replace 'google' with the ID of your provider
   }
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const signedIn = signIn("credentials", {callbackUrl: "/profile", username: data.get('email'), password: data.get('password') })
-    // if(!signedIn.error){
-    // }
-    // const response = await fetch("api/auth/signup", {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: data.get('email'),
-    //     password: data.get('password'),
-    //     password2: data.get('password2'),
-    //     first_name: data.get('firstName'),
-    //     last_name: data.get('lastName'),
-    //   })
-    // });
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
-    // console.log({response})
+    signIn("credentials", {callbackUrl: "/profile", username: data.get('username'), password: data.get('password') })
+    
   };
-
+  
   return (
     <Box
         sx={{
@@ -66,8 +50,8 @@ export default function SignInForm({providers}) {
             required
             fullWidth
             id="email"
-            label="Username"
-            name="email"
+            label="Email/Username"
+            name="username"
             type="text"
             autoComplete="email"
             autoFocus
@@ -99,7 +83,7 @@ export default function SignInForm({providers}) {
           <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/password-reset" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

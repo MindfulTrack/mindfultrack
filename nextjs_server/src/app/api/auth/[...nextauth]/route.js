@@ -72,7 +72,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {label: "Username", type: "text"},
+        username: {label: "Username/Email", type: "text"},
         password: {label: "Password", type: "password"}
       },
       // The data returned from this function is passed forward as the
@@ -131,13 +131,13 @@ export const authOptions = {
     async session({token}) {
       return token;
     },
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    },
+    // async redirect({ url, baseUrl }) {
+    //   // Allows relative callback URLs
+    //   if (url.startsWith("/")) return `${baseUrl}${url}`
+    //   // Allows callback URLs on the same origin
+    //   else if (new URL(url).origin === baseUrl) return url
+    //   return baseUrl
+    // },
   }
 };
 

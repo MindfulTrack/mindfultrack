@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function POST(request){
     try{
-        const { email, password, password2, first_name, last_name, username } = await request.json();
+        const { password, password2, uid, token } = await request.json();
         //VALIDATE HERE
         // if(password != password2){
 
@@ -11,20 +11,20 @@ export async function POST(request){
         // }
         //ZOD??
         
-        console.log({email, password, password2, first_name, last_name, username})
-        let data
+        console.log({password, password2, uid, token})
+        let data;
         try {
             const response = await axios({
-                url: process.env.NEXTAUTH_BACKEND_URL + "auth/register/",
+                url: process.env.NEXTAUTH_BACKEND_URL + "auth/password/reset/confirm/",
                 method: "post",
                 data:{
-                    username: username,
-                    password1: password,
-                    password2: password2,
-                    email: email,
-                    first_name: first_name,
-                    last_name: last_name
-                }
+                    uid: uid,
+                    token: token,
+                    new_password1: password,
+                    new_password2: password2,
+                },
+                headers: {
+                    'Content-Type': 'application/json'}
             });
             data = response.data;
 
