@@ -47,6 +47,7 @@ export const authOptions = {
   },
   pages: {
     signIn: '/signin',
+    error: '/signin',
     // signOut: '/auth/signout',
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
@@ -88,9 +89,13 @@ export const authOptions = {
               'Content-Type': 'application/json'}
           });
           const data = response.data;
+          console.log(data)
           if (data) return data;
         } catch (error) {
-          console.error(error);
+          console.log(error.response.data.non_field_errors);
+          console.log(error.response.data.non_field_errors[0])
+          // console.error(error);
+          return {'error': error.response.data.non_field_errors[0]}
         }
         return null;
       },
@@ -98,8 +103,12 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({user, account, profile, email, credentials}) {
+      console.log(user)
+      if (user['error']){
+        return '/signin/'+user['error']
+      }
       if (!SIGN_IN_PROVIDERS.includes(account.provider)) return false;
-
+      
       return SIGN_IN_HANDLERS[account.provider](
         user, account, profile, email, credentials
       );

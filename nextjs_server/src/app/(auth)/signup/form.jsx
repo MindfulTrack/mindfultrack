@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
@@ -17,6 +18,17 @@ import Divider from '@mui/material/Divider';
 
 export default function SignUpForm() {
   const router = useRouter();
+  
+  //Error Alert
+  let error = "PASSWORDS DO NOT MATCH";
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleSubmit = async (event) => {
     console.log("NORMAL AUTH")
@@ -24,6 +36,7 @@ export default function SignUpForm() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
+    if(data.get('password') === data.get('password2')){
     const response = await fetch("api/auth/signup", {
       method: 'POST',
       body: JSON.stringify({
@@ -35,10 +48,15 @@ export default function SignUpForm() {
         last_name: data.get('lastName'),
       })
     });
+
     if(response.status === 200){
       router.push("/");
     }
     console.log(response)
+    }
+    else{
+      setOpen(true);
+    }
   };
 
   const handleLoginWithGoogle = () => {
@@ -58,6 +76,9 @@ export default function SignUpForm() {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
+        {open ? <Alert severity="error" onClose={handleClose}>
+        {error}
+        </Alert> : null}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

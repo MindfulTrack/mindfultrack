@@ -3,7 +3,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import Copyright from '@/components/Copyright'
 export default function Footer() {
   return (
-    <Box sx={{ flexGrow: 1,  position: 'sticky'}}>
+    <Box sx={{ flexGrow: 1,  position: 'sticky',} }>
       <Paper 
         sx={{position: 'sticky',
           bottom: 0,

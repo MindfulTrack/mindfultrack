@@ -31,7 +31,7 @@ export default function Profile() {
 
   if (status == "loading") {
     console.log("HERE")
-    return <CircularProgress size="lg"/>;
+    return <CircularProgress size="sm"/>;
   }
 
   if (session) {

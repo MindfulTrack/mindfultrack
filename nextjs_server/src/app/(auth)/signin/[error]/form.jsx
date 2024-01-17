@@ -16,7 +16,18 @@ import {signIn} from "next-auth/react";
 import Divider from '@mui/material/Divider';
 // import { useRouter } from 'next/navigation';
 
-export default function SignInForm() {
+export default function SignInForm({params}) {
+  // Error and Error Alert
+  const error = String(decodeURIComponent(params.error))
+  const [open, setOpen] = React.useState(true);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  
   // const router = useRouter();
   const handleLoginWithGoogle = () => {
     signIn('google', {callbackUrl: "/profile",}) // Replace 'google' with the ID of your provider
@@ -45,6 +56,10 @@ export default function SignInForm() {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
+        {open ? <Alert severity="error" onClose={handleClose}>
+        {error}
+        </Alert> : null}
+        {/* {open ? <Alert onClose={handleClose}>This is an alert message</Alert> : null} */}
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
