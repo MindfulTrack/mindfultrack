@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 import NavBar from '@/app/components/NavBar';
-import Footer from '@/app/components/Footer';
+// import Footer from '@/app/components/Footer';
 
 
 
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
     
               {children}
               
-              <Footer />
+              {/* <Footer /> */}
 
             </ThemeProvider>
           </SessionProvider>
