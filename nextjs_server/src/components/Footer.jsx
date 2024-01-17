@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import Copyright from '@/components/Copyright'
 export default function Footer() {
   return (
