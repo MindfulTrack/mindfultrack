@@ -1,4 +1,4 @@
-import SessionProvider from "@/components/SessionProvider";
+import SessionProvider from "@/app/components/SessionProvider";
 import { getServerSession } from "next-auth";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';

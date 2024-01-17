@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box, Paper } from "@mui/material";
-import Copyright from '@/components/Copyright'
+import Copyright from '@/app/components/Copyright'
 export default function Footer() {
   return (
     <Box sx={{ flexGrow: 1} }>
