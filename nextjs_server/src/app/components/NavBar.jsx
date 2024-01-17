@@ -1,8 +1,11 @@
+'use client'
 import * as React from 'react';
-import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { SelfImprovement } from '@mui/icons-material';
-// import { useRouter } from 'next/navigation';
-// import createSvgIcon from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Button, Divider } from '@mui/material';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import byuLogo from '../static/byuLogo/Monogram/PNG/BYU_White.png';
+import Image from 'next/legacy/image';
+import Link from 'next/link';
 
 export default function NavBar() {
   // const BYU = createSvgIcon(
@@ -10,27 +13,61 @@ export default function NavBar() {
   //   'BYU'
   // );
 
-  // const router = useRouter();
-  // const handleLoginClick = () => {
-  //   router.push('/login');
-  // }
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const router = useRouter();
+  const handleLoginButtonClick = () => {
+    setIsLoggedIn(!isLoggedIn);
+    {isLoggedIn ? router.push('/') : router.push('/login')}
+  };
+
+  const handleGoHome = () => {
+    router.push('/');
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="fixed">
+        <Toolbar sx={{justifyContent: 'space-between'}}>
           
-          <SelfImprovement sx={{mr: 2, fontSize: 35}} onClick={() => window.location.href='/'}/>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            MindfulTrack
-          </Typography>
-          <Button 
-            color="inherit"
-            href='/login'
-          >
-            Login
-          </Button>
+          <div style={{display: 'inline-flex'}}>
+            <Typography variant="h4" component="div" sx={{pr: "15px", cursor: 'pointer'}} onClick={handleGoHome}>MindfulTrack</Typography>
+
+            <Divider orientation='vertical' flexItem sx={{backgroundColor: "secondary.main"}}/>
+
+            <div style={{paddingLeft: "15px"}}>
+                
+              <Image
+                src={byuLogo}
+                width={140}
+                height={40}
+                priority="true"
+                backgroundColor='tertiary'
+              />
+
+            </div>
+          </div>
+
+          <div>
+            {!isLoggedIn ? 
+              <Button 
+                color="inherit"
+                onClick={handleLoginButtonClick}
+              >
+                Login
+              </Button>
+            :
+              <Button 
+                color="inherit"
+                // href='/'
+                onClick={handleLoginButtonClick}
+              >
+                Logout
+              </Button>
+            }
+          </div>
+
         </Toolbar>
       </AppBar>
     </Box>

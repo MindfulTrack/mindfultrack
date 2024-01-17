@@ -1,4 +1,4 @@
-import TestComponent from '@/components/test'
+import TestComponent from '@/app/components/test'
 
 export default function Dashboard(){
     return <> 
