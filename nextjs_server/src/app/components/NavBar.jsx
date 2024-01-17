@@ -3,15 +3,17 @@ import * as React from 'react';
 import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { SelfImprovement } from '@mui/icons-material';
 import {signIn, signOut, useSession} from "next-auth/react";
-import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import byuLogo from '../static/byuLogo/Monogram/PNG/BYU_White.png';
+import Image from 'next/legacy/image';
 
 export default function NavBar() {
   const {data: session, status} = useSession();
 
-  // if (status == "loading") {
-  //   return <CircularProgress size="lg"/>;
-  // }
+  const handleGoHome = () => {
 
+  }
+  
   // If the user is authenticated redirect to `/profile`
   if (session) {
     // router.push("profile");
@@ -19,7 +21,7 @@ export default function NavBar() {
       <>
       <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{justifyContent: 'space-between'}}>
           
         <div style={{display: 'inline-flex'}}>
             <Typography variant="h4" component="div" sx={{pr: "15px", cursor: 'pointer'}} onClick={handleGoHome}>MindfulTrack</Typography>
@@ -38,13 +40,17 @@ export default function NavBar() {
 
             </div>
           </div>
-          <Button 
-            color="inherit"
-            href="/profile"
-            // onClick={() => signOut()}
-          >
-            Profile: {session.user.username}
-          </Button>
+
+          <div>
+            <Button 
+              color="inherit"
+              href="/profile"
+              
+              // onClick={() => signOut()}
+            >
+              Profile: {session.user.username}
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
