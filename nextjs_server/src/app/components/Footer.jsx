@@ -1,24 +1,23 @@
 import * as React from 'react';
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import Copyright from '@/components/Copyright'
 export default function Footer() {
   return (
-    <Box sx={{ flexGrow: 1,  position: 'sticky',} }>
+    <Box sx={{ flexGrow: 1} }>
       <Paper 
         sx={{position: 'sticky',
           bottom: 0,
           left: 0,
           right: 0,
-          p: 0,
           textAlign: 'center',
-          backgroundColor: 'primary.main'
+          backgroundColor: 'primary.main',
+          height: '5rem',
+          flexShrink: 0
         }} 
         component='footer' 
         square
       >
-        <Typography variant='h2' component="div" color="secondary.main" sx={{padding: 5}}>hello this is my foot</Typography>
         <Copyright color="secondary.main" />
-
       </Paper>
     </Box>
   );
