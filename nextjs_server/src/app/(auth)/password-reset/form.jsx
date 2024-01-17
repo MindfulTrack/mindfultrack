@@ -1,12 +1,7 @@
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 // import { useRouter } from 'next/navigation';
 
 export default function PasswordResetEmailForm() {
@@ -17,7 +12,7 @@ export default function PasswordResetEmailForm() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const response = await fetch("api/auth/password-reset-request", {
+    const response = await fetch("api/auth/password-reset-request/", {
       method: 'POST',
       body: JSON.stringify({
         email: data.get('email'),

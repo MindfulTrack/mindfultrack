@@ -35,7 +35,7 @@ export default function SignUpForm() {
         last_name: data.get('lastName'),
       })
     });
-    if(response.status == 200){
+    if(response.status === 200){
       router.push("/");
     }
     console.log(response)

@@ -78,11 +78,14 @@ export const authOptions = {
       // The data returned from this function is passed forward as the
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
+        // console.log(credentials)
         try {
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
             method: "post",
             data: credentials,
+            headers: {
+              'Content-Type': 'application/json'}
           });
           const data = response.data;
           if (data) return data;
@@ -132,12 +135,25 @@ export const authOptions = {
       return token;
     },
     // async redirect({ url, baseUrl }) {
-    //   // Allows relative callback URLs
-    //   if (url.startsWith("/")) return `${baseUrl}${url}`
-    //   // Allows callback URLs on the same origin
-    //   else if (new URL(url).origin === baseUrl) return url
-    //   return baseUrl
-    // },
+    //   const isRelativeUrl = url.startsWith("/");
+    //   if (isRelativeUrl) {
+    //     return `${baseUrl}${url}`;
+    //   }
+
+    //   const isSameOriginUrl = new URL(url).origin === baseUrl;
+    //   const alreadyRedirected = url.includes('callbackUrl=')
+    //   if (isSameOriginUrl && alreadyRedirected) {
+    //     const originalCallbackUrl = decodeURIComponent(url.split('callbackUrl=')[1]);
+
+    //     return originalCallbackUrl;
+    //   }
+
+    //   if (isSameOriginUrl) {
+    //     return url;
+    //   }
+
+    //   return baseUrl;
+    // }
   }
 };
 

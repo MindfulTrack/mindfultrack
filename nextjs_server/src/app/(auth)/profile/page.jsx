@@ -37,15 +37,12 @@ export default function Profile() {
   if (session) {
     return (
       <Box m={8}>
-        {/* <VStack> */}
           <Typography>PK: {session.user.pk}</Typography>
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
           <Typography variant="code">
             {response}
           </Typography>
-        {/* </VStack> */}
-        {/* <HStack justifyContent="center" mt={4}> */}
           <Button onClick={() => getUserDetails(true)}>
             User details (with token)
           </Button>
@@ -55,7 +52,6 @@ export default function Profile() {
           <Button onClick={() => signOut({callbackUrl: "/"})}>
             Sign out
           </Button>
-        {/* </HStack> */}
       </Box>
     );
   }

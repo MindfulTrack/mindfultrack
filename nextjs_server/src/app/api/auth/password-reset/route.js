@@ -11,7 +11,6 @@ export async function POST(request){
         // }
         //ZOD??
         
-        console.log({password, password2, uid, token})
         let data;
         try {
             const response = await axios({

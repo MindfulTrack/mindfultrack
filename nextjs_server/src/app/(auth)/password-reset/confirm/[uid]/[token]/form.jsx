@@ -7,21 +7,21 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 export default function PasswordResetForm({params}) {
   const baseUrl = process.env.NODE_ENV === 'production' 
   ? process.env.NEXT_PUBLIC_BASE_URL_PROD 
   : process.env.NEXT_PUBLIC_BASE_URL_DEV;
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const response = await fetch(baseUrl+"/api/auth/password-reset", {
+    const response = await fetch(baseUrl+"/api/auth/password-reset/", {
       method: 'POST',
       body: JSON.stringify({
         uid: params.uid,

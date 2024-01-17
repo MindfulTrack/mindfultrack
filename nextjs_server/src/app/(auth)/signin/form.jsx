@@ -24,7 +24,7 @@ export default function SignInForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    signIn("credentials", {callbackUrl: "/profile", username: data.get('username'), password: data.get('password') })
+    signIn("credentials", { username: data.get('username'), password: data.get('password'), callbackUrl: "/profile"}) // callbackUrl: "/profile"
     
   };
   
@@ -80,7 +80,7 @@ export default function SignInForm() {
           </Button>
           <Divider></Divider>
           {/* GOOGLE SIGN IN */}
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
+          <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
           <Grid container>
             <Grid item xs>
               <Link href="/password-reset" variant="body2">
