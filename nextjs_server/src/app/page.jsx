@@ -9,21 +9,6 @@ import Image from "next/legacy/image";
 import picture from './static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Grid } from '@mui/icons-material';
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        MindfulTrack
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 export default function LandingPage() {
@@ -37,7 +22,7 @@ export default function LandingPage() {
   }));
 
   return (
-    <Container disableGutters maxWidth='false'
+    <Container
       sx={{
         mt: 0,
         mb: 14,

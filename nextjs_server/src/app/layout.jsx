@@ -1,7 +1,5 @@
-'use client'
-
-import * as React from 'react';
-import { SessionProvider } from "next-auth/react";
+import SessionProvider from "@/components/SessionProvider";
+import { getServerSession } from "next-auth";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,13 +9,13 @@ import NavBar from '@/app/components/NavBar';
 
 
 
-export default function RootLayout({ children }) {
-
+export default async function RootLayout({children}) {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <SessionProvider>
+          <SessionProvider session={session}>
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />

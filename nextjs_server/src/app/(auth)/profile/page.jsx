@@ -23,6 +23,7 @@ export default function Profile() {
       });
       setResponse(JSON.stringify(response.data));
     } catch (error) {
+      console.log("ERROR HERE")
       setResponse(error.message);
     }
     }
@@ -30,34 +31,30 @@ export default function Profile() {
 
   if (status == "loading") {
     console.log("HERE")
-    return <CircularProgress size="lg"/>;
+    return <CircularProgress size="sm"/>;
   }
 
   if (session) {
     return (
       <Box m={8}>
-        {/* <VStack> */}
           <Typography>PK: {session.user.pk}</Typography>
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
           <Typography variant="code">
             {response}
           </Typography>
-        {/* </VStack> */}
-        {/* <HStack justifyContent="center" mt={4}> */}
-          <Button colorScheme="blue" onClick={() => getUserDetails(true)}>
+          <Button onClick={() => getUserDetails(true)}>
             User details (with token)
           </Button>
-          <Button colorScheme="orange" onClick={() => getUserDetails(false)}>
+          <Button onClick={() => getUserDetails(false)}>
             User details (without token)
           </Button>
-          <Button colorScheme="red" onClick={() => signOut({callbackUrl: "/"})}>
+          <Button onClick={() => signOut({callbackUrl: "/"})}>
             Sign out
           </Button>
-        {/* </HStack> */}
       </Box>
     );
   }
 
-  return <></>;
+  return (<></>);
 };
