@@ -19,7 +19,7 @@ import Divider from '@mui/material/Divider';
 export default function SignInForm() {
   // const router = useRouter();
   const handleLoginWithGoogle = () => {
-    signIn('google', {callbackUrl: "/profile",}) // Replace 'google' with the ID of your provider
+    signIn('google', {callbackUrl: "/",}) // Replace 'google' with the ID of your provider
   }
   
   const handleSubmit = async (event) => {
