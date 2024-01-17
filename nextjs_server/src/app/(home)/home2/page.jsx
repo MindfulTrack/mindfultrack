@@ -8,7 +8,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import MediaCard from '@/components/MediaCard';
+import MediaCard from '@/app/components/MediaCard';
 import Skeleton from '@mui/material/Skeleton';
 import { useRouter } from 'next/navigation';
 import {signIn, useSession} from "next-auth/react";

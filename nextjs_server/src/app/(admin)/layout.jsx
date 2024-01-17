@@ -25,7 +25,7 @@ import SupportIcon from '@mui/icons-material/Support';
 import LogoutIcon from '@mui/icons-material/Logout';
 import theme from '@/theme';
 import { Card, CardContent } from '@mui/material';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/app/components/Sidebar';
 
 export const metadata = {
   title: 'Login',

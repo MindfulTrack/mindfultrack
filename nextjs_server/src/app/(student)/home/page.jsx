@@ -7,7 +7,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import MediaCard from '@/components/MediaCard.jsx';
+import MediaCard from '@/app/components/MediaCard.jsx';
 
 export default function HomePage() {
   return (

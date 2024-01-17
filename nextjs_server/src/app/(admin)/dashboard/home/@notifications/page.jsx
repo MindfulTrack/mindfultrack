@@ -1,5 +1,5 @@
 import profilePic from './digitalpaper.jpg'
-import DashCard from '@/components/DashCard'
+import DashCard from '@/app/components/DashCard'
 
 export default function Notifications(){
     return <>
