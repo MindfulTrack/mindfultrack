@@ -48,82 +48,8 @@ const PLACEHOLDER_LINKS = [
 ];
 
 export default function AdminLayout(props) {
+  const drawerWidth = 173;
   return (
-    // <html lang="en">
-    //   <body>
-    //     <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-    //       <SessionProvider session={props.session}>
-    //         <ThemeProvider theme={theme}>
-    //           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-    //           <CssBaseline />
-    //           <AppBar position="fixed" sx={{ zIndex: 2000 }}>
-    //             <Toolbar sx={{ backgroundColor: 'background.paper' }}>
-    //               <DashboardIcon sx={{ color: '#444', mr: 2, transform: 'translateY(-2px)' }} />
-    //               <Typography variant="h6" noWrap component="div" color="black">
-    //                 TEST HERE
-    //               </Typography>
-    //             </Toolbar>
-    //           </AppBar>
-    //           <Drawer
-    //             sx={{
-    //               width: DRAWER_WIDTH,
-    //               flexShrink: 0,
-    //               '& .MuiDrawer-paper': {
-    //                 width: DRAWER_WIDTH,
-    //                 boxSizing: 'border-box',
-    //                 top: ['48px', '56px', '64px'],
-    //                 height: 'auto',
-    //                 bottom: 0,
-    //               },
-    //             }}
-    //             variant="permanent"
-    //             anchor="left"
-    //           >
-    //             <Divider />
-    //             <List>
-    //               {LINKS.map(({ text, href, icon: Icon }) => (
-    //                 <ListItem key={href} disablePadding>
-    //                   <ListItemButton component={Link} href={href}>
-    //                     <ListItemIcon>
-    //                       <Icon />
-    //                     </ListItemIcon>
-    //                     <ListItemText primary={text} />
-    //                   </ListItemButton>
-    //                 </ListItem>
-    //               ))}
-    //             </List>
-    //             <Divider sx={{ mt: 'auto' }} />
-    //             <List>
-    //               {PLACEHOLDER_LINKS.map(({ text, href, icon: Icon }) => (
-    //                 <ListItem key={text} disablePadding>
-    //                   <ListItemButton href={href}>
-    //                     <ListItemIcon>
-    //                       <Icon />
-    //                     </ListItemIcon>
-    //                     <ListItemText primary={text} />
-    //                   </ListItemButton>
-    //                 </ListItem>
-    //               ))}
-    //             </List>
-    //           </Drawer>
-              
-    //           <Box
-    //             component="main"
-    //             sx={{
-    //               flexGrow: 1,
-    //               bgcolor: 'background.default',
-    //               mt: ['48px', '56px', '64px'],
-    //               ml: `${DRAWER_WIDTH}px`,
-    //               p: 3,
-    //             }}
-    //           >
-    //           {props.children}
-    //           </Box>
-    //         </ThemeProvider>
-    //       </SessionProvider>
-    //     </AppRouterCacheProvider>
-    //   </body>
-    // </html>
     <>
       <Sidebar />
       <Box
@@ -131,7 +57,7 @@ export default function AdminLayout(props) {
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
-          ml: `${DRAWER_WIDTH}px`,
+          ml: `${drawerWidth}px`,
           mt: ['48px', '56px', '64px'],
           p: 3,
         }}

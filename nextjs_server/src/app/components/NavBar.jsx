@@ -63,7 +63,7 @@ export default function NavBar() {
     return (
       <>
       <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" >
         <Toolbar sx={{justifyContent: 'space-between'}}>
           
         <div style={{display: 'inline-flex'}}>

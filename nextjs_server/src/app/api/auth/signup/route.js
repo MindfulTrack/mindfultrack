@@ -27,7 +27,7 @@ export async function POST(request){
                 }
             });
             data = response.data;
-            console.log(response.status)
+            console.log(response.data)
             if(response.status !== 201 || response.status !== 200){
                 return NextResponse.json({body: data}, { status: 500 })
             }
