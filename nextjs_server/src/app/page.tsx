@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Image from "next/legacy/image";
-import picture from './static/images/headingMountain.JPG';
+import mountains from './static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -22,7 +22,7 @@ export default function LandingPage() {
   }));
 
   return (
-    <Container disableGutters maxWidth='false'
+    <Container disableGutters maxWidth={false}
       sx={{
         mt: 0,
         mb: 14,
@@ -33,9 +33,9 @@ export default function LandingPage() {
     >
     <CssBaseline />
         <Image 
-          src={picture}
+          src={mountains}
           style={{objectFit: 'contain', objectPosition: 'top center'}}
-          priority='true'
+          priority={true}
         >
         </Image>
 

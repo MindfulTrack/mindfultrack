@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 export default function PasswordResetEmailForm() {
   // const router = useRouter();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
 
     event.preventDefault();
     const data = new FormData(event.currentTarget);

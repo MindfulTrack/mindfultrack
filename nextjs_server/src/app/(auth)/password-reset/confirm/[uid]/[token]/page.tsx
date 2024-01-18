@@ -4,10 +4,10 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import PasswordResetForm from "./form";
-import Copyright from '@/app/components/Copyright'
+import Copyright from '../../../../../components/Copyright';
 
 // TODO remove, this demo shouldn't need to reset the theme.
-export default function PasswordReset({params}) {
+export default function PasswordReset(params: any) {
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />

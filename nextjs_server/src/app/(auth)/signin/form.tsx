@@ -22,11 +22,11 @@ export default function SignInForm() {
     signIn('google', {callbackUrl: "/",}) // Replace 'google' with the ID of your provider
   }
   
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = signIn("credentials", { username: data.get('username'), password: data.get('password'), callbackUrl: "/"}).then((result) => {
-      if (result.error) {
+    const response = signIn("credentials", { username: data.get('username'), password: data.get('password'), callbackUrl: "/resources"}).then((result) => {
+      if (result?.error) {
         // Handle the error
         console.log(result.error);
       }

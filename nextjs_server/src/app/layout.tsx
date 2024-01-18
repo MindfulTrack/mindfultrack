@@ -1,10 +1,11 @@
-import SessionProvider from "@/app/components/SessionProvider";
+import React from 'react';
+import SessionProvider from './SessionProvider'
 import { getServerSession } from "next-auth";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from '@/theme';
-import NavBar from '@/app/components/NavBar';
+import theme from '../theme';
+import NavBar from './components/NavBar';
 // import Footer from '@/app/components/Footer';
 
 

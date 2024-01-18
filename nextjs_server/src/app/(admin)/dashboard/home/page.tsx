@@ -1,3 +1,4 @@
+import React from 'react';
 import TestComponent from '@/app/components/test'
 
 export default function Dashboard(){

@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation';
 
-export default function MediaCard({ category, description, URL, image, id }) {
+export default function MediaCard({ category, description, image, id }) {
   
   const router = useRouter();
   const handleCategorySelect = (id) => {

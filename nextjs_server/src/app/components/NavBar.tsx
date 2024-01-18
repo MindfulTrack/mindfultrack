@@ -4,7 +4,7 @@ import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { SelfImprovement } from '@mui/icons-material';
 import {signIn, signOut, useSession} from "next-auth/react";
 import Divider from '@mui/material/Divider';
-import byuLogo from '../static/byuLogo/Monogram/PNG/BYU_White.png';
+import BYU_White from '../static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 
@@ -33,10 +33,10 @@ export default function NavBar() {
             <div style={{paddingLeft: "15px"}}>
 
               <Image
-                src={byuLogo}
+                src={BYU_White}
                 width={140}
                 height={40}
-                priority="true"
+                priority={true}
               />
 
             </div>
@@ -46,10 +46,10 @@ export default function NavBar() {
             <Button 
               color="inherit"
               href="/profile"
-              
+              sx={{cursor: "pointer"}}
               // onClick={() => signOut()}
             >
-              Profile: {session.user.username}
+              {session.user?.email}
             </Button>
           </div>
         </Toolbar>
@@ -74,10 +74,10 @@ export default function NavBar() {
             <div style={{paddingLeft: "15px"}}>
 
               <Image
-                src={byuLogo}
+                src={BYU_White}
                 width={140}
                 height={40}
-                priority="true"
+                priority={true}
               />
 
             </div>

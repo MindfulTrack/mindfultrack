@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import Sidebar from '@/app/components/Sidebar.jsx';
+import Sidebar from '../components/Sidebar';
 
 // export const metadata = {
 //   title: 'MindfulTrack',

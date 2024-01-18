@@ -16,12 +16,12 @@ import {signIn} from "next-auth/react";
 import Divider from '@mui/material/Divider';
 // import { useRouter } from 'next/navigation';
 
-export default function SignInForm({params}) {
+export default function SignInForm(params: any) {
   // Error and Error Alert
   const error = String(decodeURIComponent(params.error))
   const [open, setOpen] = React.useState(true);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: any) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -33,11 +33,11 @@ export default function SignInForm({params}) {
     signIn('google', {callbackUrl: "/profile",}) // Replace 'google' with the ID of your provider
   }
   
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const response = signIn("credentials", { username: data.get('username'), password: data.get('password'), callbackUrl: "/"}).then((result) => {
-      if (result.error) {
+      if (result?.error) {
         // Handle the error
         console.log(result.error);
       }
@@ -56,7 +56,7 @@ export default function SignInForm({params}) {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {open ? <Alert severity="error" onClose={handleClose}>
+        {open ? <Alert severity="error" onClose={() => handleClose}>
         {error}
         </Alert> : null}
         {/* {open ? <Alert onClose={handleClose}>This is an alert message</Alert> : null} */}
