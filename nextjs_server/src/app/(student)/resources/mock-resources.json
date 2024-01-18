@@ -1,0 +1,53 @@
+{
+    "resources": [
+        {
+            "id": 1,
+            "category": "Learn More",
+            "description": "Click to view general resources about mental health!",
+            "URL": "",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOBfiNZTE8YFbcRJURMYVUmKJsJ0bKbfAK8aNX-QkSKXuTtufgCMq7CO_uu-Zn0x58QGc&usqp=CAU"
+        },
+        {
+            "id": 2,
+            "category": "Anxiety",
+            "description": "Learn more about anxiety",
+            "URL": "",
+            "image": "https://apm.net.au/api/galleryhandler.ashx?moid=5203&dt=3&g=2"
+        },
+        {
+            "id": 3,
+            "category": "Depression",
+            "description": "Learn more about depression",
+            "URL": "",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ05rQ7V7aIF9TJJ24iId7pcWaxU-7rH-l8lvtsekbduR0mI5gLQwX62rsads-IR2jYy5A&usqp=CAU"
+        },
+        {
+            "id": "4",
+            "category": "LGBTQ+",
+            "description": "Learn more about LGBTQ+",
+            "URL": "",
+            "image": "https://cdn.houstonpublicmedia.org/wp-content/uploads/2017/06/23153631/Rainbow_flag_and_blue_skies.jpg"
+        },
+        {
+            "id": 5,
+            "category": "Abuse",
+            "description": "Learn more about abuse",
+            "URL": "",
+            "image": "https://www.barnardos.org.uk/sites/default/files/styles/b_lg/public/uploads/Domestic%20Abuse%20-%20Girl%20on%20stairs%20-%20Header%20Image%202.jpg?itok=8mYpx3OH"
+        },
+        {
+            "id": 6,
+            "category": "Stress",
+            "description": "Learn more about stress",
+            "URL": "",
+            "image": "https://cdn-prod.medicalnewstoday.com/content/images/articles/321/321450/stressed-woman-at-work.jpg"
+        },
+        {
+            "id": 7,
+            "category": "Sexual Assault",
+            "description": "Learn more about sexual assault",
+            "URL": "",
+            "image": "https://medlineplus.gov/images/SexualAssault2_Share.jpg"
+        }
+    ]
+}

@@ -2,6 +2,8 @@
 
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
 
 // These two values should be a bit less than actual token lifetimes
@@ -16,6 +18,24 @@ const SIGN_IN_HANDLERS = {
   "credentials": async (user, account, profile, email, credentials) => {
     return true;
   },
+  "google": async (user, account, profile, email, credentials) => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: process.env.NEXTAUTH_BACKEND_URL + "auth/google/",
+        data: {
+          access_token: account["access_token"],
+          id_token: account["id_token"]
+        },
+      });
+      console.log(response)
+      account["meta"] = response.data;
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
 };
 const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
@@ -25,26 +45,57 @@ export const authOptions = {
     strategy: "jwt",
     maxAge: BACKEND_REFRESH_TOKEN_LIFETIME,
   },
+  pages: {
+    signIn: '/signin',
+    error: '/signin',
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
   providers: [
+    // EmailProvider({
+    //   server: process.env.EMAIL_SERVER,
+    //   from: process.env.EMAIL_FROM,
+    //   // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
+    //   }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {label: "Username", type: "text"},
+        username: {label: "Username/Email", type: "text"},
         password: {label: "Password", type: "password"}
       },
       // The data returned from this function is passed forward as the
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
+        // console.log(credentials)
         try {
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
             method: "post",
             data: credentials,
+            headers: {
+              'Content-Type': 'application/json'}
           });
           const data = response.data;
+          console.log(data)
           if (data) return data;
         } catch (error) {
-          console.error(error);
+          console.log(error.response.data.non_field_errors);
+          console.log(error.response.data.non_field_errors[0])
+          // console.error(error);
+          return {'error': error.response.data.non_field_errors[0]}
         }
         return null;
       },
@@ -52,7 +103,12 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({user, account, profile, email, credentials}) {
+      console.log(user)
+      if (user['error']){
+        return '/signin/'+user['error']
+      }
       if (!SIGN_IN_PROVIDERS.includes(account.provider)) return false;
+      
       return SIGN_IN_HANDLERS[account.provider](
         user, account, profile, email, credentials
       );
@@ -87,7 +143,28 @@ export const authOptions = {
     async session({token}) {
       return token;
     },
+    // async redirect({ url, baseUrl }) {
+    //   const isRelativeUrl = url.startsWith("/");
+    //   if (isRelativeUrl) {
+    //     return `${baseUrl}${url}`;
+    //   }
+
+    //   const isSameOriginUrl = new URL(url).origin === baseUrl;
+    //   const alreadyRedirected = url.includes('callbackUrl=')
+    //   if (isSameOriginUrl && alreadyRedirected) {
+    //     const originalCallbackUrl = decodeURIComponent(url.split('callbackUrl=')[1]);
+
+    //     return originalCallbackUrl;
+    //   }
+
+    //   if (isSameOriginUrl) {
+    //     return url;
+    //   }
+
+    //   return baseUrl;
+    // }
   }
 };
 
-export default NextAuth(authOptions);
+export const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST};

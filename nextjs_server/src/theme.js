@@ -28,6 +28,7 @@ const theme = createTheme({
     text: {
       primary: '#141414', // DARK GRAY
       secondary: '#002E5D', // NAVY
+      tertiary: '#FFFFFF', // WHITE
     },
     background: {
       default: '#ffffff', // WHITE

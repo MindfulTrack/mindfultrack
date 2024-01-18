@@ -33,9 +33,9 @@ on:
 env:
   AWS_REGION: us-west-2                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: mindfultrack                # set this to your Amazon ECR repository name
-  ECS_SERVICE: mindfultrack-service                 # set this to your Amazon ECS service name
+  ECS_SERVICE: mindfulTrackService                 # set this to your Amazon ECS service name
   ECS_CLUSTER: mindfulTrackDeployCluster                # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/jsonFiles/mindfultrack-task-definition-revision1.json # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: .github/workflows/mindfultrack-task-definition.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: mindfulTrack           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
@@ -56,7 +56,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
@@ -67,7 +67,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
