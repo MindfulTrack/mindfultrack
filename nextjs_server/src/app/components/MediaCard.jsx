@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Image from "next/legacy/image";
 import Card from '@mui/material/Card';
@@ -5,13 +6,20 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation';
 
-export default function MediaCard({ heading, text }) {
+export default function MediaCard({ category, description, URL, image, id }) {
+  
+  const router = useRouter();
+  const handleCategorySelect = (id) => {
+    router.push(`resources/${id}`);
+  };
+
   return (
     <Card>
       <Image
         alt="Random image"
-        src="https://source.unsplash.com/random"
+        src={image}
         width={640}
         height={480}
         style={{
@@ -22,15 +30,14 @@ export default function MediaCard({ heading, text }) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {heading}
+          {category}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {text}
+          {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={() => handleCategorySelect(id)}>Learn More</Button>
       </CardActions>
     </Card>
   );

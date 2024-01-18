@@ -18,10 +18,10 @@ export default function Sidebar() {
 
   const LINKS = [
     { text: 'Resources', href: '/resources', icon: Support },
-    { text: 'Availability', href: '/availibility', icon: CalendarMonth },
+    { text: 'Availability', href: '/availability', icon: CalendarMonth },
     { text: 'Waitlist', href: '/waitlist', icon: PeopleAlt },
     { text: 'Crisis', href: 'https://caps.byu.edu/for-students-in-crisis', icon: CrisisAlert },
-    { text: 'Profile', href: '/counselor-stats', icon: AccountCircle },
+    { text: 'Profile', href: '/counselor', icon: AccountCircle },
     { text: 'Stats', href: '/dashboard', icon: BarChart },
     { text: 'Schedule', href: '/schedule', icon: CalendarMonth },
   ];
