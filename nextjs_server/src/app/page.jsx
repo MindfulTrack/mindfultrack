@@ -22,7 +22,7 @@ export default function LandingPage() {
   }));
 
   return (
-    <Container
+    <Container disableGutters maxWidth='false'
       sx={{
         mt: 0,
         mb: 14,

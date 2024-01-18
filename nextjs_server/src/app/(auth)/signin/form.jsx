@@ -31,6 +31,7 @@ export default function SignInForm() {
         console.log(result.error);
       }
     }); // callbackUrl: "/profile"
+    console.log(response);
   };
   
   return (
@@ -42,8 +43,8 @@ export default function SignInForm() {
           alignItems: 'center'
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+        <Avatar sx={{ m: 1, color: 'text.tertiary' }}>
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
