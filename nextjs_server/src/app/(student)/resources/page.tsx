@@ -4,7 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import MediaCard from '@/app/components/MediaCard.jsx';
+import MediaCard from '../../components/MediaCard';
 import { Paper } from '@mui/material';
 import mockResources from './mock-resources.json';
 

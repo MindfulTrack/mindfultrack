@@ -1,3 +1,4 @@
+import React from 'react';
 import profilePic from './digitalpaper.jpg'
 import DashCard from '@/app/components/DashCard'
 

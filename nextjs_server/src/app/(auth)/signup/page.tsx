@@ -1,5 +1,6 @@
+import React from "react";
 import SignUpForm from "./form";
-import Copyright from '@/app/components/Copyright'
+import Copyright from '../../components/Copyright';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 

@@ -23,14 +23,14 @@ export default function SignUpForm() {
   let error = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(false);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: any, reason: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     console.log("NORMAL AUTH")
 
     event.preventDefault();
@@ -76,7 +76,7 @@ export default function SignUpForm() {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {open ? <Alert severity="error" onClose={handleClose}>
+        {open ? <Alert severity="error" onClose={() => handleClose}>
         {error}
         </Alert> : null}
         <Typography component="h1" variant="h5">
