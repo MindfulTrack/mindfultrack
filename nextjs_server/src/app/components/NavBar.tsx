@@ -8,7 +8,12 @@ import BYU_White from '../static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 
-export default function NavBar() {
+interface NavBarProps {
+
+};
+
+const NavBar: React.FC<NavBarProps> = () => {
+
   const {data: session, status} = useSession();
 
   const router = useRouter();
@@ -97,4 +102,6 @@ export default function NavBar() {
       </>
     );
   }
-}
+};
+
+export default NavBar;

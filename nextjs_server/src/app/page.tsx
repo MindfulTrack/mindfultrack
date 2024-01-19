@@ -10,8 +10,10 @@ import mountains from './static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-export default function LandingPage() {
+interface LandingPageProps {
+};
+
+const LandingPage: React.FC<LandingPageProps> = () => {
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: 'tertiary.main',
@@ -53,4 +55,6 @@ export default function LandingPage() {
         </Container>
       </Container>
   );
-}
+};
+
+export default LandingPage;

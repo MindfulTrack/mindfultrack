@@ -6,7 +6,14 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function DashCard({ heading, text, imageSrc }) {
+interface DashCardProps {
+  heading: string,
+  text: string,
+  imageSrc: string
+};
+
+const DashCard: React.FC<DashCardProps> = ({heading, text, imageSrc}) => {
+
   return (
     <Card>
       <Image
@@ -34,4 +41,6 @@ export default function DashCard({ heading, text, imageSrc }) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default DashCard;

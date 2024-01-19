@@ -31,7 +31,7 @@ const theme = createTheme({
       tertiary: '#FFFFFF', // WHITE
     },
     background: {
-      default: '#ffffff', // WHITE
+      default: '#141414', // WHITE
     },
     error: {
       main: '#A3082A', // RED

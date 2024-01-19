@@ -8,10 +8,17 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation';
 
-export default function MediaCard({ category, description, image, id }) {
+interface ResourceCardProps {
+  category: string,
+  description: string,
+  image: string,
+  id: string | number
+}
+
+const ResourceCard: React.FC<ResourceCardProps> = ({category, description, image, id}) => {
   
   const router = useRouter();
-  const handleCategorySelect = (id) => {
+  const handleCategorySelect = (id: string | number) => {
     router.push(`resources/${id}`);
   };
 
@@ -41,4 +48,6 @@ export default function MediaCard({ category, description, image, id }) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default ResourceCard;

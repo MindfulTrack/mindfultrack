@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { Box, Paper } from "@mui/material";
-import Copyright from '@/app/components/Copyright'
-export default function Footer() {
+import Copyright from './Copyright';
+
+interface FooterProps {
+
+};
+
+const Footer: React.FC<FooterProps> = () => {
+
   return (
     <Box sx={{ flexGrow: 1} }>
       <Paper 
@@ -17,8 +23,10 @@ export default function Footer() {
         component='footer' 
         square
       >
-        <Copyright color="secondary.main" />
+        <Copyright color="text.secondary" />
       </Paper>
     </Box>
   );
-}
+};
+
+export default Footer;
