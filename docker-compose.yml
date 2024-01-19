@@ -1,0 +1,63 @@
+# docker-compose.yml
+version: '3'
+services:
+  # CLIENT
+  django-server-backend:
+    container_name: django-server-backend
+    restart: always
+    env_file:
+      - ./django_server/.env.local
+    build:
+      context: ./django_server
+      dockerfile: Dockerfile
+    depends_on:
+      - nextjs-server-backend
+    ports:
+      - "3000:3000"
+    links:
+      - nextjs-server-backend
+    entrypoint: /django_server/entrypoint.sh
+
+
+  # SERVER
+  nextjs-server-backend:
+    container_name: nextjs-server-backend
+    build:
+      context: .  # declaring the current (root) dir as the context so we can access "Pipfile"
+      dockerfile: nextjs_server/Dockerfile
+    env_file: # setting env file for local development
+      - ./nextjs_server/.env
+    depends_on:
+      - db-backend
+    ports:
+      - "8000:8000"
+    links:
+      - db-backend
+    entrypoint: /app/server/entrypoint.sh
+
+
+  # DATABASE
+  db-backend:
+    container_name: db-backend
+    restart: always
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=TBD
+      - POSTGRES_USER=TBD
+      - POSTGRES_PASSWORD=TBD
+      - POSTGRES_HOST=TBD
+    ports:
+      - "5432:5432"
+
+
+  # NGINX SERVER
+  nginx-backend:
+    container_name: nginx-backend
+    build:
+      context: ./nginx/development
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - nextjs-server-backend
+      - django-server-backend
