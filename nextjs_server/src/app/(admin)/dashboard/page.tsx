@@ -1,8 +1,14 @@
 import React from "react";
 
-export default function Dashboard(){
+interface DashboardProps {
+
+};
+
+const Dashboard: React.FC<DashboardProps> = () => {
     return <> 
     <h1>CHILDREN</h1> 
 
     </>
-}
+};
+
+export default Dashboard;

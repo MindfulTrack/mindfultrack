@@ -1,18 +1,15 @@
 'use client'
-import * as React from 'react';
+import React, { ReactNode} from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import Sidebar from '../components/Sidebar';
+import SideNavBar from '../components/Sidebar';
 
-// export const metadata = {
-//   title: 'MindfulTrack',
-//   description: 'MindfulTrack',
-// };
+interface LoggedInLayoutProps {
+  children: ReactNode
+}
 
-// const DRAWER_WIDTH = 200;
+const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({children}) => {
 
-
-export default function HomeLayout({ children }) {
   const drawerWidth = 173;
   
   return (
@@ -27,9 +24,11 @@ export default function HomeLayout({ children }) {
           p: 3,
         }}
       >
-        <Sidebar />
+        <SideNavBar />
         {children}
       </Box>
     </>
   );
-}
+};
+
+export default LoggedInLayout;

@@ -2,10 +2,12 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-// import { useRouter } from 'next/navigation';
 
-export default function PasswordResetEmailForm() {
-  // const router = useRouter();
+interface PasswordResetFormProps {
+
+};
+
+const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
 
   const handleSubmit = async (event: any) => {
 
@@ -60,5 +62,7 @@ export default function PasswordResetEmailForm() {
         </Box>
       </Box>
     )
-  }
+  };
+
+  export default PasswordResetForm;
   

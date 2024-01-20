@@ -4,14 +4,19 @@ import Container from '@mui/material/Container';
 import SignInForm from "./form";
 import Copyright from '../../components/Copyright';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-export default function SignIn() {
+interface SignInPageProps {
+
+};
+
+const SignInPage: React.FC<SignInPageProps> = () => {
   return (
       <Container component="main" maxWidth="xs" sx={{pt: '4rem'}}>
         <CssBaseline />
        
         <SignInForm/>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright color='primary' />
       </Container>
   );
-}
+};
+
+export default SignInPage;

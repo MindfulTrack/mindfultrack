@@ -4,7 +4,11 @@ import React from 'react';
 import useSWR from 'swr';
 const API_BASE_URL = 'http://localhost:8000';
 
-export default function TestComponent() {
+interface TestComponentProps {
+
+};
+
+const TestComponent: React.FC<TestComponentProps> = () => {
     const fetcher = url => fetch(API_BASE_URL + url).then(r => r.json())
     const { data, error } = useSWR('/api/base/test', fetcher)
 
@@ -22,4 +26,6 @@ export default function TestComponent() {
             ))}
         </div>
     )
-}
+};
+
+export default TestComponent;

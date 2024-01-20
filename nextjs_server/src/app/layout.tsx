@@ -1,16 +1,17 @@
-import React from 'react';
-import SessionProvider from './SessionProvider'
+import React, { ReactNode } from 'react';
+import SessionProvider from './components/SessionProvider'
 import { getServerSession } from "next-auth";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../theme';
 import NavBar from './components/NavBar';
-// import Footer from '@/app/components/Footer';
 
+interface RootLayoutProps {
+  children: ReactNode
+}
 
-
-export default async function RootLayout({children}) {
+const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
   const session = await getServerSession();
   return (
     <html lang="en">
@@ -24,8 +25,6 @@ export default async function RootLayout({children}) {
               <NavBar />
     
               {children}
-              
-              {/* <Footer /> */}
 
             </ThemeProvider>
           </SessionProvider>
@@ -34,3 +33,5 @@ export default async function RootLayout({children}) {
     </html>
   );
 }
+
+export default RootLayout;

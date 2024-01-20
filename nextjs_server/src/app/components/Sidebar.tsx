@@ -11,10 +11,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AccountBox } from '@mui/icons-material';
 
-export default function Sidebar() {
+interface SideNavBarProps {};
+
+const SideNavBar: React.FC<SideNavBarProps> = () => {
 
   const drawerWidth = 'fit-content';
-
 
   const LINKS = [
     { text: 'Resources', href: '/resources', icon: Support },
@@ -79,5 +80,7 @@ export default function Sidebar() {
       </List>
     </Drawer>
   );
-} 
+};
+
+export default SideNavBar;
 

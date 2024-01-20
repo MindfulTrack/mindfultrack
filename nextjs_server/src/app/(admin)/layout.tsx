@@ -6,18 +6,23 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SupportIcon from '@mui/icons-material/Support';
 import LogoutIcon from '@mui/icons-material/Logout';
-import Sidebar from '@/app/components/Sidebar';
+import SideNavBar from '../components/Sidebar';
+import { ReactNode } from 'react';
+
+interface AdminLayoutProps {
+  children: ReactNode
+};
 
 export const metadata = {
   title: 'Login',
   description: 'Login to Mindfultrack',
 };
 
-export default function AdminLayout(props) {
+const AdminLayout: React.FC<AdminLayoutProps> = ({children}) => {
   const drawerWidth = 173;
   return (
     <>
-      <Sidebar />
+      <SideNavBar />
       <Box
         component="main"
         sx={{
@@ -28,8 +33,10 @@ export default function AdminLayout(props) {
           p: 3,
         }}
       >
-        {props.children}
+        {children}
       </Box>
     </>
   );
-}
+};
+
+export default AdminLayout;

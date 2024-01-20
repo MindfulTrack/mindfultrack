@@ -4,11 +4,15 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import MediaCard from '../../components/MediaCard';
+import ResourceCard from '../../components/ResourceCard';
 import { Paper } from '@mui/material';
 import mockResources from './mock-resources.json';
 
-export default function ResourcesPage() {
+interface ResourcesMainPageProps {
+
+};
+
+const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   const mockData = mockResources;
 
   return (
@@ -22,12 +26,11 @@ export default function ResourcesPage() {
           {mockData.resources.map((resource) => {
             return (
             <Grid xs={3} key={resource.id}>
-              <MediaCard
+              <ResourceCard
                 category={resource.category}
                 image={resource.image}
                 description={resource.description}
                 id={resource.id}
-                // text="Follow the link for quick read articles and other resources to learn about mental health and the brain."
               />
             </Grid>
             )
@@ -36,4 +39,6 @@ export default function ResourcesPage() {
       </div>
     </Box>
   );
-}
+};
+
+export default ResourcesMainPage;
