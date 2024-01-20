@@ -16,7 +16,11 @@ import {signIn} from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import Divider from '@mui/material/Divider';
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+
+};
+
+const SignUpForm: React.FC<SignUpFormProps> = () => {
   const router = useRouter();
   
   //Error Alert
@@ -166,4 +170,6 @@ export default function SignUpForm() {
         </Box>
       </Box>
   );
-}
+};
+
+export default SignUpForm;

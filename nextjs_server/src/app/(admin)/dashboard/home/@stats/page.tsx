@@ -1,8 +1,14 @@
 import React from "react";
 
-export default function Stats(){
+interface StatsProps {
+
+};
+
+const Stats: React.FC<StatsProps> = () => {
     return <>
     <h1>HI</h1>
     
     </>
-}
+};
+
+export default Stats;

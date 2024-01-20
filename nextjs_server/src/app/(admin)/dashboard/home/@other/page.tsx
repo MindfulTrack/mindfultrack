@@ -1,8 +1,14 @@
 import React from "react";
 
-export default function Other(){
+interface OtherProps {
+
+};
+
+const Other: React.FC<OtherProps> = () => {
     return <>
     <h1>TESTSET</h1>
     </>
     
-}
+};
+
+export default Other;

@@ -14,9 +14,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {signIn} from "next-auth/react";
 import Divider from '@mui/material/Divider';
-// import { useRouter } from 'next/navigation';
 
-export default function SignInForm(params: any) {
+interface SignInErrorFormProps {
+  params: any
+};
+
+const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
   // Error and Error Alert
   const error = String(decodeURIComponent(params.error))
   const [open, setOpen] = React.useState(true);
@@ -116,4 +119,6 @@ export default function SignInForm(params: any) {
         </Box>
       </Box>
   );
-}
+};
+
+export default SignInErrorForm;

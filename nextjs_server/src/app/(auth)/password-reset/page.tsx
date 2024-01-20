@@ -6,14 +6,17 @@ import Container from '@mui/material/Container';
 import PasswordResetForm from "./form";
 import Copyright from '../../components/Copyright';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-export default function PasswordResetEmail() {
+interface PasswordResetPageProps {
+
+};
+
+const PasswordResetPage: React.FC<PasswordResetPageProps> = () => {
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
        
         <PasswordResetForm/>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright color='primary' />
       </Container>
   );
 }

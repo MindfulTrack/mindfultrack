@@ -12,13 +12,13 @@ interface ResourceCardProps {
   category: string,
   description: string,
   image: string,
-  id: string | number
+  id: number
 }
 
 const ResourceCard: React.FC<ResourceCardProps> = ({category, description, image, id}) => {
   
   const router = useRouter();
-  const handleCategorySelect = (id: string | number) => {
+  const handleCategorySelect = (id: number) => {
     router.push(`resources/${id}`);
   };
 

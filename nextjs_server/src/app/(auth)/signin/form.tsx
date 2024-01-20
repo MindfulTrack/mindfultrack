@@ -14,9 +14,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {signIn} from "next-auth/react";
 import Divider from '@mui/material/Divider';
-// import { useRouter } from 'next/navigation';
 
-export default function SignInForm() {
+interface SignInFormProps {
+
+};
+
+const SignInForm: React.FC<SignInFormProps> = () => {
   // const router = useRouter();
   const handleLoginWithGoogle = () => {
     signIn('google', {callbackUrl: "/",}) // Replace 'google' with the ID of your provider
@@ -102,4 +105,6 @@ export default function SignInForm() {
         </Box>
       </Box>
   );
-}
+};
+
+export default SignInForm;

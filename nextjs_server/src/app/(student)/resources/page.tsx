@@ -8,7 +8,11 @@ import ResourceCard from '../../components/ResourceCard';
 import { Paper } from '@mui/material';
 import mockResources from './mock-resources.json';
 
-export default function ResourcesPage() {
+interface ResourcesMainPageProps {
+
+};
+
+const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   const mockData = mockResources;
 
   return (
@@ -35,4 +39,6 @@ export default function ResourcesPage() {
       </div>
     </Box>
   );
-}
+};
+
+export default ResourcesMainPage;
