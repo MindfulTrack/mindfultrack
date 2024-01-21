@@ -60,7 +60,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
           <ListItem key={href} disablePadding>
             <ListItemButton component={Link} href={href}>
               <ListItemIcon>
-                <Icon style={{fontSize: '35px', color: isSelected ? 'red' : 'secondary'}} />
+                <Icon style={{fontSize: '35px'}} color='secondary' />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -73,7 +73,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
             <ListItem key={text} disablePadding>
             <ListItemButton href={href} sx={{flex: 'column'}}>
               <ListItemIcon>
-                <Icon sx={{fontSize: '35px', color: 'secondary.main'}}/>
+                <Icon sx={{fontSize: '35px'}} color='secondary'/>
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

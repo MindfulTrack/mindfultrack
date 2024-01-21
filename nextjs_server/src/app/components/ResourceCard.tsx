@@ -7,6 +7,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation';
+import MyContext from '../MyContext';
+import { useContext } from 'react';
 
 interface ResourceCardProps {
   displayName: string,
@@ -17,15 +19,17 @@ interface ResourceCardProps {
 }
 
 const ResourceCard: React.FC<ResourceCardProps> = ({displayName, name, image, id, description}) => {
+  const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
   
   const router = useRouter();
-  const handleCategorySelect = (id: number, name: string) => {
+  const handleCategorySelect = (id: number) => {
+    updateSelectedResourceId(id);
     router.push('resources/details');
   };
 
   return (
-    <Card>
-      <Image
+    <Card onClick={() => handleCategorySelect(id)} sx={{cursor: "pointer"}}>
+      {/* <Image
         alt="Random image"
         src={image}
         width={640}
@@ -35,18 +39,18 @@ const ResourceCard: React.FC<ResourceCardProps> = ({displayName, name, image, id
           height: '200px',
           objectFit: 'cover',
         }}
-      />
+      /> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {displayName}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        {/* <Typography variant="body2" color="text.secondary">
           {description}
-        </Typography>
+        </Typography> */}
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => handleCategorySelect(id, name)}>Learn More</Button>
-      </CardActions>
+      {/* <CardActions>
+        <Button size="small" onClick={() => handleCategorySelect(id)}>Learn More</Button>
+      </CardActions> */}
     </Card>
   );
 };

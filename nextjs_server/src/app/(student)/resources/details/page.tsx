@@ -1,8 +1,10 @@
 'use client'
-import React from "react";
+import React, { useContext } from "react";
 import mockResources from '../mock-resources.json';
-import { Typography, Container, Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import ResourceDetails from "./resource-details";
+import MyContext from "../../../MyContext";
+import { Mystery_Quest } from "next/font/google";
 
 
 interface ResourceSubPageProps {
@@ -28,7 +30,7 @@ function CustomTabPanel(props: TabPanelProps) {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            {children}
           </Box>
         )}
       </div>
@@ -50,18 +52,21 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
       setValue(newValue);
     };
 
-    const [selectedResourceId, setSelectedResourceId] = React.useState(0);
+    // const [selectedResourceId, setSelectedResourceId] = React.useState(0);
     const handleTabClick = (id: number) => {
-      setSelectedResourceId(id);
+      // setSelectedResourceId(id);
+      updateSelectedResourceId(id);
     }
+
+    const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
     return (
         <>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" scrollButtons={true} allowScrollButtonsMobile>
+                    <Tabs value={selectedResourceId - 1} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto">
                         {mockData.resources.map((resource) => (
-                            <Tab label={resource.displayName} {...a11yProps(0)} onClick={() => handleTabClick(resource.id)}/>
+                            <Tab label={resource.displayName} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)}/>
                         ))}
                     </Tabs>
                 </Box>
