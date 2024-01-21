@@ -33,6 +33,8 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
     { text: 'Logout', icon: LogoutIcon, href: '/' },
   ];
 
+  const isSelected = true;
+
   return (
     <Drawer
       sx={{
@@ -58,7 +60,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
           <ListItem key={href} disablePadding>
             <ListItemButton component={Link} href={href}>
               <ListItemIcon>
-                <Icon sx={{fontSize: '30px', color: 'secondary.main'}}/>
+                <Icon style={{fontSize: '35px', color: isSelected ? 'red' : 'secondary'}} />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -71,7 +73,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
             <ListItem key={text} disablePadding>
             <ListItemButton href={href} sx={{flex: 'column'}}>
               <ListItemIcon>
-                <Icon sx={{fontSize: '30px', color: 'secondary.main'}}/>
+                <Icon sx={{fontSize: '35px', color: 'secondary.main'}}/>
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

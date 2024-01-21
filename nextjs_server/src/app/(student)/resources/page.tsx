@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ResourceCard from '../../components/ResourceCard';
-import { Paper } from '@mui/material';
+import { Container } from '@mui/material';
 import mockResources from './mock-resources.json';
 
 interface ResourcesMainPageProps {
@@ -16,18 +16,19 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   const mockData = mockResources;
 
   return (
-    <Box>
+    <Box component={"main"}>
       <div>
-        <Paper sx={{backgroundColor: "tertiary.main", height: "4rem", marginBottom: 2}}>
-            <Typography variant='h4' color="text.tertiary" sx={{textAlign: "left", paddingLeft: "15px", paddingTop: "10px"}}>Resources</Typography>
-        </Paper>
+        <Container sx={{ marginBottom: 2, marginLeft: 0}} disableGutters>
+            <Typography variant='h3' color="text.primary" fontWeight={'700'} sx={{textAlign: "left"}}>Resources</Typography>
+        </Container>
 
         <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row">
           {mockData.resources.map((resource) => {
             return (
             <Grid xs={3} key={resource.id}>
               <ResourceCard
-                category={resource.category}
+                displayName={resource.displayName}
+                name={resource.name}
                 image={resource.image}
                 description={resource.description}
                 id={resource.id}

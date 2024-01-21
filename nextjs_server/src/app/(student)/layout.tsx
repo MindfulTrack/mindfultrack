@@ -22,6 +22,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({children}) => {
           ml: `${drawerWidth}px`,
           mt: ['48px', '56px', '64px'],
           p: 3,
+          paddingTop: 0
         }}
       >
         <SideNavBar />

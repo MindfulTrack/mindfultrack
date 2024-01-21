@@ -1,6 +1,6 @@
 "use client"
 import * as React from 'react';
-import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Button, Link } from '@mui/material';
 import { SelfImprovement } from '@mui/icons-material';
 import {signIn, signOut, useSession} from "next-auth/react";
 import Divider from '@mui/material/Divider';
@@ -37,12 +37,15 @@ const NavBar: React.FC<NavBarProps> = () => {
 
             <div style={{paddingLeft: "15px"}}>
 
+            <Link href="https://byu.edu" target="_blank">
               <Image
                 src={BYU_White}
                 width={140}
                 height={40}
                 priority={true}
+                style={{cursor: 'pointer'}}
               />
+            </Link>
 
             </div>
           </div>
@@ -72,19 +75,21 @@ const NavBar: React.FC<NavBarProps> = () => {
         <Toolbar sx={{justifyContent: 'space-between'}}>
           
         <div style={{display: 'inline-flex'}}>
-            <Typography variant="h4" component="div" sx={{pr: "15px", cursor: 'pointer'}} onClick={handleGoHome}>MindfulTrack</Typography>
+            <Typography variant="h4" component="div" fontWeight={'700'} sx={{pr: "15px", cursor: 'pointer'}} onClick={handleGoHome}>MindfulTrack</Typography>
 
             <Divider orientation='vertical' flexItem sx={{backgroundColor: "secondary.main"}}/>
 
             <div style={{paddingLeft: "15px"}}>
 
+            <Link href="https://byu.edu" target="_blank">
               <Image
                 src={BYU_White}
                 width={140}
                 height={40}
                 priority={true}
+                style={{cursor: 'pointer'}}
               />
-
+            </Link>
             </div>
           </div>
 

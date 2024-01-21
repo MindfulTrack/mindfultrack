@@ -9,17 +9,18 @@ import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation';
 
 interface ResourceCardProps {
-  category: string,
+  displayName: string,
   description: string,
+  name: string,
   image: string,
   id: number
 }
 
-const ResourceCard: React.FC<ResourceCardProps> = ({category, description, image, id}) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({displayName, name, image, id, description}) => {
   
   const router = useRouter();
-  const handleCategorySelect = (id: number) => {
-    router.push(`resources/${id}`);
+  const handleCategorySelect = (id: number, name: string) => {
+    router.push('resources/details');
   };
 
   return (
@@ -37,14 +38,14 @@ const ResourceCard: React.FC<ResourceCardProps> = ({category, description, image
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {category}
+          {displayName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleCategorySelect(id)}>Learn More</Button>
+        <Button size="small" onClick={() => handleCategorySelect(id, name)}>Learn More</Button>
       </CardActions>
     </Card>
   );

@@ -35,9 +35,11 @@ const LandingPage: React.FC<LandingPageProps> = () => {
     >
     <CssBaseline />
         <Image 
-          src={mountains}
+          src='https://picsum.photos/id/147/2000/1700'
           style={{objectFit: 'contain', objectPosition: 'top center'}}
           priority={true}
+          width={2000}
+          height={1300}
         >
         </Image>
 
