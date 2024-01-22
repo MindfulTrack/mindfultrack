@@ -1,8 +1,12 @@
 import React from 'react';
 import profilePic from './digitalpaper.jpg'
-import DashCard from '@/app/components/DashCard'
+import DashCard from '../../../../components/DashCard';
 
-export default function Notifications(){
+interface NotificationsProps {
+
+};
+
+const Notifications: React.FC<NotificationsProps> = () => {
     return <>
       <DashCard
         heading="TEST"
@@ -11,4 +15,6 @@ export default function Notifications(){
       ></DashCard>
        
     </>
-}
+};
+
+export default Notifications;

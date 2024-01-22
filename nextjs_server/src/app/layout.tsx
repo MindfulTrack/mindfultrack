@@ -1,32 +1,35 @@
-import React from 'react';
-import SessionProvider from './SessionProvider'
+import React, { ReactNode } from 'react';
+import SessionProvider from './components/SessionProvider'
 import { getServerSession } from "next-auth";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/build/v14-appRouter';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../theme';
 import NavBar from './components/NavBar';
-// import Footer from '@/app/components/Footer';
+import MyProvider from './MyProvider';
 
+interface RootLayoutProps {
+  children: ReactNode
+}
 
-
-export default async function RootLayout({children}) {
+const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
   const session = await getServerSession();
+
+  
   return (
     <html lang="en">
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <SessionProvider session={session}>
             <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
+              <MyProvider>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
 
-              <NavBar />
-    
-              {children}
-              
-              {/* <Footer /> */}
-
+                <NavBar />
+      
+                {children}
+              </MyProvider>
             </ThemeProvider>
           </SessionProvider>
         </AppRouterCacheProvider>
@@ -34,3 +37,5 @@ export default async function RootLayout({children}) {
     </html>
   );
 }
+
+export default RootLayout;

@@ -1,5 +1,5 @@
 import React from 'react';
-import TestComponent from '@/app/components/test'
+import TestComponent from '../../../components/test';
 
 export default function Dashboard(){
     return <> 

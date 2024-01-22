@@ -4,15 +4,19 @@ import Copyright from '../../components/Copyright';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 
+interface SignUpPageProps {
 
+};
 
-export default async function SignUp() {
+const SignUpPage: React.FC<SignUpPageProps> = () => {
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <SignUpForm/>
-      <Copyright sx={{ mt: 5 }} />
+      <Copyright color="primary" />
     </Container>
   );
-}
+};
+
+export default SignUpPage;
