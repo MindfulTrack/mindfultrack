@@ -90,7 +90,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME1 }}
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_SERVER}}:${{ github.sha }}
     
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def-client
@@ -98,7 +98,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME2 }}
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ secrets.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT}}:${{ github.sha }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
