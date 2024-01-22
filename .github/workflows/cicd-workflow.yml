@@ -41,7 +41,6 @@ env:
   # CONTAINER_NAME: mindfulTrack           # set this to the name of the container in the
   CONTAINER_NAME1: mindfulTrackServer           # set this to the name of the container in the
   CONTAINER_NAME2: mindfulTrackClient           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
 
 permissions:
   contents: read

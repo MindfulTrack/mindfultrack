@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "mindfulTrackServer",
-            "image": "905418335019.dkr.ecr.us-west-2.amazonaws.com/mindfultrackserver:${IMAGE_TAG}",
+            "image": "${IMAGE_NAME_1}",
             "cpu": 0,
             "memory": 2048,
             "portMappings": [
@@ -88,7 +88,7 @@
         },
         {
             "name": "mindfulTrackClient",
-            "image": "905418335019.dkr.ecr.us-west-2.amazonaws.com/mindfultrackclient:${IMAGE_TAG}",
+            "image": "${IMAGE_NAME_2}",
             "cpu": 0,
             "memory": 2048,
             "portMappings": [
