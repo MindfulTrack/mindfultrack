@@ -3,6 +3,7 @@ version: '3'
 services:
   # SERVER
   django-server-backend:
+    image: $ECR_REGISTRY/$ECR_REPOSITORY_SERVER:$IMAGE_TAG
     container_name: django-server-backend
     restart: always
     # env_file:
@@ -21,6 +22,7 @@ services:
 
   # CLIENT
   nextjs-server-backend:
+    image: $ECR_REGISTRY/$ECR_REPOSITORY_CLIENT:$IMAGE_TAG
     container_name: nextjs-server-backend
     build:
       context: ./nextjs_server  
