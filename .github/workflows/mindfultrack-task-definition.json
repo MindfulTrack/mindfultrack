@@ -1,16 +1,16 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-west-2:905418335019:task-definition/mindfultrack-task-definition:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-west-2:905418335019:task-definition/mindfultrack-task-definition:14",
     "containerDefinitions": [
         {
-            "name": "mindfulTrack",
-            "image": "905418335019.dkr.ecr.us-west-2.amazonaws.com/mindfultrack",
+            "name": "mindfulTrackServer",
+            "image": "905418335019.dkr.ecr.us-west-2.amazonaws.com/mindfultrackserver:${IMAGE_TAG}",
             "cpu": 0,
             "memory": 2048,
             "portMappings": [
                 {
-                    "name": "mindfultrack-5000-tcp",
-                    "containerPort": 5000,
-                    "hostPort": 5000,
+                    "name": "mindfultrack-8000-tcp",
+                    "containerPort": 8000,
+                    "hostPort": 8000,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -18,8 +18,8 @@
             "essential": true,
             "environment": [
                 {
-                "name": "EMAIL_PORT",
-                "value": "{{resolve:ssm:/prod/email_port}}"
+                    "name": "EMAIL_PORT",
+                    "value": "{{resolve:ssm:/prod/email_port}}"
                 },
                 {
                     "name": "POSTGRES_USER",
@@ -74,10 +74,8 @@
                     "value": "{{resolve:ssm:/prod/django_secret}}"
                 }
             ],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
-            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -85,15 +83,99 @@
                     "awslogs-group": "/ecs/mindfultrack-task-definition",
                     "awslogs-region": "us-west-2",
                     "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "mindfulTrackClient",
+            "image": "905418335019.dkr.ecr.us-west-2.amazonaws.com/mindfultrackclient:${IMAGE_TAG}",
+            "cpu": 0,
+            "memory": 2048,
+            "portMappings": [
+                {
+                    "name": "mindfultrack-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "EMAIL_PORT",
+                    "value": "{{resolve:ssm:/prod/email_port}}"
                 },
-                "secretOptions": []
+                {
+                    "name": "POSTGRES_USER",
+                    "value": "{{resolve:ssm:/prod/postgres_user}}"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_SECRET",
+                    "value": "{{resolve:ssm:/prod/google_client_secret}}"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "{{resolve:ssm:/prod/db_port}}"
+                },
+                {
+                    "name": "NEXTAUTH_SECRET",
+                    "value": "{{resolve:ssm:/prod/nextauth_secret}}"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_ID",
+                    "value": "{{resolve:ssm:/prod/google_client_id}}"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "{{resolve:ssm:/prod/postgres_password}}"
+                },
+                {
+                    "name": "EMAIL_HOST",
+                    "value": "{{resolve:ssm:/prod/email_host}}"
+                },
+                {
+                    "name": "POSTGRES_DB",
+                    "value": "{{resolve:ssm:/prod/postgres_db}}"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "{{resolve:ssm:/prod/db_host}}"
+                },
+                {
+                    "name": "DB_ENGINE",
+                    "value": "{{resolve:ssm:/prod/db_engine}}"
+                },
+                {
+                    "name": "EMAIL_HOST_PASSWORD",
+                    "value": "{{resolve:ssm:/prod/email_host_password}}"
+                },
+                {
+                    "name": "EMAIL_HOST_USER",
+                    "value": "{{resolve:ssm:/prod/email_host_user}}"
+                },
+                {
+                    "name": "DJANGO_SECRET",
+                    "value": "{{resolve:ssm:/prod/django_secret}}"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/mindfultrack-task-definition",
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "ecs"
+                }
             }
         }
     ],
     "family": "mindfultrack-task-definition",
     "executionRoleArn": "arn:aws:iam::905418335019:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 14,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -136,7 +218,7 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-01-12T02:51:49.211Z",
-    "registeredBy": "arn:aws:iam::905418335019:user/cjtracy16",
+    "registeredAt": "2024-01-22T15:50:05.729Z",
+    "registeredBy": "arn:aws:iam::905418335019:user/jwd99",
     "tags": []
 }
