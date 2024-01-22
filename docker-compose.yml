@@ -17,7 +17,7 @@ services:
       - "8000:8000"
     links:
       - nextjs-server-backend
-    entrypoint: /django_server/entrypoint.sh
+    # entrypoint: /django_server/entrypoint.sh
 
 
   # CLIENT
@@ -35,7 +35,7 @@ services:
       - "3000:3000"
     # links:
     #   - db-backend
-    entrypoint: /app/server/entrypoint.sh
+    # entrypoint: /app/server/entrypoint.sh
 
 
   # DATABASE
