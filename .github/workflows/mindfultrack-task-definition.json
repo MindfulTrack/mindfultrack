@@ -16,7 +16,64 @@
                 }
             ],
             "essential": true,
-            "environment": [],
+            "environment": [
+                {
+                "name": "EMAIL_PORT",
+                "value": "{{resolve:ssm:/prod/email_port}}"
+                },
+                {
+                    "name": "POSTGRES_USER",
+                    "value": "{{resolve:ssm:/prod/postgres_user}}"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_SECRET",
+                    "value": "{{resolve:ssm:/prod/google_client_secret}}"
+                },
+                {
+                    "name": "DB_PORT",
+                    "value": "{{resolve:ssm:/prod/db_port}}"
+                },
+                {
+                    "name": "NEXTAUTH_SECRET",
+                    "value": "{{resolve:ssm:/prod/nextauth_secret}}"
+                },
+                {
+                    "name": "GOOGLE_CLIENT_ID",
+                    "value": "{{resolve:ssm:/prod/google_client_id}}"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "{{resolve:ssm:/prod/postgres_password}}"
+                },
+                {
+                    "name": "EMAIL_HOST",
+                    "value": "{{resolve:ssm:/prod/email_host}}"
+                },
+                {
+                    "name": "POSTGRES_DB",
+                    "value": "{{resolve:ssm:/prod/postgres_db}}"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "{{resolve:ssm:/prod/db_host}}"
+                },
+                {
+                    "name": "DB_ENGINE",
+                    "value": "{{resolve:ssm:/prod/db_engine}}"
+                },
+                {
+                    "name": "EMAIL_HOST_PASSWORD",
+                    "value": "{{resolve:ssm:/prod/email_host_password}}"
+                },
+                {
+                    "name": "EMAIL_HOST_USER",
+                    "value": "{{resolve:ssm:/prod/email_host_user}}"
+                },
+                {
+                    "name": "DJANGO_SECRET",
+                    "value": "{{resolve:ssm:/prod/django_secret}}"
+                }
+            ],
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],

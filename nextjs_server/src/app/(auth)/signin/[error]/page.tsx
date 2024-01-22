@@ -6,15 +6,15 @@ import SignInForm from "./form";
 import Copyright from '../../../components/Copyright';
 
 interface SignInErrorPageProps {
-  props: ReactNode
+  params: React.ReactNode;
 };
 
-const SignInErrorPage: React.FC<SignInErrorPageProps> = ({props}) => {
+const SignInErrorPage: React.FC<SignInErrorPageProps> = ({params}) => {
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
        
-        <SignInForm params={props}/>
+        <SignInForm params={params}/>
         <Copyright color='primary'/>
       </Container>
   );
