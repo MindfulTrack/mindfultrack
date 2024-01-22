@@ -27,12 +27,12 @@ services:
       dockerfile: Dockerfile
     # env_file: # setting env file for local development
     #   - ./nextjs_server/.env.local
-    depends_on:
-      - db-backend
+    # depends_on:
+    #   - db-backend
     ports:
       - "3000:3000"
-    links:
-      - db-backend
+    # links:
+    #   - db-backend
     entrypoint: /app/server/entrypoint.sh
 
 
