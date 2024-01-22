@@ -8,8 +8,8 @@ services:
     env_file:
       - ./django_server/.env.dev
     build:
-      context: ./ # declaring the current (root) dir as the context so we can access "Pipfile"
-      dockerfile: ./django_server/Dockerfile
+      context: ./django_server # declaring the current (root) dir as the context so we can access "Pipfile"
+      dockerfile: Dockerfile
     depends_on:
       - nextjs-server-backend
     ports:
@@ -42,22 +42,22 @@ services:
     restart: always
     image: postgres:14-alpine
     environment:
-      - POSTGRES_DB=TBD
-      - POSTGRES_USER=TBD
-      - POSTGRES_PASSWORD=TBD
-      - POSTGRES_HOST=TBD
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
     ports:
       - "5432:5432"
 
 
   # NGINX SERVER
-  nginx-backend:
-    container_name: nginx-backend
-    build:
-      context: ./nginx/development
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    links:
-      - nextjs-server-backend
-      - django-server-backend
+  # nginx-backend:
+  #   container_name: nginx-backend
+  #   build:
+  #     context: ./nginx/development
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "80:80"
+  #   links:
+  #     - nextjs-server-backend
+  #     - django-server-backend

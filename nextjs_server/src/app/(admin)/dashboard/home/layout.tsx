@@ -1,15 +1,18 @@
 import React from "react";
 
 interface DashboardLayoutProps {
-  props: any
+  children: React.ReactNode;
+  notifications: any;
+  stats:any;
+  other:any;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({props}) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({children, notifications, stats, other}) => {
     return <section><div>
-    <div>{props.children}</div>
-    <div>{props.notifications}</div>
-    <div>{props.stats}</div>
-    <div>{props.other}</div> 
+    <div>{children}</div>
+    <div>{notifications}</div>
+    <div>{stats}</div>
+    <div>{other}</div> 
   </div></section>
 };
 

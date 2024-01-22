@@ -5,8 +5,10 @@ FROM python:3.11.7
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+
+# RUN mkdir /django_server
 # Set the working directory in the container to /app
-WORKDIR /app
+# WORKDIR /django_server
 
 # Install the application dependencies
 COPY requirements.txt .

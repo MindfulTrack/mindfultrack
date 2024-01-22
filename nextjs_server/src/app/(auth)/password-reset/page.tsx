@@ -20,3 +20,5 @@ const PasswordResetPage: React.FC<PasswordResetPageProps> = () => {
       </Container>
   );
 }
+
+export default PasswordResetPage;
