@@ -75,12 +75,12 @@ jobs:
 
       run: |
         # Pull the latest image from ECR
-        docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest || true
+        docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG || true
         
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker-compose build --pull --cache-from $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker-compose build --pull --cache-from $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
         # Push the built image to ECR
         docker-compose push
