@@ -1,9 +1,16 @@
 'use client';
 import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
+import { Public_Sans } from 'next/font/google';
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const publicSans = Public_Sans({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
   display: 'swap',
 });
@@ -44,19 +51,19 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: publicSans.style.fontFamily,
   },
-  components: {
-    MuiAlert: {
-      styleOverrides: {
-        root: ({ ownerState }) => ({
-          ...(ownerState.severity === 'info' && {
-            backgroundColor: '#60a5fa',
-          }),
-        }),
-      },
-    },
-  },
+  // components: {
+  //   MuiAlert: {
+  //     styleOverrides: {
+  //       root: ({ ownerState }) => ({
+  //         ...(ownerState.severity === 'info' && {
+  //           backgroundColor: '#60a5fa',
+  //         }),
+  //       }),
+  //     },
+  //   },
+  // },
 });
 
 export default theme;
