@@ -8,8 +8,8 @@ services:
     env_file:
       - ./django_server/.env.dev
     build:
-      context: ./django_server
-      dockerfile: Dockerfile
+      context: ./ # declaring the current (root) dir as the context so we can access "Pipfile"
+      dockerfile: ./django_server/Dockerfile
     depends_on:
       - nextjs-server-backend
     ports:
@@ -23,8 +23,8 @@ services:
   nextjs-server-backend:
     container_name: nextjs-server-backend
     build:
-      context: .  # declaring the current (root) dir as the context so we can access "Pipfile"
-      dockerfile: nextjs_server/Dockerfile
+      context: ./nextjs_server  
+      dockerfile: Dockerfile
     env_file: # setting env file for local development
       - ./nextjs_server/.env.local
     depends_on:
