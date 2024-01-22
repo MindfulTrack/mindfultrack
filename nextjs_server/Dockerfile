@@ -19,4 +19,5 @@ EXPOSE 3000
 
 # Start the Next.js app
 CMD [ "npx", "next", "start", "-H", "0.0.0.0", "-p", "3000" ]
+
 # CMD ["./entrypoint.sh"]
