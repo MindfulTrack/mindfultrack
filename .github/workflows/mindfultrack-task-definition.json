@@ -1,10 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-west-2:905418335019:task-definition/mindfultrack-task-definition:14",
     "containerDefinitions": [
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 0,
+            "cpu": 1,
             "memory": 2048,
             "portMappings": [
                 {
@@ -89,7 +88,7 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 0,
+            "cpu": 1,
             "memory": 2048,
             "portMappings": [
                 {
@@ -175,40 +174,8 @@
     "family": "mindfultrack-task-definition",
     "executionRoleArn": "arn:aws:iam::905418335019:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 14,
     "volumes": [],
-    "status": "ACTIVE",
-    "requiresAttributes": [
-        {
-            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-        },
-        {
-            "name": "ecs.capability.execution-role-awslogs"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.ecr-auth"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-        },
-        {
-            "name": "ecs.capability.execution-role-ecr-pull"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        },
-        {
-            "name": "ecs.capability.task-eni"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
-        }
-    ],
     "placementConstraints": [],
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
     "requiresCompatibilities": [
         "EC2"
     ],
@@ -218,7 +185,5 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-01-22T15:50:05.729Z",
-    "registeredBy": "arn:aws:iam::905418335019:user/jwd99",
     "tags": []
 }
