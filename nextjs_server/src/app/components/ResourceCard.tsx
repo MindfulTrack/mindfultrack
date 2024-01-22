@@ -18,9 +18,9 @@ interface ResourceCardProps {
   id: number
 }
 
-const ResourceCard: React.FC<ResourceCardProps> = ({displayName, name, image, id, description}) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ displayName, name, image, id, description }) => {
   const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
-  
+
   const router = useRouter();
   const handleCategorySelect = (id: number) => {
     updateSelectedResourceId(id);
@@ -28,7 +28,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({displayName, name, image, id
   };
 
   return (
-    <Card onClick={() => handleCategorySelect(id)} sx={{cursor: "pointer"}}>
+    <Card onClick={() => handleCategorySelect(id)} sx={{ cursor: "pointer" }}>
       {/* <Image
         alt="Random image"
         src={image}

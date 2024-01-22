@@ -11,7 +11,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AccountBox } from '@mui/icons-material';
 
-interface SideNavBarProps {};
+interface SideNavBarProps { };
 
 const SideNavBar: React.FC<SideNavBarProps> = () => {
 
@@ -26,7 +26,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
     { text: 'Stats', href: '/dashboard', icon: BarChart },
     { text: 'Schedule', href: '/schedule', icon: CalendarMonth },
   ];
-  
+
   const PLACEHOLDER_LINKS = [
     { text: 'Settings', icon: SettingsIcon, href: '/setting' },
     // { text: 'Support', icon: SupportIcon, href: '/support' },
@@ -60,7 +60,7 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
           <ListItem key={href} disablePadding>
             <ListItemButton component={Link} href={href}>
               <ListItemIcon>
-                <Icon style={{fontSize: '35px'}} color='secondary' />
+                <Icon style={{ fontSize: '35px' }} color='secondary' />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -70,10 +70,10 @@ const SideNavBar: React.FC<SideNavBarProps> = () => {
       <Divider sx={{ mt: 'auto' }} />
       <List>
         {PLACEHOLDER_LINKS.map(({ text, href, icon: Icon }) => (
-            <ListItem key={text} disablePadding>
-            <ListItemButton href={href} sx={{flex: 'column'}}>
+          <ListItem key={text} disablePadding>
+            <ListItemButton href={href} sx={{ flex: 'column' }}>
               <ListItemIcon>
-                <Icon sx={{fontSize: '35px'}} color='secondary'/>
+                <Icon sx={{ fontSize: '35px' }} color='secondary' />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

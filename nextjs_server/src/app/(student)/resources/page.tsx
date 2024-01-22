@@ -18,22 +18,22 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   return (
     <Box component={"main"}>
       <div>
-        <Container sx={{ marginBottom: 2, marginLeft: 0}} disableGutters>
-            <Typography variant='h3' color="text.primary" fontWeight={'700'} sx={{textAlign: "left"}}>Resources</Typography>
+        <Container sx={{ marginBottom: 2, marginLeft: 0 }} disableGutters>
+          <Typography variant='h3' color="text.primary" fontWeight={'700'} sx={{ textAlign: "left" }}>Resources</Typography>
         </Container>
 
         <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row">
           {mockData.resources.map((resource) => {
             return (
-            <Grid xs={3} key={resource.id}>
-              <ResourceCard
-                displayName={resource.displayName}
-                name={resource.name}
-                image={resource.image}
-                description={resource.description}
-                id={resource.id}
-              />
-            </Grid>
+              <Grid xs={3} key={resource.id}>
+                <ResourceCard
+                  displayName={resource.displayName}
+                  name={resource.name}
+                  image={resource.image}
+                  description={resource.description}
+                  id={resource.id}
+                />
+              </Grid>
             )
           })}
         </Grid>
