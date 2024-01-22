@@ -5,8 +5,8 @@ services:
   django-server-backend:
     container_name: django-server-backend
     restart: always
-    env_file:
-      - ./django_server/.env.dev
+    # env_file:
+    #   - ./django_server/.env.dev
     build:
       context: ./django_server # declaring the current (root) dir as the context so we can access "Pipfile"
       dockerfile: Dockerfile
@@ -25,8 +25,8 @@ services:
     build:
       context: ./nextjs_server  
       dockerfile: Dockerfile
-    env_file: # setting env file for local development
-      - ./nextjs_server/.env.local
+    # env_file: # setting env file for local development
+    #   - ./nextjs_server/.env.local
     depends_on:
       - db-backend
     ports:
