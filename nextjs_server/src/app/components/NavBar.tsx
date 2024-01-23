@@ -51,12 +51,13 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
                 <Button
                   color="inherit"
                   sx={{ cursor: "pointer" }}
                   onClick={() => signOut()}
                 >
-                  Logout
+                  {session.user?.email}
                 </Button>
               </div>
             </Toolbar>
@@ -93,6 +94,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
                 <Button
                   color="inherit"
                   onClick={() => signIn(undefined, { callbackUrl: "/profile" })}

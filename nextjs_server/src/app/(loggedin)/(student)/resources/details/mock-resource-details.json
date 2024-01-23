@@ -1,0 +1,68 @@
+{
+    "resourceDetails" : [
+        {
+            "id": 1,
+            "name": "General Resource 1",
+            "description": "Learn more about relationships",
+            "URL": "https://magazine.medlineplus.gov/topic/anxiety/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 1
+        },
+        {
+            "id": 2,
+            "name": "Anxiety Resource 1",
+            "description": "Learn more from the Mayo Clinic",
+            "URL": "https://www.mayoclinic.org/diseases-conditions/anxiety/symptoms-causes/syc-20350961",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 2
+        },
+        {
+            "id": 3,
+            "name": "Depression Resource 1",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 3
+        },
+        {
+            "id": 4,
+            "name": "LGBTQ Resource 1",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 4
+        },
+        {
+            "id": 5,
+            "name": "LGBTQ Resource 2",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 4
+        },
+        {
+            "id": 6,
+            "name": "LGBTQ Resource 3",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 4
+        },
+        {
+            "id": 7,
+            "name": "Abuse Resource 1",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 5
+        },
+        {
+            "id": 8,
+            "name": "Stress Resource 1",
+            "description": "Learn more from the Cleveland Clinic",
+            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 6
+        }
+    ]
+}

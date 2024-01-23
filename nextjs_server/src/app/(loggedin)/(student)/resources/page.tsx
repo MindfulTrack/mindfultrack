@@ -2,9 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ResourceCard from '../../components/ResourceCard';
+import ResourceCard from '../../../components/ResourceCard';
 import { Container } from '@mui/material';
 import mockResources from './mock-resources.json';
 
@@ -27,10 +25,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
             return (
               <Grid xs={3} key={resource.id}>
                 <ResourceCard
-                  displayName={resource.displayName}
                   name={resource.name}
-                  image={resource.image}
-                  description={resource.description}
                   id={resource.id}
                 />
               </Grid>

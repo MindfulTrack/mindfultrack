@@ -3,6 +3,7 @@ import React, { ReactNode} from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import SideNavBar from '../components/Sidebar';
+import { Container } from '@mui/material';
 
 interface LoggedInLayoutProps {
   children: ReactNode
@@ -10,22 +11,20 @@ interface LoggedInLayoutProps {
 
 const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({children}) => {
 
-  const drawerWidth = 173;
-  
   return (
     <>
+        <SideNavBar />
       <Box
-        component="main"
+        component="div"
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
-          ml: `${drawerWidth}px`,
+          ml: '105px',
           mt: ['48px', '56px', '64px'],
           p: 3,
-          paddingTop: 0
+          paddingTop: 1
         }}
       >
-        <SideNavBar />
         {children}
       </Box>
     </>
