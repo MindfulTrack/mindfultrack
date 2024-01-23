@@ -11,14 +11,11 @@ import MyContext from '../MyContext';
 import { useContext } from 'react';
 
 interface ResourceCardProps {
-  displayName: string,
-  description: string,
   name: string,
-  image: string,
   id: number
 }
 
-const ResourceCard: React.FC<ResourceCardProps> = ({ displayName, name, image, id, description }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({ name, id }) => {
   const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
   const router = useRouter();
@@ -42,7 +39,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ displayName, name, image, i
       /> */}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {displayName}
+          {name}
         </Typography>
         {/* <Typography variant="body2" color="text.secondary">
           {description}

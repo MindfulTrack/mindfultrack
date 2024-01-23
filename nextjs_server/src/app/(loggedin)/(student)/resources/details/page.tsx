@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import mockResources from '../mock-resources.json';
 import { Box, Tabs, Tab } from "@mui/material";
 import ResourceDetails from "./resource-details";
-import MyContext from "../../../MyContext";
+import MyContext from "../../../../MyContext";
 import { Mystery_Quest } from "next/font/google";
 
 
@@ -66,7 +66,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={selectedResourceId - 1} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto">
             {mockData.resources.map((resource) => (
-              <Tab label={resource.displayName} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)} />
+              <Tab label={resource.name} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)} />
             ))}
           </Tabs>
         </Box>

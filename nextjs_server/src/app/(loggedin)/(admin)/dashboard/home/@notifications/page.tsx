@@ -1,6 +1,6 @@
 import React from 'react';
 import profilePic from './digitalpaper.jpg'
-import DashCard from '../../../../components/DashCard';
+import DashCard from '../../../../../components/DashCard';
 
 interface NotificationsProps {
 

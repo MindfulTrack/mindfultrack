@@ -1,15 +1,20 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
-import ResourceCard from '../../components/ResourceCard';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import ResourceCard from '../../../components/ResourceCard';
 import { Paper } from '@mui/material';
 
-interface StudentAvailabilityPageProps {
+interface WaitlistPageProps {
 
 };
 
-const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
+const WaitlistPage: React.FC<WaitlistPageProps> = () => {
   return (
     <Box>
       <div>
@@ -21,4 +26,4 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   );
 };
 
-export default StudentAvailabilityPage;
+export default WaitlistPage;

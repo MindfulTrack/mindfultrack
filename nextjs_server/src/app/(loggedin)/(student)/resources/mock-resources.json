@@ -1,0 +1,28 @@
+{
+    "resources": [
+        {
+            "id": 1,
+            "name": "General"
+        },
+        {
+            "id": 2,
+            "name": "Anxiety"
+        },
+        {
+            "id": 3,
+            "name": "Depression"
+        },
+        {
+            "id": 4,
+            "name": "LGBTQ"
+        },
+        {
+            "id": 5,
+            "name": "Abuse"
+        },
+        {
+            "id": 6,
+            "name": "Stress"
+        }
+    ]
+}
