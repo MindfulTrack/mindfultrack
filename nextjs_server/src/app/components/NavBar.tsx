@@ -51,7 +51,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
-                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }}>In a crisis?</Button>
                 <Button
                   color="inherit"
                   sx={{ cursor: "pointer" }}
@@ -94,7 +94,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
-                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }}>In a crisis?</Button>
                 <Button
                   color="inherit"
                   onClick={() => signIn(undefined, { callbackUrl: "/profile" })}
