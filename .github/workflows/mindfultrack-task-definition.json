@@ -3,7 +3,7 @@
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 0.5,
+            "cpu": 410,
             "memory": 1024,
             "portMappings": [
                 {
@@ -88,7 +88,7 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 0.05,
+            "cpu": 410,
             "memory": 1024,
             "portMappings": [
                 {
