@@ -31,7 +31,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/app/(auth)/profile/page.jsx"  ],
+, "src/app/(loggedin)/profile/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]
