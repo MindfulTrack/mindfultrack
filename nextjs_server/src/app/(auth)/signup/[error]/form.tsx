@@ -17,15 +17,16 @@ import { useRouter } from 'next/navigation';
 import Divider from '@mui/material/Divider';
 
 interface SignUpFormProps {
-  [key: string]: any; 
+  params: any
 };
 
-const SignUpForm: React.FC<SignUpFormProps> = () => {
+const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
   const router = useRouter();
   
   //Error Alert
-  let passwordError = "PASSWORDS DO NOT MATCH";
-  const [open, setOpen] = React.useState(false);
+  const error = String(decodeURIComponent(params.error))
+  // let passwordError = "PASSWORDS DO NOT MATCH";
+  const [open, setOpen] = React.useState(true);
 
   const handleClose = (event: any, reason: string) => {
     if (reason === 'clickaway') {
@@ -72,10 +73,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     
     }
     else{
-      router.push("/signup/"+"Passwords do not match!");
       setOpen(true);
     }
-  };
+  }
 
   const handleLoginWithGoogle = () => {
     console.log("GOOGLE AUTH")
@@ -94,9 +94,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {/* {open ? <Alert severity="error" onClose={() => handleClose}>
+        {open ? <Alert severity="error" onClose={() => handleClose}>
         {error}
-        </Alert> : null} */}
+        </Alert> : null}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
