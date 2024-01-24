@@ -3,8 +3,8 @@
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 1,
-            "memory": 2048,
+            "cpu": 410,
+            "memory": 1024,
             "portMappings": [
                 {
                     "name": "mindfultrack-8000-tcp",
@@ -88,8 +88,8 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 1,
-            "memory": 2048,
+            "cpu": 410,
+            "memory": 1024,
             "portMappings": [
                 {
                     "name": "mindfultrack-3000-tcp",
