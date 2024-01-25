@@ -10,11 +10,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, EditAttributes } from '@mui/icons-material';
-import { useRouter } from 'next/navigation';
-import { useState, useRef } from 'react';
-import { Paper } from '@mui/material';
+import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AppRegistration } from '@mui/icons-material';
+import { useRouter, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { Zoom, Grid } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import Router from 'next/router';
+
 interface SideNavBarProps {
   // sendSidebarWidth: (width: string) => void;
 };
@@ -22,23 +24,11 @@ interface SideNavBarProps {
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
 
-  const drawerWidth = 'fit-content';
-
   const router = useRouter();
-  const handleIconClick = (url: string, id: number, title: string) => {
-    const updatedIcons = sidebarItems.map((icon) => ({
-      ...icon,
-      isSelected: icon.id === id ? !icon.isSelected : false,
-    }));
+  const pathname = usePathname();
 
-    // Set all isSelected to false in sidebarBottomItems
-    const updatedBottomIcons = sidebarBottomItems.map((icon) => ({
-      ...icon,
-      isSelected: false,
-    }));
-
-    setSidebarItems(updatedIcons);
-    setSidebarBottomItems(updatedBottomIcons);
+  // TOP LEVEL ICONS
+  const handleIconClick = (url: string, title: string) => {
 
     const targetAttribute = title === "Crisis" ? "_blank" : "_self";
 
@@ -57,6 +47,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
       // If not '_blank', use router.push as usual
       router.push(url);
     }
+
   };
 
   const [sidebarItems, setSidebarItems] = useState(() => {
@@ -84,13 +75,6 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
         isSelected: false
       },
       {
-        id: 4,
-        icon: CrisisAlert,
-        title: "Crisis",
-        link: "https://caps.byu.edu/for-students-in-crisis",
-        isSelected: false
-      },
-      {
         id: 5,
         icon: AccountCircle,
         title: "Profile",
@@ -113,30 +97,27 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
       },
       {
         id: 8,
-        icon: EditAttributes,
+        icon: AppRegistration,
         title: "Resource Management",
         link: "/editResources",
+        isSelected: false
+      },
+      {
+        id: 4,
+        icon: CrisisAlert,
+        title: "Crisis",
+        link: "https://caps.byu.edu/for-students-in-crisis",
         isSelected: false
       }
     ];
   });
 
-  const handleBottomIconClick = (url: string, id: number) => {
-    const updatedBottomIcons = sidebarBottomItems.map((icon) => ({
-      ...icon,
-      isSelected: icon.id === id ? !icon.isSelected : false,
-    }));
 
-    // Set all isSelected to false in sidebarItems
-    const updatedIcons = sidebarItems.map((icon) => ({
-      ...icon,
-      isSelected: false,
-    }));
-
-    setSidebarBottomItems(updatedBottomIcons);
-    setSidebarItems(updatedIcons);
+  // BOTTOM LEVEL ICONS
+  const handleBottomIconClick = (url: string) => {
 
     router.push(url);
+
   };
 
   const [sidebarBottomItems, setSidebarBottomItems] = useState(() => {
@@ -145,7 +126,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
         id: 1,
         icon: SettingsIcon,
         title: "Settings",
-        link: "/settings",
+        link: "/profile",
         isSelected: false
       },
       {
@@ -157,44 +138,45 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
       }
     ];
   });
+  
 
-  // function getWidth() {
-  //   const sidebar = document.getElementById('sidebar');
+  // OTHER FUNCTIONS
+  useEffect(() => {
+    const handlePathChange = () => {
+      const path = pathname;
+      const pathPortion: string[] = path.split("/");
+      const finalPath: string = pathPortion.length > 1 ? `/${pathPortion[1]}` : "";
+      const updatedBottomIcons = sidebarBottomItems.map((icon) => ({
+        ...icon,
+        isSelected: icon.link === finalPath
+      }));
+  
+      // Set all isSelected to false in sidebarItems
+      const updatedIcons = sidebarItems.map((icon) => ({
+        ...icon,
+        isSelected: icon.link === finalPath
+      }));
+  
+      setSidebarBottomItems(updatedBottomIcons);
+      setSidebarItems(updatedIcons);
+    };
 
-
-  //     const drawerWidth = document.getElementById('sidebar')?.clientWidth;
-  //     console.log(drawerWidth)
-  //     return drawerWidth;
-
-  // }
-
-  // const drawerRef = useRef<HTMLDivElement | null>(null);
-  // React.useEffect(() => {
-  //   if(drawerRef.current) {
-  //     const style = getComputedStyle(drawerRef.current);
-  //     const dw = style.width
-  //     console.log(dw)
-  //   }
-  // }, [drawerRef])
-
-  // const sendWidthToLayout = (data: string) => {
-  //   sendSidebarWidth(data);
-  // }
+    handlePathChange();
+  }, [pathname]);
 
   return (
     <Drawer
-      // ref={drawerRef}
       sx={{
-        width: drawerWidth,
+        width: '105px',
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: '93px',
           boxSizing: 'border-box',
           top: ['48px', '56px', '64px'],
           height: 'auto',
           bottom: 0,
           backgroundColor: 'primary.main',
-          paddingLeft: '.5rem'
+          paddingTop: '1rem'
         },
       }}
       variant="permanent"
@@ -202,55 +184,103 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
     >
       <List>
         {sidebarItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ cursor: "pointer" }}>
-            <ListItemButton onClick={() => handleIconClick(item.link, item.id, item.title)}>
-              <Tooltip title={item.title} slotProps={{
-                popper: {
-                  modifiers: [
-                    {
+          <ListItem key={index} disablePadding sx={{ cursor: "pointer", paddingBottom: 1 }}>
+            <ListItemButton onClick={() => handleIconClick(item.link, item.title)} sx={{ padding: 0 }}>
+              <Tooltip
+                title={item.title}
+                disableFocusListener
+                disableTouchListener
+                TransitionComponent={Zoom}
+                slotProps={{
+                  popper: {
+                    modifiers: [{
                       name: 'offset',
                       options: {
-                        offset: [20, -20]
+                        offset: [60, -50]
                       }
-                    }
-                  ]
-                }
-              }}
-              >
-                <ListItemIcon>
-                  {item.icon && (
-                    <item.icon
-                      sx={{
-                        color: item.isSelected ? '#B3F2FF' : 'text.tertiary',
-                        fontSize: '40px'
-                      }}
-                    />
+                    }]
+                  }
+                }}
+                >
+                <Grid container direction="column" alignItems="center">
+                  <Grid item>
+                    {item.icon && (
+                      <item.icon
+                        sx={{
+                          color: item.isSelected ? '#1FB3D1' : 'text.tertiary',
+                          fontSize: '35px',
+                        }}
+                      />)}
+                  </Grid>
+                  {item.isSelected && (
+                    <Grid item>
+                      <ListItemText
+                        primary={item.title}
+                        primaryTypographyProps={{fontSize: '14px'}}
+                        sx={{
+                          color: '#1FB3D1',
+                          textAlign: 'center',
+                          textWrap: 'wrap'
+                        }}
+                      />
+                    </Grid>
                   )}
-                </ListItemIcon>
+                </Grid>
               </Tooltip>
-              {/* <ListItemText primary={item.title} sx={{ color: item.isSelected ? '#B3F2FF' : 'text.tertiary' }} /> */}
             </ListItemButton>
           </ListItem>
         ))}
       </List>
 
-      <Divider sx={{ mt: 'auto' }} />
+
+
+      <Divider sx={{ mt: 'auto', backgroundColor: "secondary.main" }} flexItem />
 
       <List>
         {sidebarBottomItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton onClick={() => handleBottomIconClick(item.link, item.id)}>
-              <ListItemIcon>
-                {item.icon && (
-                  <item.icon
-                    sx={{
-                      color: item.isSelected ? '#B3F2FF' : 'text.tertiary',
-                      fontSize: '40px'
-                    }}
-                  />
-                )}
-              </ListItemIcon>
-              {/* <ListItemText primary={item.title} sx={{ color: item.isSelected ? '#B3F2FF' : 'text.tertiary' }} /> */}
+          <ListItem key={index} disablePadding sx={{ cursor: "pointer", paddingBottom: 1 }}>
+            <ListItemButton onClick={() => handleBottomIconClick(item.link)} sx={{ padding: 0 }}>
+            <Tooltip
+                title={item.title}
+                disableFocusListener
+                disableTouchListener
+                TransitionComponent={Zoom}
+                slotProps={{
+                  popper: {
+                    modifiers: [{
+                      name: 'offset',
+                      options: {
+                        offset: [60, -50]
+                      }
+                    }]
+                  }
+                }}
+                >
+                <Grid container direction="column" alignItems="center">
+                  <Grid item>
+                    {item.icon && (
+                      <item.icon
+                        sx={{
+                          color: item.isSelected ? '#1FB3D1' : 'text.tertiary',
+                          fontSize: '35px',
+                        }}
+                      />)}
+                  </Grid>
+                  {item.isSelected && (
+                    <Grid item>
+                      <ListItemText
+                        primary={item.title}
+                        primaryTypographyProps={{fontSize: '14px'}}
+                        sx={{
+                          color: '#1FB3D1',
+                          textAlign: 'center',
+                          textWrap: 'wrap'
+                        }}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+              </Tooltip>
             </ListItemButton>
           </ListItem>
         ))}
