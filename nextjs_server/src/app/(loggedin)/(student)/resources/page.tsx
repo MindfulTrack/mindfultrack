@@ -27,6 +27,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
                 <ResourceCard
                   name={resource.name}
                   id={resource.id}
+                  image={resource.image}
                 />
               </Grid>
             )

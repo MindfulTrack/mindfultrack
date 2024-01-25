@@ -46,19 +46,17 @@ function a11yProps(index: number) {
 
 const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const mockData = mockResources;
+  const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  // const [selectedResourceId, setSelectedResourceId] = React.useState(0);
   const handleTabClick = (id: number) => {
-    // setSelectedResourceId(id);
     updateSelectedResourceId(id);
   }
 
-  const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
   return (
     <>

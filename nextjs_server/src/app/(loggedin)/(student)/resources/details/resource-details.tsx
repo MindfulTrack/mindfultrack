@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Link } from "@mui/material";
 import mockResources from './mock-resource-details.json';
 
 interface ResourceDetailsProps {
@@ -16,6 +16,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
         .map((item) => (
           <Container sx={{ marginBottom: 2, marginLeft: 0 }} disableGutters>
             <Typography variant='h3' color="text.primary" fontWeight={'700'} sx={{ textAlign: "left" }}>{item.name}</Typography>
+            <Link href={item.URL} target="_blank">Learn More</Link>
             <Typography variant='body1' color="text.primary" fontWeight={'700'} sx={{ textAlign: "left" }}>{item.description}</Typography>
           </Container>
         ))}

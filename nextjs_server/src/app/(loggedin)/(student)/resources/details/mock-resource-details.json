@@ -3,15 +3,15 @@
         {
             "id": 1,
             "name": "General Resource 1",
-            "description": "Learn more about relationships",
-            "URL": "https://magazine.medlineplus.gov/topic/anxiety/",
+            "description": "Learn more about mental health",
+            "URL": "https://www.nimh.nih.gov/health/find-help",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 1
         },
         {
             "id": 2,
             "name": "Anxiety Resource 1",
-            "description": "Learn more from the Mayo Clinic",
+            "description": "Learn more from the Mayo Clinic about anxiety",
             "URL": "https://www.mayoclinic.org/diseases-conditions/anxiety/symptoms-causes/syc-20350961",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 2
@@ -19,48 +19,144 @@
         {
             "id": 3,
             "name": "Depression Resource 1",
-            "description": "Learn more from the Cleveland Clinic",
-            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "description": "Depression health guide",
+            "URL": "https://www.everydayhealth.com/depression/guide/resources/",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 3
         },
         {
             "id": 4,
-            "name": "LGBTQ Resource 1",
-            "description": "Learn more from the Cleveland Clinic",
-            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "name": "The Trevor Project",
+            "description": "Find community and help with the Trevor Project",
+            "URL": "https://www.thetrevorproject.org/",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 4
         },
         {
             "id": 5,
-            "name": "LGBTQ Resource 2",
-            "description": "Learn more from the Cleveland Clinic",
-            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
-            "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 4
-        },
-        {
-            "id": 6,
-            "name": "LGBTQ Resource 3",
-            "description": "Learn more from the Cleveland Clinic",
-            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
-            "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 4
-        },
-        {
-            "id": 7,
             "name": "Abuse Resource 1",
-            "description": "Learn more from the Cleveland Clinic",
-            "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "description": "Hot Line",
+            "URL": "https://www.thehotline.org/",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 5
         },
         {
-            "id": 8,
+            "id": 6,
             "name": "Stress Resource 1",
             "description": "Learn more from the Cleveland Clinic",
             "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 6
+        },
+        {
+            "id": 7,
+            "name": "Grief Resource 1",
+            "description": "Grief Help",
+            "URL": "https://good-grief.org/resources/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 7
+        },
+        {
+            "id": 8,
+            "name": "General Resource 2",
+            "description": "Explore more about physical well-being",
+            "URL": "https://www.cdc.gov/physicalactivity/index.html",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 1
+        },
+        {
+            "id": 9,
+            "name": "Anxiety Resource 2",
+            "description": "Understanding anxiety disorders at WebMD",
+            "URL": "https://www.webmd.com/anxiety-panic/guide/anxiety-disorders",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 2
+        },
+        {
+            "id": 10,
+            "name": "Depression Resource 2",
+            "description": "Coping strategies for depression",
+            "URL": "https://www.helpguide.org/articles/depression/coping-with-depression.htm",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 3
+        },
+        {
+            "id": 11,
+            "name": "LGBTQ+ Resource 1",
+            "description": "GLAAD - LGBTQ+ Advocacy",
+            "URL": "https://www.glaad.org/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 4
+        },
+        {
+            "id": 12,
+            "name": "Abuse Resource 2",
+            "description": "National Domestic Violence Hotline",
+            "URL": "https://www.thehotline.org/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 5
+        },
+        {
+            "id": 13,
+            "name": "Stress Resource 2",
+            "description": "Cleveland Clinic on managing stress",
+            "URL": "https://my.clevelandclinic.org/health/articles/11874-stress",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 6
+        },
+        {
+            "id": 14,
+            "name": "Grief Resource 2",
+            "description": "Helping Children Cope with Grief",
+            "URL": "https://childrengrieve.org/resources",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 7
+        },
+        {
+            "id": 15,
+            "name": "General Resource 3",
+            "description": "Wellness tips and advice",
+            "URL": "https://www.health.harvard.edu/staying-healthy/37-ways-to-improve-your-well-being-today",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 1
+        },
+        {
+            "id": 16,
+            "name": "Anxiety Resource 3",
+            "description": "Calm anxiety with mindfulness",
+            "URL": "https://www.mindful.org/meditation/mindfulness-getting-started/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 2
+        },
+        {
+            "id": 17,
+            "name": "Depression Resource 3",
+            "description": "National Alliance on Mental Illness (NAMI)",
+            "URL": "https://www.nami.org/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 3
+        },
+        {
+            "id": 18,
+            "name": "LGBTQ+ Resource 2",
+            "description": "PFLAG - Support for LGBTQ+ individuals and their families",
+            "URL": "https://pflag.org/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 4
+        },
+        {
+            "id": 19,
+            "name": "Abuse Resource 3",
+            "description": "RAINN - National Sexual Assault Hotline",
+            "URL": "https://www.rainn.org/",
+            "image": "https://picsum.photos/400/300",
+            "resourceCategoryId": 5
+        },
+        {
+            "id": 20,
+            "name": "Stress Resource 3",
+            "description": "American Psychological Association - Stress management",
+            "URL": "https://www.apa.org/topics/stress",
             "image": "https://picsum.photos/400/300",
             "resourceCategoryId": 6
         }
