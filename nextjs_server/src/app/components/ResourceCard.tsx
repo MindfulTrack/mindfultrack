@@ -24,7 +24,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ name, id, image }) => {
   };
 
   return (
-    <Card onClick={() => handleCategorySelect(id)} sx={{ cursor: "pointer" }} variant='outlined' style={{ backgroundColor: '#e6f4f1' }}>
+    <Card onClick={() => handleCategorySelect(id)} sx={{ cursor: "pointer" }} variant='outlined' style={{ backgroundColor: '#fafcff' }}>
       <CardActionArea>
         <CardMedia
           component={'img'}

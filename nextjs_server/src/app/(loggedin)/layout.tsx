@@ -13,7 +13,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <SideNavBar />
+      <SideNavBar userRole='Admin'/>
       <Box
         component="div"
         sx={{

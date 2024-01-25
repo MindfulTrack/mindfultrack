@@ -6,7 +6,8 @@
             "description": "Learn more about mental health",
             "URL": "https://www.nimh.nih.gov/health/find-help",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 1
+            "resourceCategoryId": 1,
+            "favorite": true
         },
         {
             "id": 2,
@@ -14,7 +15,8 @@
             "description": "Learn more from the Mayo Clinic about anxiety",
             "URL": "https://www.mayoclinic.org/diseases-conditions/anxiety/symptoms-causes/syc-20350961",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 2
+            "resourceCategoryId": 2,
+            "favorite": false
         },
         {
             "id": 3,
@@ -22,7 +24,8 @@
             "description": "Depression health guide",
             "URL": "https://www.everydayhealth.com/depression/guide/resources/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 3
+            "resourceCategoryId": 3,
+            "favorite": false
         },
         {
             "id": 4,
@@ -30,7 +33,8 @@
             "description": "Find community and help with the Trevor Project",
             "URL": "https://www.thetrevorproject.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 4
+            "resourceCategoryId": 4,
+            "favorite": false
         },
         {
             "id": 5,
@@ -38,7 +42,8 @@
             "description": "Hot Line",
             "URL": "https://www.thehotline.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 5
+            "resourceCategoryId": 5,
+            "favorite": false
         },
         {
             "id": 6,
@@ -46,7 +51,8 @@
             "description": "Learn more from the Cleveland Clinic",
             "URL": "https://my.clevelandclinic.org/health/diseases/9536-anxiety-disorders",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 6
+            "resourceCategoryId": 6,
+            "favorite": false
         },
         {
             "id": 7,
@@ -54,7 +60,8 @@
             "description": "Grief Help",
             "URL": "https://good-grief.org/resources/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 7
+            "resourceCategoryId": 7,
+            "favorite": false
         },
         {
             "id": 8,
@@ -62,7 +69,8 @@
             "description": "Explore more about physical well-being",
             "URL": "https://www.cdc.gov/physicalactivity/index.html",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 1
+            "resourceCategoryId": 1,
+            "favorite": false
         },
         {
             "id": 9,
@@ -70,7 +78,8 @@
             "description": "Understanding anxiety disorders at WebMD",
             "URL": "https://www.webmd.com/anxiety-panic/guide/anxiety-disorders",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 2
+            "resourceCategoryId": 2,
+            "favorite": false
         },
         {
             "id": 10,
@@ -78,7 +87,8 @@
             "description": "Coping strategies for depression",
             "URL": "https://www.helpguide.org/articles/depression/coping-with-depression.htm",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 3
+            "resourceCategoryId": 3,
+            "favorite": false
         },
         {
             "id": 11,
@@ -86,7 +96,8 @@
             "description": "GLAAD - LGBTQ+ Advocacy",
             "URL": "https://www.glaad.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 4
+            "resourceCategoryId": 4,
+            "favorite": false
         },
         {
             "id": 12,
@@ -94,7 +105,8 @@
             "description": "National Domestic Violence Hotline",
             "URL": "https://www.thehotline.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 5
+            "resourceCategoryId": 5,
+            "favorite": false
         },
         {
             "id": 13,
@@ -102,7 +114,8 @@
             "description": "Cleveland Clinic on managing stress",
             "URL": "https://my.clevelandclinic.org/health/articles/11874-stress",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 6
+            "resourceCategoryId": 6,
+            "favorite": false
         },
         {
             "id": 14,
@@ -110,7 +123,8 @@
             "description": "Helping Children Cope with Grief",
             "URL": "https://childrengrieve.org/resources",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 7
+            "resourceCategoryId": 7,
+            "favorite": false
         },
         {
             "id": 15,
@@ -118,7 +132,8 @@
             "description": "Wellness tips and advice",
             "URL": "https://www.health.harvard.edu/staying-healthy/37-ways-to-improve-your-well-being-today",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 1
+            "resourceCategoryId": 1,
+            "favorite": false
         },
         {
             "id": 16,
@@ -126,7 +141,8 @@
             "description": "Calm anxiety with mindfulness",
             "URL": "https://www.mindful.org/meditation/mindfulness-getting-started/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 2
+            "resourceCategoryId": 2,
+            "favorite": false
         },
         {
             "id": 17,
@@ -134,7 +150,8 @@
             "description": "National Alliance on Mental Illness (NAMI)",
             "URL": "https://www.nami.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 3
+            "resourceCategoryId": 3,
+            "favorite": false
         },
         {
             "id": 18,
@@ -142,7 +159,8 @@
             "description": "PFLAG - Support for LGBTQ+ individuals and their families",
             "URL": "https://pflag.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 4
+            "resourceCategoryId": 4,
+            "favorite": false
         },
         {
             "id": 19,
@@ -150,7 +168,8 @@
             "description": "RAINN - National Sexual Assault Hotline",
             "URL": "https://www.rainn.org/",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 5
+            "resourceCategoryId": 5,
+            "favorite": false
         },
         {
             "id": 20,
@@ -158,7 +177,8 @@
             "description": "American Psychological Association - Stress management",
             "URL": "https://www.apa.org/topics/stress",
             "image": "https://picsum.photos/400/300",
-            "resourceCategoryId": 6
+            "resourceCategoryId": 6,
+            "favorite": false
         }
     ]
 }

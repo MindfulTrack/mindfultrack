@@ -62,7 +62,8 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
     <>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={selectedResourceId - 1} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto">
+          <Tabs value={selectedResourceId} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto" indicatorColor="secondary" textColor="secondary">
+            <Tab label="Favorites" {...a11yProps(0)} onClick={() => handleTabClick(0)} />
             {mockData.resources.map((resource) => (
               <Tab label={resource.name} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)} />
             ))}

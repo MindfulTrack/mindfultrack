@@ -31,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = () => {
             <Toolbar sx={{ justifyContent: 'space-between' }}>
 
               <div style={{ display: 'inline-flex' }}>
-                <Typography variant="h4" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
+              <Typography variant="h4" component="div" fontWeight={'700'} sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
 
                 <Divider orientation='vertical' flexItem sx={{ backgroundColor: "secondary.main" }} />
 
@@ -51,7 +51,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
-                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='secondary'>In a crisis?</Button>
                 <Button
                   color="inherit"
                   sx={{ cursor: "pointer" }}
@@ -77,7 +77,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               <div style={{ display: 'inline-flex' }}>
                 <Typography variant="h4" component="div" fontWeight={'700'} sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
 
-                <Divider orientation='vertical' flexItem sx={{ backgroundColor: "secondary.main" }} />
+                <Divider orientation='vertical' flexItem sx={{ backgroundColor: "tertiary.main" }} />
 
                 <div style={{ paddingLeft: "15px" }}>
 
@@ -94,7 +94,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div>
-                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='tertiary'>In a crisis?</Button>
+                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginRight: "1rem" }} color='secondary'>In a crisis?</Button>
                 <Button
                   color="inherit"
                   onClick={() => signIn(undefined, { callbackUrl: "/profile" })}
