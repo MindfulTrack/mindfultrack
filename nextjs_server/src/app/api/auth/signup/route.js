@@ -29,18 +29,20 @@ export async function POST(request){
             data = response.data;
             console.log(response.data)
             if(response.status !== 201 || response.status !== 200){
-                return NextResponse.json({body: data}, { status: 500 })
+                // return {'error': error.response.data.non_field_errors[0]}
+                return NextResponse.json({error: error.response.data.non_field_errors[0]}, { status: 500 })
             }
             else{
                 return NextResponse.json({body: data}, { status: 200 })
             }
-            // if (data) return data;
         } 
         catch (error) {
-        console.error(error);
-            data = error
+            console.error(error);
+            console.log(error.response.data)
+            return NextResponse.json({error: error.response.data}, { status: 500 })
+
         }
-        return NextResponse.json({body: data}, { status: 500 })
+        // return NextResponse.json({body: data}, { status: 500 })
         // return null;
     }
     catch(e){
