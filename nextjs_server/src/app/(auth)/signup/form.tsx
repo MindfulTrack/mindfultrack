@@ -59,7 +59,11 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
       })
       .then((data) => {
         let error = '';
-        for (const [key, value] of Object.entries(data.error)) {
+        const holder: holder = data.error;
+        interface holder {
+          [key: string]: any
+        }
+        for (const [key, value] of Object.entries(holder)) {
           
           console.log(value)
           value.forEach((element: any) => {

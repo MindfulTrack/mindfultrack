@@ -18,7 +18,9 @@ import Divider from '@mui/material/Divider';
 
 interface SignUpFormProps {
   params: any
+ 
 };
+
 
 const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
   const router = useRouter();
@@ -60,7 +62,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
       })
       .then((data) => {
         let error = '';
-        for (const [key, value] of Object.entries(data.error)) {
+        const holder: holder = data.error;
+        interface holder {
+          [key: string]: any
+        }
+        for (const [key, value] of Object.entries(holder)) {
           
           console.log(value)
           value.forEach((element: any) => {
