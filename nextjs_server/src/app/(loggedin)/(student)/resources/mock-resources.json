@@ -2,27 +2,38 @@
     "resources": [
         {
             "id": 1,
-            "name": "General"
+            "name": "General",
+            "image": "https://picsum.photos/id/147/2000/1700"
         },
         {
             "id": 2,
-            "name": "Anxiety"
+            "name": "Anxiety",
+            "image": "https://picsum.photos/id/147/2000/1700"
         },
         {
             "id": 3,
-            "name": "Depression"
+            "name": "Depression",
+            "image": "https://picsum.photos/id/147/2000/1700"
         },
         {
             "id": 4,
-            "name": "LGBTQ"
+            "name": "LGBTQ",
+            "image": "https://picsum.photos/id/147/2000/1700"
         },
         {
             "id": 5,
-            "name": "Abuse"
+            "name": "Abuse",
+            "image": "https://picsum.photos/id/147/2000/1700"
         },
         {
             "id": 6,
-            "name": "Stress"
+            "name": "Stress",
+            "image": "https://picsum.photos/id/147/2000/1700"
+        },
+        {
+            "id": 7,
+            "name": "Grief",
+            "image": "https://picsum.photos/id/147/2000/1700"
         }
     ]
 }

@@ -23,14 +23,14 @@ const theme = createTheme({
       // dark: '#0069c0',
     },
     secondary: {
-      main: '#FFFFFF', // WHITE
-      // light: '#ff79b0',
-      // dark: '#c60055',
-    },
-    tertiary: {
       main: '#0062B8', // ROYAL
       // light: '#80e27e',
       // dark: '#087f23',
+    },
+    tertiary: {
+      main: '#FFFFFF', // WHITE
+      // light: '#ff79b0',
+      // dark: '#c60055',
     },
     text: {
       primary: '#141414', // DARK GRAY
