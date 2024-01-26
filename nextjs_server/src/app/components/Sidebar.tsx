@@ -1,12 +1,10 @@
 'use client'
 import * as React from 'react';
-import Link from 'next/link';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -15,14 +13,21 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Zoom, Grid } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import Router from 'next/router';
+import { checkPermission } from '../../customFunctions/checkPermission';
+import { Permissions } from '../../ts/constants';
+
+interface SidebarItem {
+  icon: string;
+  title: string;
+  link: string;
+}
 
 interface SideNavBarProps {
-  // sendSidebarWidth: (width: string) => void;
+  userRole: string
 };
 
 
-const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
+const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
 
   const router = useRouter();
   const pathname = usePathname();
@@ -52,64 +57,133 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
 
   const [sidebarItems, setSidebarItems] = useState(() => {
 
-    return [
-      {
-        id: 1,
-        icon: Support,
-        title: "Resources",
-        link: "/resources",
-        isSelected: true
-      },
-      {
-        id: 2,
-        icon: CalendarMonth,
-        title: "Availability",
-        link: "/availability",
-        isSelected: false
-      },
-      {
-        id: 3,
-        icon: PeopleAlt,
-        title: "Waitlist",
-        link: "/waitlist",
-        isSelected: false
-      },
-      {
-        id: 5,
-        icon: AccountCircle,
-        title: "Profile",
-        link: "/counselor",
-        isSelected: false
-      },
-      {
-        id: 6,
-        icon: BarChart,
-        title: "Stats",
-        link: "/dashboard",
-        isSelected: false
-      },
-      {
-        id: 7,
-        icon: CalendarMonth,
-        title: "Schedule",
-        link: "/schedule",
-        isSelected: false
-      },
-      {
-        id: 8,
-        icon: AppRegistration,
-        title: "Resource Management",
-        link: "/editResources",
-        isSelected: false
-      },
-      {
-        id: 4,
-        icon: CrisisAlert,
-        title: "Crisis",
-        link: "https://caps.byu.edu/for-students-in-crisis",
-        isSelected: false
-      }
-    ];
+
+    if (checkPermission([userRole]) === 1) {
+      return ([
+        {
+          id: 1,
+          icon: Support,
+          title: "Resources",
+          link: "/resources",
+          isSelected: true
+        },
+        {
+          id: 2,
+          icon: CalendarMonth,
+          title: "Availability",
+          link: "/availability",
+          isSelected: false
+        },
+        {
+          id: 3,
+          icon: PeopleAlt,
+          title: "Waitlist",
+          link: "/waitlist",
+          isSelected: false
+        },
+        {
+          id: 5,
+          icon: AccountCircle,
+          title: "Profile",
+          link: "/counselor",
+          isSelected: false
+        },
+        {
+          id: 6,
+          icon: BarChart,
+          title: "Stats",
+          link: "/dashboard",
+          isSelected: false
+        },
+        {
+          id: 7,
+          icon: CalendarMonth,
+          title: "Schedule",
+          link: "/schedule",
+          isSelected: false
+        },
+        {
+          id: 8,
+          icon: AppRegistration,
+          title: "Resource Management",
+          link: "/editResources",
+          isSelected: false
+        },
+        {
+          id: 4,
+          icon: CrisisAlert,
+          title: "Crisis",
+          link: "https://caps.byu.edu/for-students-in-crisis",
+          isSelected: false
+        }
+      ])
+    } else if (checkPermission([userRole]) === 2) {
+      return ([
+        {
+          id: 1,
+          icon: Support,
+          title: "Resources",
+          link: "/resources",
+          isSelected: true
+        },
+        {
+          id: 5,
+          icon: AccountCircle,
+          title: "Profile",
+          link: "/counselor",
+          isSelected: false
+        },
+        {
+          id: 6,
+          icon: BarChart,
+          title: "Stats",
+          link: "/dashboard",
+          isSelected: false
+        },
+        {
+          id: 7,
+          icon: CalendarMonth,
+          title: "Schedule",
+          link: "/schedule",
+          isSelected: false
+        }
+      ])
+    } else if (checkPermission([userRole]) === 3) {
+      return ([
+        {
+          id: 1,
+          icon: Support,
+          title: "Resources",
+          link: "/resources",
+          isSelected: true
+        },
+        {
+          id: 2,
+          icon: CalendarMonth,
+          title: "Availability",
+          link: "/availability",
+          isSelected: false
+        },
+        {
+          id: 3,
+          icon: PeopleAlt,
+          title: "Waitlist",
+          link: "/waitlist",
+          isSelected: false
+        },
+        {
+          id: 4,
+          icon: CrisisAlert,
+          title: "Crisis",
+          link: "https://caps.byu.edu/for-students-in-crisis",
+          isSelected: false
+        }
+      ])
+    } else {
+      return ([
+
+      ])
+    }
   });
 
 
@@ -138,7 +212,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
       }
     ];
   });
-  
+
 
   // OTHER FUNCTIONS
   useEffect(() => {
@@ -150,13 +224,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
         ...icon,
         isSelected: icon.link === finalPath
       }));
-  
+
       // Set all isSelected to false in sidebarItems
       const updatedIcons = sidebarItems.map((icon) => ({
         ...icon,
         isSelected: icon.link === finalPath
       }));
-  
+
       setSidebarBottomItems(updatedBottomIcons);
       setSidebarItems(updatedIcons);
     };
@@ -201,13 +275,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
                     }]
                   }
                 }}
-                >
+              >
                 <Grid container direction="column" alignItems="center">
                   <Grid item>
                     {item.icon && (
                       <item.icon
                         sx={{
-                          color: item.isSelected ? '#1FB3D1' : 'text.tertiary',
+                          color: item.isSelected ? '#bfdfff' : 'text.tertiary',
                           fontSize: '35px',
                         }}
                       />)}
@@ -216,9 +290,9 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
                     <Grid item>
                       <ListItemText
                         primary={item.title}
-                        primaryTypographyProps={{fontSize: '14px'}}
+                        primaryTypographyProps={{ fontSize: '14px' }}
                         sx={{
-                          color: '#1FB3D1',
+                          color: '#bfdfff',
                           textAlign: 'center',
                           textWrap: 'wrap'
                         }}
@@ -234,13 +308,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
 
 
 
-      <Divider sx={{ mt: 'auto', backgroundColor: "secondary.main" }} flexItem />
+      <Divider sx={{ mt: 'auto', backgroundColor: "tertiary.main" }} flexItem />
 
       <List>
         {sidebarBottomItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ cursor: "pointer", paddingBottom: 1 }}>
             <ListItemButton onClick={() => handleBottomIconClick(item.link)} sx={{ padding: 0 }}>
-            <Tooltip
+              <Tooltip
                 title={item.title}
                 disableFocusListener
                 disableTouchListener
@@ -255,13 +329,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
                     }]
                   }
                 }}
-                >
+              >
                 <Grid container direction="column" alignItems="center">
                   <Grid item>
                     {item.icon && (
                       <item.icon
                         sx={{
-                          color: item.isSelected ? '#1FB3D1' : 'text.tertiary',
+                          color: item.isSelected ? '#bfdfff' : 'text.tertiary',
                           fontSize: '35px',
                         }}
                       />)}
@@ -270,9 +344,9 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ }) => {
                     <Grid item>
                       <ListItemText
                         primary={item.title}
-                        primaryTypographyProps={{fontSize: '14px'}}
+                        primaryTypographyProps={{ fontSize: '14px' }}
                         sx={{
-                          color: '#1FB3D1',
+                          color: '#bfdfff',
                           textAlign: 'center',
                           textWrap: 'wrap'
                         }}

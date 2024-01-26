@@ -14,7 +14,6 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
   const session = await getServerSession();
-
   
   return (
     <html lang="en">

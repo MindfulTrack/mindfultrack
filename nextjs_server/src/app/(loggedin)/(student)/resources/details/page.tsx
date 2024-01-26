@@ -46,25 +46,24 @@ function a11yProps(index: number) {
 
 const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const mockData = mockResources;
+  const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  // const [selectedResourceId, setSelectedResourceId] = React.useState(0);
   const handleTabClick = (id: number) => {
-    // setSelectedResourceId(id);
     updateSelectedResourceId(id);
   }
 
-  const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
 
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={selectedResourceId - 1} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto">
+          <Tabs value={selectedResourceId} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto" indicatorColor="secondary" textColor="secondary">
+            <Tab label="Favorites" {...a11yProps(0)} onClick={() => handleTabClick(0)} />
             {mockData.resources.map((resource) => (
               <Tab label={resource.name} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)} />
             ))}

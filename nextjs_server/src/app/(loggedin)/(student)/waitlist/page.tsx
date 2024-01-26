@@ -18,7 +18,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = () => {
   return (
     <Box>
       <div>
-        <Paper sx={{backgroundColor: "tertiary.main", height: "4rem", marginBottom: 2}}>
+        <Paper sx={{backgroundColor: "secondary.main", height: "4rem", marginBottom: 2}}>
             <Typography variant='h4' color="text.tertiary" sx={{textAlign: "left", paddingLeft: "15px", verticalAlign: 'middle'}}>WAITLIST</Typography>
         </Paper>
       </div>
