@@ -40,7 +40,7 @@ const SIGN_IN_HANDLERS = {
 const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
 const authOptions = {
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: BACKEND_REFRESH_TOKEN_LIFETIME,
@@ -88,6 +88,7 @@ const authOptions = {
             headers: {
               'Content-Type': 'application/json'}
           });
+          console.log(response)
           const data = response.data;
           console.log(data)
           if (data) return data;
@@ -103,7 +104,9 @@ const authOptions = {
   ],
   callbacks: {
     async signIn({user, account, profile, email, credentials}) {
+      console.log("START\n\n\n\n")
       console.log(user)
+      console.log("END\n\n\n\n")
       if (user['error']){
         return '/signin/'+user['error']
       }
@@ -115,12 +118,16 @@ const authOptions = {
     },
     async jwt({user, token, account}) {
       // If `user` and `account` are set that means it is a login event
+      console.log(token)   
+
       if (user && account) {
         let backendResponse = account.provider === "credentials" ? user : account.meta;
+        console.log(backendResponse)
         token["user"] = backendResponse.user;
         token["access_token"] = backendResponse.access;
         token["refresh_token"] = backendResponse.refresh;
         token["ref"] = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+        
         return token;
       }
       // Refresh the backend token if necessary

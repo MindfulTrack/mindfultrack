@@ -157,15 +157,16 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,
-    "SIGNING_KEY": "complexsigningkey",  # generate a key and replace me
+    "SIGNING_KEY": "P0Pg+jqZrUL3aAnLMQPihLSWPvCY3IX/zU95nJVCTbw=",
     "ALGORITHM": "HS512",
+    "TOKEN_OBTAIN_SERIALIZER": "baseapp.serializers.CustomTokenObtainPairSerializer",
 }
 
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
 }
 
 SITE_ID = 1
@@ -175,6 +176,7 @@ SITE_ID = 1
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
+    'JWT_SERIALIZER': 'baseapp.serializers.JWTSerializer',
 }
 
 if DEBUG:
