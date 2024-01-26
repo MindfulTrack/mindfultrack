@@ -9,3 +9,4 @@ class TestView(APIView):
         tests = Test.objects.all()
         serializer = TestSerializer(tests, many=True)
         return Response(serializer.data)
+
