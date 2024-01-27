@@ -39,7 +39,7 @@ const SIGN_IN_HANDLERS = {
 };
 const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
-const authOptions = {
+export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -48,17 +48,8 @@ const authOptions = {
   pages: {
     signIn: '/signin',
     error: '/signin',
-    // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/auth/verify-request', // (used for check email message)
-    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   providers: [
-    // EmailProvider({
-    //   server: process.env.EMAIL_SERVER,
-    //   from: process.env.EMAIL_FROM,
-    //   // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
-    //   }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -79,7 +70,6 @@ const authOptions = {
       // The data returned from this function is passed forward as the
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
-        // console.log(credentials)
         try {
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
@@ -150,26 +140,6 @@ const authOptions = {
     async session({token}) {
       return token;
     },
-    // async redirect({ url, baseUrl }) {
-    //   const isRelativeUrl = url.startsWith("/");
-    //   if (isRelativeUrl) {
-    //     return `${baseUrl}${url}`;
-    //   }
-
-    //   const isSameOriginUrl = new URL(url).origin === baseUrl;
-    //   const alreadyRedirected = url.includes('callbackUrl=')
-    //   if (isSameOriginUrl && alreadyRedirected) {
-    //     const originalCallbackUrl = decodeURIComponent(url.split('callbackUrl=')[1]);
-
-    //     return originalCallbackUrl;
-    //   }
-
-    //   if (isSameOriginUrl) {
-    //     return url;
-    //   }
-
-    //   return baseUrl;
-    // }
   }
 };
 

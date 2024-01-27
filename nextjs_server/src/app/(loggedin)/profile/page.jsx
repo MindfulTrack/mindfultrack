@@ -40,6 +40,7 @@ export default function Profile() {
           <Typography>PK: {session.user.pk}</Typography>
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
+          <Typography>Permissions: {session.user.groups || "Not provided"}</Typography>
           <Typography variant="code">
             {response}
           </Typography>
