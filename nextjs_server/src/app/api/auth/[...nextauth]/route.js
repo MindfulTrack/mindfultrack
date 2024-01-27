@@ -39,7 +39,7 @@ const SIGN_IN_HANDLERS = {
 };
 const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
-export const authOptions = {
+const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -70,6 +70,7 @@ export const authOptions = {
       // The data returned from this function is passed forward as the
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
+        // console.log(credentials)
         try {
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
@@ -144,4 +145,4 @@ export const authOptions = {
 };
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST};
+export { handler as GET, handler as POST , authOptions};
