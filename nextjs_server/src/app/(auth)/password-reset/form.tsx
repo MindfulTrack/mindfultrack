@@ -31,6 +31,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
       })
     });
     if(response.status == 200){
+      setOpen(true)
       console.log("EMAIL SENT")
     }
     console.log(response)
