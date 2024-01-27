@@ -29,12 +29,20 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
   const error = String(decodeURIComponent(params.error))
   // let passwordError = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(true);
+  const [openVerify, setOpenVerify] = React.useState(true);
 
   const handleClose = (event: any, reason: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
+  };
+
+  const handleCloseVerify = (event: any, reason: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenVerify(false);
   };
 
   const handleSubmit = async (event: any) => {
@@ -56,7 +64,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
         })
       }).then((response) => {
         if(response.status === 200){
-          router.push("/");
+          // router.push("/");
+          setOpenVerify(true)
         }
         return response.json();
       })
@@ -100,12 +109,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {open ? <Alert severity="error" onClose={() => handleClose}>
-        {error}
-        </Alert> : null}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {open ? <Alert severity="error" onClose={() => handleClose}>
+        {error}
+        </Alert> : null}
+        { openVerify ? <Alert severity="success" onClose={() => handleCloseVerify}>
+        Email Verification Sent!
+        </Alert> : null}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
