@@ -7,13 +7,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../theme';
 import NavBar from './components/NavBar';
 import MyProvider from './MyProvider';
+import { authOptions } from './api/auth/[...nextauth]/route.js';
 
 interface RootLayoutProps {
   children: ReactNode
 }
 
 const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
-  const session = await getServerSession();
+  const op : any = authOptions
+  const session : any = await getServerSession(op);
   
   return (
     <html lang="en">
