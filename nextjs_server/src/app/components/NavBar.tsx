@@ -15,7 +15,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = () => {
 
-  const { data: session, status } = useSession();
+  const {data: session, status} : any = useSession({required: true});
 
   const router = useRouter();
   const handleGoHome = () => {
@@ -53,14 +53,14 @@ const NavBar: React.FC<NavBarProps> = () => {
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <IconButton sx={{width: 'auto', height: '50px', cursor: 'pointer'}} href='/resources'>
-                  <Home sx={{ fontSize: '50px', paddingRight: '1rem', color: 'text.tertiary' }}/>
+                  <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
                 <Button
                   color="inherit"
                   sx={{ cursor: "pointer" }}
                   onClick={() => signOut()}
                 >
-                  {session.user?.email}
+                  {session.user?.first_name} {session.user?.last_name}
                 </Button>
                 <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
               </div>
