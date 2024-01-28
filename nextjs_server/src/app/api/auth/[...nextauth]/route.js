@@ -48,17 +48,8 @@ const authOptions = {
   pages: {
     signIn: '/signin',
     error: '/signin',
-    // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
-    // verifyRequest: '/auth/verify-request', // (used for check email message)
-    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   providers: [
-    // EmailProvider({
-    //   server: process.env.EMAIL_SERVER,
-    //   from: process.env.EMAIL_FROM,
-    //   // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
-    //   }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -150,28 +141,8 @@ const authOptions = {
     async session({token}) {
       return token;
     },
-    // async redirect({ url, baseUrl }) {
-    //   const isRelativeUrl = url.startsWith("/");
-    //   if (isRelativeUrl) {
-    //     return `${baseUrl}${url}`;
-    //   }
-
-    //   const isSameOriginUrl = new URL(url).origin === baseUrl;
-    //   const alreadyRedirected = url.includes('callbackUrl=')
-    //   if (isSameOriginUrl && alreadyRedirected) {
-    //     const originalCallbackUrl = decodeURIComponent(url.split('callbackUrl=')[1]);
-
-    //     return originalCallbackUrl;
-    //   }
-
-    //   if (isSameOriginUrl) {
-    //     return url;
-    //   }
-
-    //   return baseUrl;
-    // }
   }
 };
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST};
+export { handler as GET, handler as POST , authOptions};

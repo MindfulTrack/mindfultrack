@@ -24,14 +24,14 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const response = await fetch("api/auth/password-reset-request/", {
+    const response = await fetch("api/auth/email-verify-resend/", {
       method: 'POST',
       body: JSON.stringify({
         email: data.get('email'),
       })
     });
     if(response.status == 200){
-      setOpen(true)
+      setOpen(true);
       console.log("EMAIL SENT")
     }
     console.log(response)
@@ -47,11 +47,13 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Password Reset
+          Send Email Verification
         </Typography>
+        
         { open ? <Alert severity="success" onClose={() => handleClose}>
         Email Sent!
         </Alert> : null}
+
         <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -70,7 +72,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
             variant="contained"
             sx={{ mt: 3, mb: 3 }}
           >
-            Send Reset Email
+            Send Email Verification
           </Button>
         </Box>
       </Box>

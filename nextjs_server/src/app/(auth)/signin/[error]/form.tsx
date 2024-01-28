@@ -59,14 +59,19 @@ const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {open ? <Alert severity="error" onClose={() => handleClose}>
-        {error}
-        </Alert> : null}
-        {/* {open ? <Alert onClose={handleClose}>This is an alert message</Alert> : null} */}
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {/* const defaultTheme = createTheme(); */}
+
+        {error === 'E-mail is not verified.' ? <Alert severity="error" action={<Button href="/email">
+              Resend Email Verification?
+          </Button>}>
+          {error}
+        </Alert> : open ? <Alert severity="error" onClose={() => handleClose}>
+        {error}
+        </Alert> : null
+        }
+        
         <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"

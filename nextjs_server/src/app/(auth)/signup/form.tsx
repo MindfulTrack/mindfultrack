@@ -53,7 +53,8 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         })
       }).then((response) => {
         if(response.status === 200){
-          router.push("/");
+          setOpen(true)
+          // router.push("/");
         }
         return response.json();
       })
@@ -98,12 +99,14 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {/* {open ? <Alert severity="error" onClose={() => handleClose}>
-        {error}
-        </Alert> : null} */}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+
+        { open ? <Alert severity="success" onClose={() => handleClose}>
+        Email Verification Sent!
+        </Alert> : null}
+        
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

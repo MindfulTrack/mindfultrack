@@ -16,6 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { checkPermission } from '../../customFunctions/checkPermission';
 import { Permissions } from '../../ts/constants';
 
+
 interface SidebarItem {
   icon: string;
   title: string;
@@ -28,7 +29,7 @@ interface SideNavBarProps {
 
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
-
+  console.log(userRole)
   const router = useRouter();
   const pathname = usePathname();
 
