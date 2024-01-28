@@ -4,7 +4,7 @@ import { Box, AppBar, Toolbar, Typography, Button, Link } from '@mui/material';
 import { SelfImprovement } from '@mui/icons-material';
 import { signIn, signOut, useSession } from "next-auth/react";
 import Divider from '@mui/material/Divider';
-import BYU_White from '../static/byuLogo/Monogram/PNG/BYU_White.png';
+import BYU_White from '/public/static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 
