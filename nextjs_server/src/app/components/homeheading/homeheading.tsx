@@ -7,7 +7,7 @@ import "./hero.styles.css";
 import heroImage from "../../assets/image-hero-portrait@2x.png";
 import React from "react";
 import Image from "next/legacy/image";
-import pic from '../../static/images/headingMountain.jpg'
+import pic from '../../../../public/static/images/indexMainHeading.jpg'
 
 interface HomeHeadingProps {
 
@@ -37,7 +37,7 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
           </Typography>
 
           <div className="hero-p" style={{ display: 'flex', width: '100%' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
             <Typography variant="body1" sx={{paddingRight: '5rem'}}>
               MindfulTrack will help you find and use
               resources while we do the rest.

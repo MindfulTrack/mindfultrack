@@ -1,12 +1,13 @@
 "use client"
 import * as React from 'react';
-import { Box, AppBar, Toolbar, Typography, Button, Link } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Button, Link, IconButton } from '@mui/material';
 import { SelfImprovement } from '@mui/icons-material';
 import { signIn, signOut, useSession } from "next-auth/react";
 import Divider from '@mui/material/Divider';
 import BYU_White from '/public/static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
+import { Home } from '@mui/icons-material';
 
 interface NavBarProps {
 
@@ -31,7 +32,7 @@ const NavBar: React.FC<NavBarProps> = () => {
             <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
 
               <div style={{ display: 'inline-flex' }}>
-              <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
+                <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
 
                 <Divider orientation='vertical' flexItem sx={{ backgroundColor: "tertiary.main" }} />
 
@@ -50,7 +51,10 @@ const NavBar: React.FC<NavBarProps> = () => {
                 </div>
               </div>
 
-              <div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <IconButton sx={{width: 'auto', height: '50px', cursor: 'pointer'}} href='/resources'>
+                  <Home sx={{ fontSize: '50px', paddingRight: '1rem', color: 'text.tertiary' }}/>
+                </IconButton>
                 <Button
                   color="inherit"
                   sx={{ cursor: "pointer" }}
