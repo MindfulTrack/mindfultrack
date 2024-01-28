@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Image from "next/legacy/image";
-import mountains from './static/images/headingMountain.JPG';
+import mountains from '/public/static/images/headingMountain.JPG';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
