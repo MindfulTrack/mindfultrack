@@ -1,6 +1,6 @@
 'use client'
 import { Grid, Card, Container, Typography, List, ListItemText } from "@mui/material";
-import happyStudents from '../../../../public/static/images/happyStudents.jpg';
+import happyStudents from '/public/static/images/happyStudents.jpg';
 import "./jeremy.styles.css";
 import React from "react";
 import Image from "next/legacy/image";
