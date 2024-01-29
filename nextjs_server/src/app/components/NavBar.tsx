@@ -15,15 +15,21 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = () => {
 
-  const {data: session, status} : any = useSession({required: true});
+  const {data: session, status} : any = useSession();
 
   const router = useRouter();
   const handleGoHome = () => {
     router.push('/');
   }
 
+  const redirectLink = () => {
+    router.push('/resources');
+  }
+
+  console.log("HERE HERE")
+
   // If the user is authenticated redirect to `/profile`
-  if (session) {
+  // if (session) {
     // router.push("profile");
     return (
       <>
@@ -55,13 +61,12 @@ const NavBar: React.FC<NavBarProps> = () => {
                 <IconButton sx={{width: 'auto', height: '50px', cursor: 'pointer'}} href='/resources'>
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
-                <Button
-                  color="inherit"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => signOut()}
-                >
+                {session ? (
+                <Button color="inherit" sx={{ cursor: "pointer" }} onClick={() => redirectLink}>
                   {session.user?.first_name} {session.user?.last_name}
-                </Button>
+                </Button>)
+                : (<Button color="inherit" onClick={() => signIn(undefined, { callbackUrl: "/profile" })}> Login</Button>)}
+
                 <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
               </div>
             </Toolbar>
@@ -69,49 +74,49 @@ const NavBar: React.FC<NavBarProps> = () => {
         </Box>
       </>
     );
-  }
-  else {
+  // }
+  // else {
 
-    return (
-      <>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="fixed" >
-            <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
+  //   return (
+  //     <>
+  //       <Box sx={{ flexGrow: 1 }}>
+  //         <AppBar position="fixed" >
+  //           <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
 
-              <div style={{ display: 'inline-flex' }}>
-                <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
+  //             <div style={{ display: 'inline-flex' }}>
+  //               <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
 
-                <Divider orientation='vertical' flexItem sx={{ backgroundColor: "tertiary.main" }} />
+  //               <Divider orientation='vertical' flexItem sx={{ backgroundColor: "tertiary.main" }} />
 
-                <div style={{ paddingLeft: "15px" }}>
+  //               <div style={{ paddingLeft: "15px" }}>
 
-                  <Link href="https://byu.edu" target="_blank">
-                    <Image
-                      src={BYU_White}
-                      width={140}
-                      height={40}
-                      priority={true}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </Link>
-                </div>
-              </div>
+  //                 <Link href="https://byu.edu" target="_blank">
+  //                   <Image
+  //                     src={BYU_White}
+  //                     width={140}
+  //                     height={40}
+  //                     priority={true}
+  //                     style={{ cursor: 'pointer' }}
+  //                   />
+  //                 </Link>
+  //               </div>
+  //             </div>
 
-              <div>
-                <Button
-                  color="inherit"
-                  onClick={() => signIn(undefined, { callbackUrl: "/profile" })}
-                >
-                  Login
-                </Button>
-                <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
-              </div>
-            </Toolbar>
-          </AppBar>
-        </Box>
-      </>
-    );
-  }
+  //             <div>
+  //               <Button
+  //                 color="inherit"
+  //                 onClick={() => signIn(undefined, { callbackUrl: "/profile" })}
+  //               >
+  //                 Login
+  //               </Button>
+  //               <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
+  //             </div>
+  //           </Toolbar>
+  //         </AppBar>
+  //       </Box>
+  //     </>
+  //   );
+  // }
 };
 
 export default NavBar;

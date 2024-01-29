@@ -37,7 +37,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
   const handleIconClick = (url: string, title: string) => {
 
     const targetAttribute = title === "Crisis" ? "_blank" : "_self";
-
+      
     // window.open if it is crisis
     if (targetAttribute === '_blank') {
       window.open(url, '_blank');

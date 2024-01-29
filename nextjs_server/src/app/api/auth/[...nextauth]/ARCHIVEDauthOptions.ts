@@ -1,11 +1,11 @@
-// pages/api/auth/[...nextauth].js
+// // pages/api/auth/[...nextauth].js
 
-import NextAuth from "next-auth";
-import { authOptions } from "./authOptions";
-import CredentialsProvider from "next-auth/providers/credentials";
-import EmailProvider from "next-auth/providers/email";
-import GoogleProvider from "next-auth/providers/google";
-import axios from "axios";
+// import NextAuth from "next-auth";
+// import { NextAuthOptions } from "next-auth";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import EmailProvider from "next-auth/providers/email";
+// import GoogleProvider from "next-auth/providers/google";
+// import axios from "axios";
 
 // // These two values should be a bit less than actual token lifetimes
 // const BACKEND_ACCESS_TOKEN_LIFETIME = 45 * 60;            // 45 minutes
@@ -15,11 +15,11 @@ import axios from "axios";
 //   return Math.floor(new Date().getTime() / 1000);
 // };
 
-// const SIGN_IN_HANDLERS = {
-//   "credentials": async (user, account, profile, email, credentials) => {
+// const SIGN_IN_HANDLERS : any = {
+//   "credentials": async (user: any, account : any, profile : any, email : any, credentials: any) => {
 //     return true;
 //   },
-//   "google": async (user, account, profile, email, credentials) => {
+//   "google": async (user : any, account: any, profile : any, email : any, credentials : any) => {
 //     try {
 //       const response = await axios({
 //         method: "post",
@@ -38,9 +38,9 @@ import axios from "axios";
 //     }
 //   }
 // };
-// const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
+// const SIGN_IN_PROVIDERS : any = Object.keys(SIGN_IN_HANDLERS);
 
-// const authOptions = {
+// export const authOptions : NextAuthOptions = {
 //   secret: process.env.NEXTAUTH_SECRET,
 //   session: {
 //     strategy: "jwt",
@@ -52,8 +52,8 @@ import axios from "axios";
 //   },
 //   providers: [
 //     GoogleProvider({
-//       clientId: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       clientId: process.env.GOOGLE_CLIENT_ID as string,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 //       authorization: {
 //         params: {
 //           prompt: "consent",
@@ -84,7 +84,7 @@ import axios from "axios";
 //           const data = response.data;
 //           console.log(data)
 //           if (data) return data;
-//         } catch (error) {
+//         } catch (error : any) {
 //           console.log(error.response.data.non_field_errors);
 //           console.log(error.response.data.non_field_errors[0])
 //           // console.error(error);
@@ -108,12 +108,12 @@ import axios from "axios";
 //         user, account, profile, email, credentials
 //       );
 //     },
-//     async jwt({user, token, account}) {
+//     async jwt({user, token : any, account}) {
 //       // If `user` and `account` are set that means it is a login event
 //       console.log(token)   
 
 //       if (user && account) {
-//         let backendResponse = account.provider === "credentials" ? user : account.meta;
+//         let backendResponse : any = account.provider === "credentials" ? user : account.meta;
 //         console.log(backendResponse)
 //         token["user"] = backendResponse.user;
 //         token["access_token"] = backendResponse.access;
@@ -139,11 +139,9 @@ import axios from "axios";
 //     },
 //     // Since we're using Django as the backend we have to pass the JWT
 //     // token to the client instead of the `session`.
-//     async session({token}) {
+//     async session : session ({token}) {
 //       return token;
 //     },
 //   }
 // };
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST};
