@@ -1,3 +1,4 @@
+
 import React, { ReactNode } from 'react';
 import SessionProvider from './components/SessionProvider'
 import { getServerSession } from "next-auth";
@@ -28,7 +29,7 @@ const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
                 <CssBaseline />
 
                 <NavBar />
-      
+
                 {children}
               </MyProvider>
             </ThemeProvider>

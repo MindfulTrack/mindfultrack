@@ -9,10 +9,10 @@ interface CopyrightProps {
 const Copyright: React.FC<CopyrightProps> = ({ color }) => {
 
     return (
-      <Typography variant="body2" color={color} align="center">
+      <Typography variant="body2" color={color} align="center" sx={{marginTop: '6rem'}}>
         {'Copyright © '}
         <Link color="inherit" href="https://mui.com/">
-          Your Website
+          MindfulTrack
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
