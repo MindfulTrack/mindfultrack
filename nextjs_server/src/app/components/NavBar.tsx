@@ -22,8 +22,8 @@ const NavBar: React.FC<NavBarProps> = () => {
     router.push('/');
   }
 
-  const profile = () => {
-    router.push('/profile');
+  const redirectLink = () => {
+    router.push('/resources');
   }
 
   console.log("HERE HERE")
@@ -62,7 +62,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
                 {session ? (
-                <Button color="inherit" sx={{ cursor: "pointer" }} onClick={() => profile}>
+                <Button color="inherit" sx={{ cursor: "pointer" }} onClick={() => redirectLink}>
                   {session.user?.first_name} {session.user?.last_name}
                 </Button>)
                 : (<Button color="inherit" onClick={() => signIn(undefined, { callbackUrl: "/profile" })}> Login</Button>)}
