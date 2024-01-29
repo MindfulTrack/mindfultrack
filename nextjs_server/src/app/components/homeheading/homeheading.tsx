@@ -7,7 +7,7 @@ import "./hero.styles.css";
 import heroImage from "../../assets/image-hero-portrait@2x.png";
 import React from "react";
 import Image from "next/legacy/image";
-// import pic from '/static/images/indexMainHeading.jpg'
+import pic from '/public/static/images/indexMainHeading.jpg'
 
 interface HomeHeadingProps {
 
@@ -46,7 +46,7 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
             </Typography>
             <ButtonPrimary/>
             </div>
-            <Image src={'/static/images/indexMainHeading.jpg'} style={{ borderRadius: '15px' }} />
+            <Image src={pic} style={{ borderRadius: '15px' }} />
           </div>
         </Grid>
       </Grid>
