@@ -1,6 +1,6 @@
 'use client'
 import { Grid, Card, Container, Typography, List, ListItemText } from "@mui/material";
-import happyStudents from '../../../../public/static/images/happyStudents.jpg';
+// import happyStudents from '/static/images/happyStudents.jpg';
 import "./jeremy.styles.css";
 import React from "react";
 import Image from "next/legacy/image";
@@ -33,7 +33,7 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '10px' }}>
               <Image
                 alt="jeremy"
-                src={happyStudents}
+                src={'/statis/images/happyStudnets.jpg'}
                 priority={true}
                 width={600}
                 height={150}
