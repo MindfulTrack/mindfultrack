@@ -7,7 +7,7 @@ import "./hero.styles.css";
 import heroImage from "../../assets/image-hero-portrait@2x.png";
 import React from "react";
 import Image from "next/legacy/image";
-import pic from '/public/static/images/indexMainHeading.jpg'
+import pic from '/public/static/images/indexMainHeading1.jpg'
 
 interface HomeHeadingProps {
 
