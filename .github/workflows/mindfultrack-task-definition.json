@@ -3,7 +3,7 @@
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 410,
+            "cpu": 190,
             "memory": 1024,
             "portMappings": [
                 {
@@ -84,7 +84,7 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 410,
+            "cpu": 190,
             "memory": 1024,
             "portMappings": [
                 {
@@ -151,7 +151,7 @@
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "1024",
+    "cpu": "512",
     "memory": "3072",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
