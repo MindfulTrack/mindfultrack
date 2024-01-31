@@ -186,6 +186,8 @@ else:
         "http://localhost:3000",
         "https://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://mindfultrack.org",
+        "http://mindfultrack.org:3000",
     ]
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -216,12 +218,12 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
-    "http://localhost:3000/email/confirm/"
+    os.environ.get("EMAIL_CONFIRM_REDIRECT_BASE_URL")
+
 
 # <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
-    "http://localhost:3000/password-reset/confirm/"
-
+    os.environ.get("PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
