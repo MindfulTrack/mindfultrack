@@ -38,13 +38,13 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
 
           <div className="hero-p" style={{ display: 'flex', width: '100%' }}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
+            <ButtonPrimary />
             <Typography variant="body1" sx={{paddingRight: '5rem'}}>
               MindfulTrack will help you find and use
               resources while we do the rest.
               We will track your place in line and
               notify you when it is your turn to receive your school's services.
             </Typography>
-            <ButtonPrimary/>
             </div>
             <Image src={pic} style={{ borderRadius: '15px' }} />
           </div>

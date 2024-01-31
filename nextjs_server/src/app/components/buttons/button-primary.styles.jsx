@@ -6,5 +6,6 @@ export const StyledButtonPrimary = styled(Button)({
   padding: "15px 31px",
   backgroundImage: "none",
   transition: "all .3s",
-  marginRight: '5rem'
+  marginRight: '5rem',
+  backgroundColor: '#0062B8'
 });
