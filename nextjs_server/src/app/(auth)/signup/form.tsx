@@ -17,14 +17,14 @@ import { useRouter } from 'next/navigation';
 import Divider from '@mui/material/Divider';
 
 interface SignUpFormProps {
-
+  [key: string]: any; 
 };
 
 const SignUpForm: React.FC<SignUpFormProps> = () => {
   const router = useRouter();
   
   //Error Alert
-  let error = "PASSWORDS DO NOT MATCH";
+  let passwordError = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(false);
 
   const handleClose = (event: any, reason: string) => {
@@ -41,24 +41,43 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     const data = new FormData(event.currentTarget);
 
     if(data.get('password') === data.get('password2')){
-    const response = await fetch("api/auth/signup", {
-      method: 'POST',
-      body: JSON.stringify({
-        email: data.get('email'),
-        username: data.get('email'),
-        password: data.get('password'),
-        password2: data.get('password2'),
-        first_name: data.get('firstName'),
-        last_name: data.get('lastName'),
+      const response = await fetch("api/auth/signup", {
+        method: 'POST',
+        body: JSON.stringify({
+          email: data.get('email'),
+          username: data.get('email'),
+          password: data.get('password'),
+          password2: data.get('password2'),
+          first_name: data.get('firstName'),
+          last_name: data.get('lastName'),
+        })
+      }).then((response) => {
+        if(response.status === 200){
+          setOpen(true)
+          // router.push("/");
+        }
+        return response.json();
       })
-    });
-
-    if(response.status === 200){
-      router.push("/");
-    }
-    console.log(response)
+      .then((data) => {
+        let error = '';
+        const holder: holder = data.error;
+        interface holder {
+          [key: string]: any
+        }
+        for (const [key, value] of Object.entries(holder)) {
+          
+          console.log(value)
+          value.forEach((element: any) => {
+            console.log(element)
+            error += element + ' '
+          });
+        }
+        router.push("/signup/"+error);
+      });
+    
     }
     else{
+      router.push("/signup/"+"Passwords do not match!");
       setOpen(true);
     }
   };
@@ -80,12 +99,14 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        {open ? <Alert severity="error" onClose={() => handleClose}>
-        {error}
-        </Alert> : null}
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+
+        { open ? <Alert severity="success" onClose={() => handleClose}>
+        Email Verification Sent!
+        </Alert> : null}
+        
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

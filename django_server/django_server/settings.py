@@ -74,7 +74,7 @@ ROOT_URLCONF = 'django_server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'django_server.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
+        "ENGINE": "django.db.backends.postgresql", #os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
         "NAME": os.environ.get("POSTGRES_DB", os.path.join(BASE_DIR, "db.sqlite3")),
         "USER": os.environ.get("POSTGRES_USER", "user"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "password"),
@@ -157,15 +157,16 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,
-    "SIGNING_KEY": "complexsigningkey",  # generate a key and replace me
+    "SIGNING_KEY": "P0Pg+jqZrUL3aAnLMQPihLSWPvCY3IX/zU95nJVCTbw=",
     "ALGORITHM": "HS512",
+    "TOKEN_OBTAIN_SERIALIZER": "baseapp.serializers.CustomTokenObtainPairSerializer",
 }
 
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
 }
 
 SITE_ID = 1
@@ -175,6 +176,7 @@ SITE_ID = 1
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
+    'JWT_SERIALIZER': 'baseapp.serializers.JWTSerializer',
 }
 
 if DEBUG:
@@ -184,6 +186,8 @@ else:
         "http://localhost:3000",
         "https://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://mindfultrack.org",
+        "http://mindfultrack.org:3000",
     ]
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -214,12 +218,12 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
 EMAIL_CONFIRM_REDIRECT_BASE_URL = \
-    "http://localhost:3000/email/confirm/"
+    os.environ.get("EMAIL_CONFIRM_REDIRECT_BASE_URL")
+
 
 # <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = \
-    "http://localhost:3000/password-reset/confirm/"
-
+    os.environ.get("PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST")

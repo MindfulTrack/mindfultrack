@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# from baseapp.serializers import CustomTokenObtainPairView
 
 urlpatterns = [
     path('api/base/', include('baseapp.urls')),
     path('api/auth/', include('authentication.urls')),
+    # path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('admin/', admin.site.urls),
 ]

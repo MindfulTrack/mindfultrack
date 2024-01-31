@@ -3,7 +3,7 @@
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 410,
+            "cpu": 190,
             "memory": 1024,
             "portMappings": [
                 {
@@ -15,62 +15,66 @@
                 }
             ],
             "essential": true,
-            "environment": [
+            "secrets": [
                 {
                     "name": "EMAIL_PORT",
-                    "value": "{{resolve:ssm:/prod/email_port}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/email_port"
                 },
                 {
                     "name": "POSTGRES_USER",
-                    "value": "{{resolve:ssm:/prod/postgres_user}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/postgres_user"
                 },
                 {
                     "name": "GOOGLE_CLIENT_SECRET",
-                    "value": "{{resolve:ssm:/prod/google_client_secret}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/google_client_secret"
                 },
                 {
                     "name": "DB_PORT",
-                    "value": "{{resolve:ssm:/prod/db_port}}"
-                },
-                {
-                    "name": "NEXTAUTH_SECRET",
-                    "value": "{{resolve:ssm:/prod/nextauth_secret}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/db_port"
                 },
                 {
                     "name": "GOOGLE_CLIENT_ID",
-                    "value": "{{resolve:ssm:/prod/google_client_id}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/google_client_id"
                 },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "value": "{{resolve:ssm:/prod/postgres_password}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/postgres_password"
                 },
                 {
                     "name": "EMAIL_HOST",
-                    "value": "{{resolve:ssm:/prod/email_host}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/email_host"
                 },
                 {
                     "name": "POSTGRES_DB",
-                    "value": "{{resolve:ssm:/prod/postgres_db}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/postgres_db"
                 },
                 {
                     "name": "DB_HOST",
-                    "value": "{{resolve:ssm:/prod/db_host}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/db_host"
                 },
                 {
                     "name": "DB_ENGINE",
-                    "value": "{{resolve:ssm:/prod/db_engine}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/db_engine"
                 },
                 {
                     "name": "EMAIL_HOST_PASSWORD",
-                    "value": "{{resolve:ssm:/prod/email_host_password}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/email_host_password"
                 },
                 {
                     "name": "EMAIL_HOST_USER",
-                    "value": "{{resolve:ssm:/prod/email_host_user}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/email_host_user"
                 },
                 {
                     "name": "DJANGO_SECRET",
-                    "value": "{{resolve:ssm:/prod/django_secret}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/django_secret"
+                },
+                {
+                    "name": "EMAIL_CONFIRM_REDIRECT_BASE_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/email_confirm_redirect_base_url"
+                },
+                {
+                    "name": "PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/password_reset_confirm_redirect_base_url"
                 }
             ],
             "mountPoints": [],
@@ -88,7 +92,7 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 410,
+            "cpu": 190,
             "memory": 1024,
             "portMappings": [
                 {
@@ -100,62 +104,38 @@
                 }
             ],
             "essential": true,
-            "environment": [
-                {
-                    "name": "EMAIL_PORT",
-                    "value": "{{resolve:ssm:/prod/email_port}}"
-                },
-                {
-                    "name": "POSTGRES_USER",
-                    "value": "{{resolve:ssm:/prod/postgres_user}}"
-                },
+            "secrets": [
                 {
                     "name": "GOOGLE_CLIENT_SECRET",
-                    "value": "{{resolve:ssm:/prod/google_client_secret}}"
-                },
-                {
-                    "name": "DB_PORT",
-                    "value": "{{resolve:ssm:/prod/db_port}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/google_client_secret"
                 },
                 {
                     "name": "NEXTAUTH_SECRET",
-                    "value": "{{resolve:ssm:/prod/nextauth_secret}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/nextauth_secret"
                 },
                 {
                     "name": "GOOGLE_CLIENT_ID",
-                    "value": "{{resolve:ssm:/prod/google_client_id}}"
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/google_client_id"
                 },
                 {
-                    "name": "POSTGRES_PASSWORD",
-                    "value": "{{resolve:ssm:/prod/postgres_password}}"
+                    "name": "NEXT_PUBLIC_BACKEND_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_backend_url"
                 },
                 {
-                    "name": "EMAIL_HOST",
-                    "value": "{{resolve:ssm:/prod/email_host}}"
+                    "name": "NEXT_PUBLIC_BASE_URL_PROD",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_base_url_prod"
                 },
                 {
-                    "name": "POSTGRES_DB",
-                    "value": "{{resolve:ssm:/prod/postgres_db}}"
+                    "name": "NEXTAUTH_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/nextauth_url"
                 },
                 {
-                    "name": "DB_HOST",
-                    "value": "{{resolve:ssm:/prod/db_host}}"
+                    "name": "NEXTAUTH_BACKEND_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/nextauth_backend_url"
                 },
                 {
-                    "name": "DB_ENGINE",
-                    "value": "{{resolve:ssm:/prod/db_engine}}"
-                },
-                {
-                    "name": "EMAIL_HOST_PASSWORD",
-                    "value": "{{resolve:ssm:/prod/email_host_password}}"
-                },
-                {
-                    "name": "EMAIL_HOST_USER",
-                    "value": "{{resolve:ssm:/prod/email_host_user}}"
-                },
-                {
-                    "name": "DJANGO_SECRET",
-                    "value": "{{resolve:ssm:/prod/django_secret}}"
+                    "name": "NEXT_PUBLIC_BASE_URL_DEV",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_base_url_dev"
                 }
             ],
             "mountPoints": [],
@@ -179,7 +159,7 @@
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "1024",
+    "cpu": "512",
     "memory": "3072",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",

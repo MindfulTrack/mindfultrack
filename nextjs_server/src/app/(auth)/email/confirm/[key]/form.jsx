@@ -35,7 +35,6 @@ export default function ConfirmEmailForm({ params }) {
         <Typography component="h1" variant="h5">
           Email Verification
         </Typography>
-        {/* const defaultTheme = createTheme(); */}
         <Box sx={{ mt: 1 }}>
           <Button
             type="button"

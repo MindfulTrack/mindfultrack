@@ -17,7 +17,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
     <Box component={"main"}>
       <div>
         <Container sx={{ marginBottom: 2, marginLeft: 0 }} disableGutters>
-          <Typography variant='h3' color="text.primary" fontWeight={'700'} sx={{ textAlign: "left" }}>Resources</Typography>
+          <Typography variant='h2' color="text.primary" fontWeight={'700'} sx={{ textAlign: "left" }}>Resources</Typography>
         </Container>
 
         <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row">
@@ -27,6 +27,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
                 <ResourceCard
                   name={resource.name}
                   id={resource.id}
+                  image={resource.image}
                 />
               </Grid>
             )

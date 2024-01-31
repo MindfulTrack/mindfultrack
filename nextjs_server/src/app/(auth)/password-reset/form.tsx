@@ -2,12 +2,22 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+import Alert from '@mui/material/Alert';
 
 interface PasswordResetFormProps {
 
 };
 
 const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
+  const [open, setOpen] = useState(false);
+  
+  const handleClose = (event: any, reason: any) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleSubmit = async (event: any) => {
 
@@ -21,6 +31,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
       })
     });
     if(response.status == 200){
+      setOpen(true)
       console.log("EMAIL SENT")
     }
     console.log(response)
@@ -38,7 +49,9 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
         <Typography component="h1" variant="h5">
           Password Reset
         </Typography>
-        {/* const defaultTheme = createTheme(); */}
+        { open ? <Alert severity="success" onClose={() => handleClose}>
+        Email Sent!
+        </Alert> : null}
         <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"

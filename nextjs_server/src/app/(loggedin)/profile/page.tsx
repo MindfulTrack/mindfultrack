@@ -11,10 +11,10 @@ import axios from "axios";
 
 export default function Profile() {
 
-  const {data: session, status} = useSession({required: true});
+  const {data: session, status} : any = useSession({required: true});
   const [response, setResponse] = useState("{}");
 
-  const getUserDetails = async (useToken) => {
+  const getUserDetails = async (useToken : any) => {
     try {
       const response = await axios({
         method: "get",
@@ -22,7 +22,7 @@ export default function Profile() {
         headers: useToken ? {Authorization: "Bearer " + session.access_token} : {},
       });
       setResponse(JSON.stringify(response.data));
-    } catch (error) {
+    } catch (error : any) {
       console.log("ERROR HERE")
       setResponse(error.message);
     }
@@ -40,7 +40,8 @@ export default function Profile() {
           <Typography>PK: {session.user.pk}</Typography>
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
-          <Typography variant="code">
+          <Typography>Permissions: {session.user.groups || "Not provided"}</Typography>
+          <Typography variant="body1">
             {response}
           </Typography>
           <Button onClick={() => getUserDetails(true)}>
@@ -51,6 +52,9 @@ export default function Profile() {
           </Button>
           <Button onClick={() => signOut({callbackUrl: "/"})}>
             Sign out
+          </Button>
+          <Button href="/password-reset">
+              Reset password
           </Button>
       </Box>
     );
