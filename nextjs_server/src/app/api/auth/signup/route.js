@@ -14,6 +14,8 @@ export async function POST(request){
         console.log({email, password, password2, first_name, last_name, username})
         let data
         try {
+            console.log("URL: \n\n\n\n\n\n")
+            console.log(process.env.NEXTAUTH_BACKEND_URL + "auth/register/")
             const response = await axios({
                 url: process.env.NEXTAUTH_BACKEND_URL + "auth/register/",
                 method: "post",

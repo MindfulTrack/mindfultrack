@@ -28,11 +28,9 @@ const SIGN_IN_HANDLERS = {
           id_token: account["id_token"]
         },
       });
-      console.log(response)
       account["meta"] = response.data;
       return true;
     } catch (error) {
-      console.error(error);
       return false;
     }
   }
@@ -72,6 +70,8 @@ export const authOptions = {
       async authorize(credentials, req) {
         // console.log(credentials)
         try {
+          console.log("URL: \n\n\n\n\n\n")
+          console.log(process.env.NEXTAUTH_BACKEND_URL + "auth/login/")
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
             method: "post",
@@ -79,11 +79,12 @@ export const authOptions = {
             headers: {
               'Content-Type': 'application/json'}
           });
+          console.log("RESPONSE:")
           console.log(response)
           const data = response.data;
-          console.log(data)
           if (data) return data;
         } catch (error) {
+          console.log("ERROR")
           console.log(error.response.data.non_field_errors);
           console.log(error.response.data.non_field_errors[0])
           // console.error(error);
@@ -95,9 +96,6 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({user, account, profile, email, credentials}) {
-      console.log("START\n\n\n\n")
-      console.log(user)
-      console.log("END\n\n\n\n")
       if (user['error']){
         return '/signin/'+user['error']
       }
@@ -109,10 +107,10 @@ export const authOptions = {
     },
     async jwt({user, token, account}) {
       // If `user` and `account` are set that means it is a login event
-      console.log(token)   
 
       if (user && account) {
         let backendResponse = account.provider === "credentials" ? user : account.meta;
+        console.log("BACKEND RESPONSE")
         console.log(backendResponse)
         token["user"] = backendResponse.user;
         token["access_token"] = backendResponse.access;
