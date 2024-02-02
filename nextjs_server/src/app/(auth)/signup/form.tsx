@@ -28,13 +28,6 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [openVerify, setOpenVerify] = React.useState(false);
 
-  // const handleClose = (event: any, reason: string) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // };
-
   const handleCloseVerify = (event: any, reason: string) => {
     if (reason === 'clickaway') {
       return;
