@@ -21,7 +21,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({ children }) => {
     return <div>Loading...</div>  // Or a loading spinner
   }
   
-  let roleList = session.user.groups || ['Student'];
+  let roleList = session.user.groups || ['Admin'];
   let role = roleList[0];
   console.log(role)
   return (

@@ -57,13 +57,16 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                {session ? (
+                  <>
                 <IconButton sx={{width: 'auto', height: '50px', cursor: 'pointer'}} href='/resources'>
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
-                {session ? (
                 <Button color="inherit" sx={{ cursor: "pointer" }} onClick={redirectLink}>
                   {session.user?.first_name} {session.user?.last_name}
-                </Button>)
+                </Button>
+                  </>
+                )
                 : (<Button color="inherit" onClick={() => signIn(undefined, { callbackUrl: "/profile" })}> Login</Button>)}
 
                 <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
