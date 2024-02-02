@@ -208,7 +208,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
         id: 2,
         icon: LogoutIcon,
         title: "Logout",
-        link: '/',
+        link: '/logout',
         isSelected: false
       }
     ];
