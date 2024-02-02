@@ -14,13 +14,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { signIn } from "next-auth/react";
 import Divider from '@mui/material/Divider';
+import { useRouter } from 'next/navigation';
 
 interface SignInFormProps {
 
 };
 
 const SignInForm: React.FC<SignInFormProps> = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const handleLoginWithGoogle = () => {
     signIn('google', { callbackUrl: "/", }) // Replace 'google' with the ID of your provider
   }
@@ -32,6 +33,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       if (result?.error) {
         // Handle the error
         console.log(result.error);
+        router.push("/signin" + result.error)
       }
     }); // callbackUrl: "/profile"
     console.log(response);
