@@ -26,12 +26,20 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   //Error Alert
   let passwordError = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(false);
+  const [openVerify, setOpenVerify] = React.useState(false);
 
-  const handleClose = (event: any, reason: string) => {
+  // const handleClose = (event: any, reason: string) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
+
+  const handleCloseVerify = (event: any, reason: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setOpenVerify(false);
   };
 
   const handleSubmit = async (event: any) => {
@@ -53,7 +61,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         })
       }).then((response) => {
         if(response.status === 200){
-          setOpen(true)
+          setOpenVerify(true)
           // router.push("/");
         }
         return response.json();
@@ -78,7 +86,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
     }
     else{
       router.push("/signup/"+"Passwords do not match!");
-      setOpen(true);
+      // setOpen(true);
     }
   };
 
@@ -103,7 +111,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           Sign up
         </Typography>
 
-        { open ? <Alert severity="success" onClose={() => handleClose}>
+        { openVerify ? <Alert severity="success" onClose={() => handleCloseVerify}>
         Email Verification Sent!
         </Alert> : null}
         
