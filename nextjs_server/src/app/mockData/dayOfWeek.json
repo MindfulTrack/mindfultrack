@@ -1,10 +1,8 @@
 [
-    {"dayOfWeekID": 1, "dayOfWeek": "Sunday"},
     {"dayOfWeekID": 2, "dayOfWeek": "Monday"},
     {"dayOfWeekID": 3, "dayOfWeek": "Tuesday"},
     {"dayOfWeekID": 4, "dayOfWeek": "Wednesday"},
     {"dayOfWeekID": 5, "dayOfWeek": "Thursday"},
-    {"dayOfWeekID": 6, "dayOfWeek": "Friday"},
-    {"dayOfWeekID": 7, "dayOfWeek": "Saturday"}
+    {"dayOfWeekID": 6, "dayOfWeek": "Friday"}
   ]
   

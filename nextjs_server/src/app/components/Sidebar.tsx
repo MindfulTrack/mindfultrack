@@ -29,7 +29,7 @@ interface SideNavBarProps {
 
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
-  console.log(userRole)
+  // console.log(userRole)
   const router = useRouter();
   const pathname = usePathname();
 
