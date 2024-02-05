@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = "http://127.0.0.1:3000/"
+    callback_url = settings.CALLBACK_URL 
     client_class = OAuth2Client
 
 

@@ -75,6 +75,10 @@
                 {
                     "name": "PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/password_reset_confirm_redirect_base_url"
+                },
+                {
+                    "name": "CALLBACK_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/callback_url"
                 }
             ],
             "mountPoints": [],
