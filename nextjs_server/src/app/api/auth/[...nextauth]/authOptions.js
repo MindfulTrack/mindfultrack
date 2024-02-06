@@ -85,6 +85,8 @@ export const authOptions = {
           if (data) return data;
         } catch (error) {
           console.log("ERROR")
+          console.log(error)
+          console.log("END ERROR")
           console.log(error.response.data.non_field_errors);
           console.log(error.response.data.non_field_errors[0])
           // console.error(error);
