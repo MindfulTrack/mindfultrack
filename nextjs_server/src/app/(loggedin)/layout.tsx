@@ -23,7 +23,7 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({ children }) => {
   
   let roleList = session.user.groups || ['Admin'];
   let role = roleList[0];
-  console.log(role)
+  // console.log(role)
   return (
     <>
       <SideNavBar userRole={role}/>

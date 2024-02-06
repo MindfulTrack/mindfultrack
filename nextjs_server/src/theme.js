@@ -24,7 +24,7 @@ export const theme = createTheme({
       dark: "#0079ff",
     },
     secondary: {
-      main: "#0062B8",
+      main: "#0062B8", // ROYAL
     },
     tertiary: {
       main: '#FFFFFF', // WHITE
@@ -40,6 +40,9 @@ export const theme = createTheme({
       secondary: '#002E5D', // NAVY
       tertiary: '#FFFFFF', // WHITE
     },
+    warning: {
+      main: '#ffb700'
+    }
   },
   typography: {
     fontFamily: publicSans.style.fontFamily,
