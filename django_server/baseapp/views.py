@@ -5,6 +5,12 @@ from .models import Test, StudentQueue
 from .serializers import TestSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
+from django.http import HttpResponse
+
+def healthcheck(request):
+
+
+    return HttpResponse(request)
 
 class TestView(APIView):
     def get(self, request):
@@ -20,4 +26,7 @@ class StudentQueueView(APIView):
             startTime__lt = student_entry.startTime
         ).count() + 1
         return Response(student_position)
+
+
+
 
