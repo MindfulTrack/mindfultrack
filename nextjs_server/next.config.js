@@ -2,13 +2,7 @@
 const nextConfig = {
     images: {
       domains: ['picsum.photos', 'picsum', 'mindfultrack.org'],
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: '**',
-
-        }
-      ],
+      
     },
   };
   
