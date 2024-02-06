@@ -165,7 +165,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
                         eventColor="green"
                         businessHours={{
                             daysOfWeek: [1,2,3,4,5],
-                            startTime: '08:00',
+                            startTime: '09:00',
                             endTime: '17:00'
                         }}
                     />
