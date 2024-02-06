@@ -8,7 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AppRegistration } from '@mui/icons-material';
+import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AppRegistration, Today } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Zoom, Grid } from '@mui/material';
@@ -98,7 +98,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
         },
         {
           id: 7,
-          icon: CalendarMonth,
+          icon: Today,
           title: "Schedule",
           link: "/schedule",
           isSelected: false

@@ -16,7 +16,6 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({ children }) => {
         sx={{
           flexGrow: 1,
           bgcolor: 'background.default',
-          ml: '93px',
           mt: ['48px', '56px', '94px'],
           p: 3,
           paddingTop: 1

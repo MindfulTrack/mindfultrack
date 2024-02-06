@@ -4,11 +4,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import ResourceCard from '../../../components/ResourceCard';
-import { Container, Paper } from '@mui/material';
+import { Container, Paper, Button, Link } from '@mui/material';
 import timeSlots from '../../../mockData/timeSlots.json';
 import dayOfWeek from '../../../mockData/dayOfWeek.json';
 import eventSlots from '../../../mockData/availableTimeSlots.json';
-import { useState, useEffect, useRef} from 'react';
+import { useState, useEffect } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Save, Done } from '@mui/icons-material';
 
 interface StudentAvailabilityPageProps {
 
@@ -25,10 +27,15 @@ type TimeSlots = {
 
 const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<TimeSlots[]>(timeSlots as TimeSlots[]);
+  const [originalSelection, setOriginalSelection] = useState<TimeSlots[]>([]);
+  const [reset, setReset] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [successful, setSuccessful] = useState(false);
 
-  const personId = 104;
+  const personId = 105;
 
   useEffect(() => {
+
     const joinedArray = eventSlots
       .filter(person => person.personID === personId)
       .map(item1 => ({
@@ -37,24 +44,30 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       }));
 
     const InitializeSlots = () => {
-      const numRows = joinedArray.length;
-      if (joinedArray.length > 0) {
-
-        const updatedSlots = selectedTimeSlots.map(slot => {
-          for (let i = 0; i < numRows; i++) {
-            if (slot.timeSlotID === joinedArray[i].timeSlotID) {
-              return { ...slot, isSelected: true };
+      if (!reset) {
+        if (joinedArray.length > 0) {
+          const updatedSlots = selectedTimeSlots.map(slot => {
+            for (let i = 0; i < joinedArray.length; i++) {
+              if (slot.timeSlotID === joinedArray[i].timeSlotID) {
+                return { ...slot, isSelected: true };
+              }
             }
-          }
-          return slot;
-        });
-  
-        setSelectedTimeSlots(updatedSlots as TimeSlots[]);
+            return slot;
+          });
+
+          setSelectedTimeSlots(updatedSlots as TimeSlots[]);
+          setOriginalSelection(updatedSlots);
+          setReset(false);
+        }
+      } else {
+        setSelectedTimeSlots(originalSelection);
+        console.log(selectedTimeSlots);
+        setReset(false);
       }
     };
 
     InitializeSlots();
-  }, []);
+  }, [reset]);
 
   const handleTimeSelect = (timeSlotId: number, dayOfWeek: string) => {
     const updatedSlots = selectedTimeSlots.map(slot => {
@@ -70,31 +83,104 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
 
   const dayTimeSlots = timeSlots;
   const weekDays = dayOfWeek;
+
+  const semester = () => {
+    if (new Date().getMonth() <= 4) {
+      return 'Winter';
+    } else if (new Date().getMonth() >= 5 && new Date().getMonth() <= 6) {
+      return 'Spring';
+    } else if (new Date().getMonth() >= 7 && new Date().getMonth() <= 8) {
+      return 'Summer';
+    } else {
+      return 'Fall';
+    }
+  };
+
+  const handleCancel = () => {
+    setReset(true);
+  }
+
+  const handleClick = () => {
+    setSaving(true);
+    setOriginalSelection(selectedTimeSlots);
+    setTimeout(() => {
+      setSaving(false);
+      setSuccessful(true);
+      setTimeout(() => {
+        setSuccessful(false);
+      }, 2000);
+    }, 3000);
+  }
+
+  const handleExitClick = () => {
+    let confirmExit = confirm("Are you SURE you want to exit the queue? If you do, you will have to restart the process if you change your mind.")
+
+    if (confirmExit) {
+      alert("You have exited the waitlist successfully.")
+    } else {
+      alert("Action cancelled.")
+    }
+  }
+
   return (
-    <Box>
-      <Box>
-        <Paper sx={{ backgroundColor: "#c5c5c5", height: "2rem", marginBottom: 2 }}>
-          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", pl: '1rem' }}>Select the times that you would be available for an appointment during <strong>this semester.</strong></Typography>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+
+      {/* Top of page */}
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', height: 'fit-content' }}>
+        <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%', mr: 7 }}>
+          <Typography variant='h2' color='text.main' sx={{ textAlign: 'center' }}>
+            Current Semester: {semester()} {new Date().getFullYear()}
+          </Typography>
+        </Paper>
+
+        <Paper sx={{ backgroundColor: "#e6e6e6", margin: 2, flex: '100%', maxWidth: '400px', height: 'fit-content' }}>
+          <Box sx={{ textAlign: 'left', padding: '15px' }}>
+            <LoadingButton
+              loading={saving}
+              loadingPosition="start"
+              startIcon={successful ? <Done /> : <Save />}
+              variant="contained"
+              sx={{ width: '50%', backgroundColor: successful ? '#006141' : '#0062b8', fontSize: '18px', fontWeight: '500', '&:hover': {backgroundColor: '#0062b8'} }}
+              onClick={handleClick}
+            >
+              {successful ? 'Success' : 'Save'}
+            </LoadingButton>
+            <Button sx={{ width: '50%', color: '#0062b8' }} onClick={handleCancel}>Cancel</Button>
+          </Box>
         </Paper>
       </Box>
 
-      <Container component={'div'} maxWidth="md" style={{ display: 'flex', justifyContent: 'space-evenly', paddingTop: '2rem' }}>
-        {weekDays.map((day) => (
-          <Box key={day.dayOfWeekID} style={{ alignContent: 'center' }}>
-            <Typography variant='h3' textAlign={'center'} color={'primary'} sx={{ paddingBottom: '1rem' }}>{day.dayOfWeek}</Typography>
+      {/* Bottom of page */}
+      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: 'fit-content' }}>
+        <Box component={'div'} style={{ display: 'flex', justifyContent: 'space-evenly', paddingTop: '2rem', width: '100%', height: '100%' }}>
+          {weekDays.map((day) => (
+            <Box key={day.dayOfWeekID} style={{ alignContent: 'center' }}>
+              <Typography variant='h3' textAlign={'center'} color={'primary'} sx={{ paddingBottom: '1rem' }}>{day.dayOfWeek}</Typography>
 
-            {selectedTimeSlots.filter((time) => time.dayOfWeek === day.dayOfWeek).map((time) => (
-              <Box
-                component='div'
-                key={time.timeSlotID}
-                sx={{ border: 'solid', borderWidth: '1px', borderRadius: '4px', margin: '3px', width: '125px', height: '25px', cursor: 'pointer', backgroundColor: time.isSelected ? '#10a170' : '' }}
-                onClick={() => handleTimeSelect(time.timeSlotID, time.dayOfWeek)}>
-                <Typography textAlign={'center'} sx={{ fontSize: '12px', fontWeight: '700' }}>{new Date(`2022-01-01T${time.startTime}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</Typography>
-              </Box>
-            ))}
+              {selectedTimeSlots.filter((time) => time.dayOfWeek === day.dayOfWeek).map((time) => (
+                <Box
+                  component='div'
+                  key={time.timeSlotID}
+                  sx={{ border: 'solid', borderWidth: '1px', borderRadius: '4px', margin: '3px', width: '125px', height: '25px', cursor: 'pointer', backgroundColor: time.isSelected ? '#10a170' : '' }}
+                  onClick={() => handleTimeSelect(time.timeSlotID, time.dayOfWeek)}>
+                  <Typography textAlign={'center'} sx={{ fontSize: '12px', fontWeight: '700', color: time.isSelected ? 'text.main' : '' }}>{new Date(`2022-01-01T${time.startTime}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</Typography>
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Box>
+
+        <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%', maxWidth: '400px', height: '100%' }}>
+          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Select the times that you would be available for an appointment during <strong>this semester.</strong></Typography>
+          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>We will do our best to match your availability with a counselor as quickly as we can.</Typography>
+          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Remember, while you are waiting we have a great list of <Link href='/resources' color={'text.primary'}>resources</Link> for you. Please check them out!</Typography>
+          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>If, while you are waiting for services you no longer feel the need to meet with a counselor, please click the following link to exit the queue.</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
+            <Button variant='contained' color='warning' onClick={handleExitClick} sx={{mb: '2rem'}}>EXIT WAITLIST</Button>
           </Box>
-        ))}
-      </Container>
+        </Paper>
+
+      </Box>
     </Box>
   );
 };
