@@ -76,49 +76,6 @@ const NavBar: React.FC<NavBarProps> = () => {
         </Box>
       </>
     );
-  // }
-  // else {
-
-  //   return (
-  //     <>
-  //       <Box sx={{ flexGrow: 1 }}>
-  //         <AppBar position="fixed" >
-  //           <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
-
-  //             <div style={{ display: 'inline-flex' }}>
-  //               <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
-
-  //               <Divider orientation='vertical' flexItem sx={{ backgroundColor: "tertiary.main" }} />
-
-  //               <div style={{ paddingLeft: "15px" }}>
-
-  //                 <Link href="https://byu.edu" target="_blank">
-  //                   <Image
-  //                     src={BYU_White}
-  //                     width={140}
-  //                     height={40}
-  //                     priority={true}
-  //                     style={{ cursor: 'pointer' }}
-  //                   />
-  //                 </Link>
-  //               </div>
-  //             </div>
-
-  //             <div>
-  //               <Button
-  //                 color="inherit"
-  //                 onClick={() => signIn(undefined, { callbackUrl: "/profile" })}
-  //               >
-  //                 Login
-  //               </Button>
-  //               <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
-  //             </div>
-  //           </Toolbar>
-  //         </AppBar>
-  //       </Box>
-  //     </>
-  //   );
-  // }
 };
 
 export default NavBar;

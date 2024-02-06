@@ -1,0 +1,17 @@
+[
+    {"availableTimeSlotID": 1, "personID": 101, "timeSlotID": 2, "notes": "Meeting with client", "dayOfWeekID": 3},
+    {"availableTimeSlotID": 2, "personID": 102, "timeSlotID": 4, "notes": "Team collaboration", "dayOfWeekID": 5},
+    {"availableTimeSlotID": 3, "personID": 103, "timeSlotID": 1, "notes": "Code review", "dayOfWeekID": 2},
+    {"availableTimeSlotID": 4, "personID": 104, "timeSlotID": 3, "notes": "Training session", "dayOfWeekID": 4},
+    {"availableTimeSlotID": 5, "personID": 105, "timeSlotID": 12, "notes": "Client presentation", "dayOfWeekID": 6},
+    {"availableTimeSlotID": 6, "personID": 106, "timeSlotID": 17, "notes": "Project planning", "dayOfWeekID": 7},
+    {"availableTimeSlotID": 7, "personID": 101, "timeSlotID": 25, "notes": "Late-night coding", "dayOfWeekID": 1},
+    {"availableTimeSlotID": 8, "personID": 103, "timeSlotID": 33, "notes": "Debugging session", "dayOfWeekID": 3},
+    {"availableTimeSlotID": 9, "personID": 104, "timeSlotID": 41, "notes": "Team building event", "dayOfWeekID": 5},
+    {"availableTimeSlotID": 10, "personID": 105, "timeSlotID": 56, "notes": "Release deployment", "dayOfWeekID": 7},
+    {"availableTimeSlotID": 11, "personID": 105, "timeSlotID": 87, "notes": "Release deployment", "dayOfWeekID": 7},
+    {"availableTimeSlotID": 12, "personID": 105, "timeSlotID": 98, "notes": "Release deployment", "dayOfWeekID": 7},
+    {"availableTimeSlotID": 13, "personID": 105, "timeSlotID": 99, "notes": "Release deployment", "dayOfWeekID": 7},
+    {"availableTimeSlotID": 14, "personID": 105, "timeSlotID": 4, "notes": "Release deployment", "dayOfWeekID": 7}
+  ]
+  
