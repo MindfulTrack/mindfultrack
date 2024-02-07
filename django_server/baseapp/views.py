@@ -32,12 +32,6 @@ class ResourceDetailsView(APIView):
         resources = Resource.objects.get(resource_id=resource_id)
         return Response(resources)
 
-    def post()
-
-    def put()
-
-    def delete()
-
 class ResourceCategoryView(APIView):
     def get(self, request):
         categories = ResourceCategory.objects.get()
