@@ -87,6 +87,9 @@ export const authOptions = {
           const data = response.data;
           if (data) return data;
         } catch (error) {
+          if (error.message.code === 'ETIMEDOUT'){
+            return {'error': 'Request Timed Out. Try again.'}
+          }
           console.log("ERROR")
           console.log(error)
           console.log("END ERROR")
