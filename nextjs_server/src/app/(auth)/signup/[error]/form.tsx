@@ -176,6 +176,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
+                control={<Checkbox value="allowTextNofifications" color="primary" />}
+                label="I want to receive text notifications"
+              />
+              <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />

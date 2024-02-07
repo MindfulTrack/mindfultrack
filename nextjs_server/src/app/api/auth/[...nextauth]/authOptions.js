@@ -20,6 +20,8 @@ const SIGN_IN_HANDLERS = {
   },
   "google": async (user, account, profile, email, credentials) => {
     try {
+      console.log("ROUTE: ")
+      console.log(process.env.NEXTAUTH_BACKEND_URL + "auth/google/")
       const response = await axios({
         method: "post",
         url: process.env.NEXTAUTH_BACKEND_URL + "auth/google/",
@@ -70,8 +72,9 @@ export const authOptions = {
       async authorize(credentials, req) {
         // console.log(credentials)
         try {
-          console.log("URL: \n\n\n\n\n\n")
+          console.log("URL: \n")
           console.log(process.env.NEXTAUTH_BACKEND_URL + "auth/login/")
+          console.log("URL END")
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
             method: "post",
@@ -85,6 +88,8 @@ export const authOptions = {
           if (data) return data;
         } catch (error) {
           console.log("ERROR")
+          console.log(error)
+          console.log("END ERROR")
           console.log(error.response.data.non_field_errors);
           console.log(error.response.data.non_field_errors[0])
           // console.error(error);

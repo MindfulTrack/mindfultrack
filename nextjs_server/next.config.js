@@ -1,14 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      domains: ['picsum.photos', 'picsum'],
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: '**',
-
-        }
-      ],
+      domains: ['picsum.photos', 'picsum', 'mindfultrack.org'],
+      
     },
   };
   
