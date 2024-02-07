@@ -87,9 +87,10 @@ export const authOptions = {
           const data = response.data;
           if (data) return data;
         } catch (error) {
-          if (error.message.code === 'ETIMEDOUT'){
+          if (error.code === 'ETIMEDOUT'){
             return {'error': 'Request Timed Out. Try again.'}
           }
+          try{
           console.log("ERROR")
           console.log(error)
           console.log("END ERROR")
@@ -97,6 +98,10 @@ export const authOptions = {
           console.log(error.response.data.non_field_errors[0])
           // console.error(error);
           return {'error': error.response.data.non_field_errors[0]}
+          }
+          catch{
+            return {'error': 'Unknown Error'}
+          }
         }
         return null;
       },
