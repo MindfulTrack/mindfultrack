@@ -21,7 +21,8 @@ interface SignInFormProps {
 };
 
 const SignInForm: React.FC<SignInFormProps> = () => {
-  const router = useRouter();
+  const router : any = useRouter();
+
   const handleLoginWithGoogle = () => {
     signIn('google', { callbackUrl: "/", }) 
   }
@@ -33,7 +34,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
       if (result?.error) {
         // Handle the error
         console.log(result.error);
-        router.push("/signin" + result.error)
+        router.push("/signin/" + result.error)
       }
     }); // callbackUrl: "/profile"
     console.log(response);

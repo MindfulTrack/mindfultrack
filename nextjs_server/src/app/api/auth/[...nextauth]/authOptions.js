@@ -33,6 +33,7 @@ const SIGN_IN_HANDLERS = {
       account["meta"] = response.data;
       return true;
     } catch (error) {
+      console.log(error)
       return false;
     }
   }
@@ -41,6 +42,7 @@ const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
   session: {
     strategy: "jwt",
     maxAge: BACKEND_REFRESH_TOKEN_LIFETIME,
