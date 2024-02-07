@@ -10,12 +10,12 @@ interface CounselorPageProps {
 const CounselorPage: React.FC<CounselorPageProps> = () => {
   return (
     <Box>
-      <div>
-        <Paper sx={{backgroundColor: "secondary.main", height: "4rem", marginBottom: 2}}>
-            <Typography variant='h4' color="text.tertiary" sx={{textAlign: "left", paddingLeft: "15px", verticalAlign: 'middle'}}>COUNSELOR PAGE</Typography>
+        <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, flex: '100%' }}>
+          <Typography variant='h2' color='text.main' sx={{ textAlign: 'left' }}>
+            Counselor Page
+          </Typography>
         </Paper>
-      </div>
-    </Box>
+      </Box>
   );
 };
 
