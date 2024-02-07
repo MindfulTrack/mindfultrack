@@ -23,7 +23,7 @@ interface SignInFormProps {
 const SignInForm: React.FC<SignInFormProps> = () => {
   const router = useRouter();
   const handleLoginWithGoogle = () => {
-    signIn('google', { callbackUrl: "/", }) // Replace 'google' with the ID of your provider
+    signIn('google', { callbackUrl: "/", }) 
   }
 
   const handleSubmit = async (event: any) => {

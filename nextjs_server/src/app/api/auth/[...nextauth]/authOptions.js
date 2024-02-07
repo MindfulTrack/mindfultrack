@@ -99,7 +99,8 @@ export const authOptions = {
           // console.error(error);
           return {'error': error.response.data.non_field_errors[0]}
           }
-          catch{
+          catch (error){
+            console.log(error)
             return {'error': 'Unknown Error'}
           }
         }
