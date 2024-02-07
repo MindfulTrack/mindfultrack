@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue
+from .models import Test, StudentQueue, Resource, ResourceCategory
 from .serializers import TestSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
@@ -26,6 +26,24 @@ class StudentQueueView(APIView):
             startTime__lt = student_entry.startTime
         ).count() + 1
         return Response(student_position)
+
+class ResourceDetailsView(APIView):
+    def get(self, request, resource_id):
+        resources = Resource.objects.get(resource_id=resource_id)
+        return Response(resources)
+
+    def post()
+
+    def put()
+
+    def delete()
+
+class ResourceCategoryView(APIView):
+    def get(self, request):
+        categories = ResourceCategory.objects.get()
+        return Response(categories)
+
+
 
 
 
