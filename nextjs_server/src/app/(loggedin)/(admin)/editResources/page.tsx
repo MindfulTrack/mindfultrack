@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, Paper, Box } from "@mui/material";
 import React from "react";
 
 interface ResourceManagementProps {
@@ -7,9 +7,13 @@ interface ResourceManagementProps {
 
 const ResourceManagement: React.FC<ResourceManagementProps> = () => {
     return (
-        <>
-            <Typography>Edit resources on this page.</Typography>
-        </>
+        <Box>
+        <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, flex: '100%' }}>
+          <Typography variant='h2' color='text.main' sx={{ textAlign: 'left' }}>
+            Resource Management
+          </Typography>
+        </Paper>
+      </Box>
     );
 };
 
