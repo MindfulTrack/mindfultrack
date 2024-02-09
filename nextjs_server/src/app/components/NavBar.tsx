@@ -16,7 +16,7 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = () => {
 
   const {data: session, status} : any = useSession();
-
+  console.log(status)
   const router = useRouter();
   const handleGoHome = () => {
     router.push('/');
@@ -57,7 +57,7 @@ const NavBar: React.FC<NavBarProps> = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                {session ? (
+                {session !== null ? (
                   <>
                 <IconButton sx={{width: 'auto', height: '50px', cursor: 'pointer'}} href='/resources'>
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
@@ -67,7 +67,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 </Button>
                   </>
                 )
-                : (<Button color="inherit" onClick={() => signIn(undefined, { callbackUrl: "/profile" })}> Login</Button>)}
+                : (<Button color="inherit" onClick={() => signIn('credentials', { callbackUrl: "/profile" })}> Login</Button>)}
 
                 <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
               </div>
