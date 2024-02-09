@@ -1,6 +1,6 @@
 from rest_framework import serializers
 # from dj_rest_auth.serializers import UserDetailsSerializer
-from .models import Test
+from .models import Test, DayOfWeek
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -11,7 +11,12 @@ class TestSerializer(serializers.ModelSerializer):
         model = Test
         fields = '__all__'  # Or specify the fields you want to include in your API.
 
+class TestAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DayOfWeek
+        fields = '__all__' 
 
+        
 class JWTSerializer(serializers.Serializer):
     """
     Serializer for JWT authentication.
