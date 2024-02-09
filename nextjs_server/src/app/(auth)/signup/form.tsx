@@ -191,7 +191,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link onClick={() => signIn(undefined, {callbackUrl: "/profile"})} variant="body2">
+              <div className="" style={{cursor: 'pointer'}}>
                 Already have an account? Sign in
+               </div>
               </Link>
             </Grid>
           </Grid>
