@@ -33,6 +33,7 @@ const SIGN_IN_HANDLERS = {
       account["meta"] = response.data;
       return true;
     } catch (error) {
+      console.log(error)
       return false;
     }
   }
@@ -41,6 +42,7 @@ const SIGN_IN_PROVIDERS = Object.keys(SIGN_IN_HANDLERS);
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true,
   session: {
     strategy: "jwt",
     maxAge: BACKEND_REFRESH_TOKEN_LIFETIME,
@@ -87,6 +89,10 @@ export const authOptions = {
           const data = response.data;
           if (data) return data;
         } catch (error) {
+          if (error.code === 'ETIMEDOUT'){
+            return {'error': 'Request Timed Out. Try again.'}
+          }
+          try{
           console.log("ERROR")
           console.log(error)
           console.log("END ERROR")
@@ -94,6 +100,11 @@ export const authOptions = {
           console.log(error.response.data.non_field_errors[0])
           // console.error(error);
           return {'error': error.response.data.non_field_errors[0]}
+          }
+          catch (error){
+            console.log(error)
+            return {'error': 'Unknown Error'}
+          }
         }
         return null;
       },

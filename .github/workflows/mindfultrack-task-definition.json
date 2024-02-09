@@ -3,8 +3,8 @@
         {
             "name": "mindfulTrackServer",
             "image": "${IMAGE_NAME_1}",
-            "cpu": 190,
-            "memory": 1024,
+            "cpu": 102,
+            "memory": 190,
             "portMappings": [
                 {
                     "name": "mindfultrack-8000-tcp",
@@ -96,8 +96,8 @@
         {
             "name": "mindfulTrackClient",
             "image": "${IMAGE_NAME_2}",
-            "cpu": 190,
-            "memory": 1024,
+            "cpu": 102,
+            "memory": 190,
             "portMappings": [
                 {
                     "name": "mindfultrack-3000-tcp",
@@ -161,10 +161,10 @@
     "volumes": [],
     "placementConstraints": [],
     "requiresCompatibilities": [
-        "EC2"
+        "EC2", "FARGATE"
     ],
-    "cpu": "512",
-    "memory": "3072",
+    "cpu": "256",
+    "memory": "512",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"

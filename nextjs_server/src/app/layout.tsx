@@ -10,6 +10,8 @@ import NavBar from './components/NavBar';
 import MyProvider from './MyProvider';
 import { authOptions } from './api/auth/[...nextauth]/authOptions.js';
 import { headers } from 'next/headers';
+import { Suspense } from 'react';
+import Loading from './components/loading';
 
 interface RootLayoutProps {
   children: ReactNode
@@ -21,24 +23,28 @@ const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
  
   if(currentUrl != '/test'){
     const op : any = authOptions;
-    const session : any = await getServerSession();
+    const session : any = await getServerSession(op);
+    console.log("STATUS")
+    console.log(session)
     
     return (
       <html lang="en">
         <body>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <SessionProvider session={session}>
-              <ThemeProvider theme={theme}>
-                <MyProvider>
-                  {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                  <CssBaseline />
+            <Suspense fallback={<Loading />}>
+              <SessionProvider session={session}>
+                <ThemeProvider theme={theme}>
+                  <MyProvider>
+                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
 
-                  <NavBar />
+                    <NavBar />
 
-                  {children}
-                </MyProvider>
-              </ThemeProvider>
-            </SessionProvider>
+                    {children}
+                  </MyProvider>
+                </ThemeProvider>
+              </SessionProvider>
+            </Suspense>
           </AppRouterCacheProvider>
         </body>
       </html>

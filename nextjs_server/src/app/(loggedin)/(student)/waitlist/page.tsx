@@ -1,45 +1,111 @@
+'use client'
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import ResourceCard from '../../../components/ResourceCard';
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, CircularProgress, Grid } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 interface WaitlistPageProps {
 
 };
 
 const WaitlistPage: React.FC<WaitlistPageProps> = () => {
+  const [progress, setProgress] = useState(0);
+  const queueLength = 200;
+  const [spotInLine, setSpotInLine] = useState(120);
+
+  useEffect(() => {
+    const positionPercentage = Math.round((queueLength - spotInLine) / queueLength * 100);
+    setProgress(positionPercentage);
+  });
+
+
   return (
     <Box>
-      <div>
-        <Paper sx={{backgroundColor: "secondary.main", height: "4rem", marginBottom: 2}}>
-            <Typography variant='h2' color="text.tertiary" sx={{textAlign: "center", verticalAlign: 'middle'}}>WAITLIST</Typography>
+      {/* Heading */}
+      <Box>
+        <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%' }}>
+          <Typography variant='h2' color='text.main' sx={{ textAlign: 'left' }}>
+            Current Waitlist Status
+          </Typography>
         </Paper>
-      </div>
-
-      <Typography variant='h5' textAlign="center">Spot in line: 26</Typography>
-      <br></br>
-      <Typography variant='h4' textAlign="center">Estimated wait time: 3 weeks</Typography>
-      <br></br>
-      <Typography variant='body1' textAlign="center">Do you feel you do not need services anymore <br></br>or<br></br>have you received help elsewhere?</Typography>
-      <br></br>
-      <Box textAlign='center'>
-        <Typography variant='caption' textAlign="center">If so, please exit the queue by clicking the button below</Typography>
-      </Box>      
-      <br></br>
-      <Box textAlign='center'>
-        <Button variant='contained'>Exit Queue</Button>
       </Box>
-      
+
+      {/* Main Body */}
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        {/* Left Side */}
+        <Box sx={{ width: '100%' }}>
+          <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, marginLeft: 2, marginRight: 2, flex: '100%', width: '95%', height: '70vh' }}>
+            <Typography variant='h1' color='text.main' sx={{ textAlign: 'center' }}>
+              Position
+            </Typography>
+            <Grid container spacing={2} sx={{ padding: 1 }}>
+              <Grid item lg={6} sx={{ marginTop: '7%' }}>
+
+                <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', verticalAlign: 'middle' }}>
+                  <CircularProgress
+                    size={350}
+                    thickness={10}
+                    variant='determinate'
+                    color='success'
+                    value={progress}
+                  />
+                  <Box
+                    sx={{
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      right: 0,
+                      position: 'absolute',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography
+                      variant="h1"
+                      component="div"
+                      color="text.primary"
+                    >{progress}%</Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item lg={6} sx={{ marginTop: '7%' }}>
+                <Typography variant='h2'>Estimated Time Remaining:</Typography>
+                <Typography sx={{ fontSize: '40px' }}>2 weeks</Typography>
+
+                <Typography variant='h2' sx={{ paddingTop: '2rem' }}>Number of people in front of you:</Typography>
+                <Typography sx={{ fontSize: '40px' }}>{spotInLine}</Typography>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
+
+        {/* Right Side */}
+        <Box sx={{ width: '100%', marginRight: 2 }}>
+          <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, marginRight: 2, flex: '100%', width: '100%', height: '70vh' }}>
+            <Typography variant='h1' color='text.main' sx={{ textAlign: 'center' }}>
+              Action
+            </Typography>
+
+            <Box sx={{paddingTop: 1, marginTop: '7%', paddingLeft: '2rem'}}>
+              <Typography variant='h2' textAlign="left" paragraph>Do you feel like you do not need services anymore or have you received help elsewhere?</Typography>
+              <Typography variant='body1' textAlign='left' sx={{fontSize: '24px'}} paragraph>If so, you can help other peers jump forward in line by manually exiting the waitlist.</Typography>
+              <Typography variant='body1' textAlign='left' sx={{fontSize: '24px'}} paragraph>Please click the button below if you would like to remove yourself from the waitlist.</Typography>
+
+              <Box textAlign='center'>
+                <Button variant='contained' sx={{width: '250px'}} color='info'>Exit Queue</Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
+      </Box>
+
+
+
 
     </Box>
-    
+
   );
 };
 

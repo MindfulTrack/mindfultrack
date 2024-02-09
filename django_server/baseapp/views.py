@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue, DayOfWeek
+from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource
 from .serializers import TestSerializer, TestAuthSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
@@ -35,6 +35,18 @@ class TestAuthView(APIView):
         days = DayOfWeek.objects.all()
         serializer = TestAuthSerializer(days, many=True)
         return Response(serializer.data)
+
+
+class ResourceDetailsView(APIView):
+    def get(self, request, resource_id):
+        resources = Resource.objects.get(resource_id=resource_id)
+        return Response(resources)
+
+class ResourceCategoryView(APIView):
+    def get(self, request):
+        categories = ResourceCategory.objects.get()
+        return Response(categories)
+
 
 
 
