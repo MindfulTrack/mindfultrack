@@ -31,6 +31,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -231,3 +232,9 @@ EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER") 
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")    
 DEFAULT_FROM_EMAIL = "jwdonaldson99@gmail.com" 
+
+
+UNFOLD = {
+    "SITE_TITLE": "Mindfultrack",
+    "SITE_HEADER": "Mindfultrack",
+}
