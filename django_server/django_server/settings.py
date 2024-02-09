@@ -28,8 +28,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -188,6 +186,8 @@ else:
         "http://mindfultrack.org",
         "http://mindfultrack.org:3000",
         "https://mindfultrack.org",
+        "https://mindfultrack.org:8000",
+        "http://mindfultrack.org:8000",
     ]
 
 ACCOUNT_EMAIL_REQUIRED = True
