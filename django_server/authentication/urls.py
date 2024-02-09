@@ -16,6 +16,10 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenVerifyView
 # from allauth.socialaccount.views import signup
 from authentication.views import GoogleLogin, email_confirm_redirect, password_reset_confirm_redirect
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="rest_register"),
@@ -37,4 +41,8 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path("password/reset/confirm/", PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    
+    
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

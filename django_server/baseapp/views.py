@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue
-from .serializers import TestSerializer
+from .models import Test, StudentQueue, DayOfWeek
+from .serializers import TestSerializer, TestAuthSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 def healthcheck(request):
 
@@ -26,6 +28,14 @@ class StudentQueueView(APIView):
             startTime__lt = student_entry.startTime
         ).count() + 1
         return Response(student_position)
+    
+@permission_classes([IsAuthenticated])
+class TestAuthView(APIView):
+    def get (self, request):
+        days = DayOfWeek.objects.all()
+        serializer = TestAuthSerializer(days, many=True)
+        return Response(serializer.data)
+
 
 
 
