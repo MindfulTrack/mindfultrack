@@ -42,6 +42,9 @@ export const theme = createTheme({
     },
     warning: {
       main: '#ffb700'
+    },
+    info: {
+      main: '#FFB700'
     }
   },
   typography: {

@@ -171,10 +171,10 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
         </Box>
 
         <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%', maxWidth: '400px', height: '100%' }}>
-          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Select the times that you would be available for an appointment during <strong>this semester.</strong></Typography>
+          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Select the times that you would generally be available for an appointment during <strong>this semester.</strong></Typography>
           <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>We will do our best to match your availability with a counselor as quickly as we can.</Typography>
           <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Remember, while you are waiting we have a great list of <Link href='/resources' color={'text.primary'}>resources</Link> for you. Please check them out!</Typography>
-          <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>If, while you are waiting for services you no longer feel the need to meet with a counselor, please click the following link to exit the queue.</Typography>
+          <Typography variant='body1' fontStyle='italic' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>If, while you are waiting for services, you no longer feel the need to meet with a counselor, please click the following link to exit the queue.</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
             <Button variant='contained' color='warning' onClick={handleExitClick} sx={{mb: '2rem'}}>EXIT WAITLIST</Button>
           </Box>
