@@ -10,10 +10,11 @@ interface CounselorPageProps {
 
 const CounselorPage: React.FC<CounselorPageProps> = async () => {
 
-  const data : any = await customFetch('base/studentQueue/4')
-  console.log(data.json())
-  const student = await Promise.all([data,])
-  if (!data) {
+  const response : any = await customFetch('base/testAuth')
+  const data : any = await response.json();
+
+  console.log(data)
+  if (!data || data.length === 0) {
    
     return ("No Data Found")
   }
@@ -22,9 +23,14 @@ const CounselorPage: React.FC<CounselorPageProps> = async () => {
       <Box>
           <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, flex: '100%' }}>
             <Typography variant='h2' color='text.main' sx={{ textAlign: 'left' }}>
-              Counselor Page {student.id}
+              Counselor Page
             </Typography>
           </Paper>
+          {data.map((item : any )=> (
+        <div key={item.id}>
+          <h2>{item.dayOfWeek}</h2>
+        </div>
+        ))}
         </Box>
     );
   }
