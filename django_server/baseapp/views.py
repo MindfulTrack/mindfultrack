@@ -8,8 +8,21 @@ from datetime import datetime
 from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 
+class AdminPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name='Admin').exists()
+class StaffPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name__in=['Admin', 'Staff']).exists()
+class StudentPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name__in=['Admin', 'Staff', 'Student']).exists()
+
+## USED FOR AWS TO VALIDATE THE INSTANCE IS HEALTHY
 def healthcheck(request):
+
     return HttpResponse(request)
 
 #Tests
@@ -28,7 +41,7 @@ class StudentQueueView(APIView):
         ).count() + 1
         return Response(student_position)
     
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, StaffPermission])
 class TestAuthView(APIView):
     def get (self, request):
         days = DayOfWeek.objects.all()
