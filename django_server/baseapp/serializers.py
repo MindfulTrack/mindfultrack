@@ -1,6 +1,6 @@
 from rest_framework import serializers
 # from dj_rest_auth.serializers import UserDetailsSerializer
-from .models import Test, DayOfWeek
+from .models import Test, DayOfWeek, StudentQueue, Person, University, Resource, ResourceCategory
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -102,3 +102,11 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
 # class CustomTokenObtainPairView(TokenObtainPairView):
 #     serializer_class = CustomTokenObtainPairSerializer
+        
+
+# Student Queue
+class StudentQueueSerializer(serializers.ModelSerializer):
+    print("we made it to the serializer")
+    class Meta:
+        model = StudentQueue
+        fields = '__all__'
