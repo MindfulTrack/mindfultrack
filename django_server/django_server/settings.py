@@ -67,6 +67,8 @@ MIDDLEWARE = [
     
 ]
 
+CSRF_TRUSTED_ORIGINS=['https://*.MINDFULTRACK.ORG', 'http://*.MINDFULTRACK.ORG']
+
 ROOT_URLCONF = 'django_server.urls'
 
 TEMPLATES = [
@@ -132,7 +134,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '.mindfultrack.org']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
