@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -8,171 +8,173 @@ import listPlugin from "@fullcalendar/list";
 import { DateInput, formatDate } from "@fullcalendar/core";
 import multiMonthPlugin from '@fullcalendar/multimonth';
 import {
-    Box,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
 } from "@mui/material";
 import AddEventModal from "./AddEventModal";
 import { EventClickArg } from "@fullcalendar/core";
+import mockEvents from '../../mockData/calendarEvent.json';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
+import { Event } from "../../../ts/types";
 
 interface AdminCalendarProps {
 
 };
 
-interface Event {
-    id: string;
-    title: string;
-    date?: string;
-    start?: DateInput;
-    end?: string;
-}
-
 const AdminCalendar: React.FC<AdminCalendarProps> = () => {
-    const [currentEvents, setCurrentEvents] = useState<Event[]>([
-        {
-            id: "12315",
-            title: "All-day event",
-            date: "2024-01-31",
-        },
-        {
-            id: "5123",
-            title: "Timed Event",
-            start: "2024-02-02 10:30:00",
-            end: "2024-02-02 12:30:00",
-        },
-        {
-            id: "5124",
-            title: "Timed Event 2",
-            start: "2024-01-31 11:30:00",
-            end: "2024-01-31 12:30:00",
-        },
-    ]);
-    const [openSlot, setOpenSlot] = useState(false)
-    const [openDatepickerModal, setOpenDatepickerModal] = useState(false)
-    const [eventName, setEventName] = useState('')
+  const [currentEvents, setCurrentEvents] = useState<Event[]>([]);
+  const [openSlot, setOpenSlot] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event>();
+  
+  useEffect(() => {
+    setCurrentEvents(mockEvents);
+  });
 
-    const handleClose = () => {
-        //   setEventFormData(initialEventFormState)
-        setOpenSlot(false)
-    }
+  const handleClose = () => {
+    setOpenSlot(false)
+  };
 
-    const handleDateClick = (selected: any) => {
-        const title = prompt("Please enter a new title for your event");
-        const calendarApi = selected.view.calendar;
-        // calendarApi.unselect();
+  const handleDateClick = (selected: any) => {
+    const newEvent = {
+      id: (Math.random() * 1000).toString(),
+      title: "",
+      eventLocation: "",
+      allDay: false,
+      start: selected.dateStr,
+      end: selected.dateStr,
+      organizerId: Math.random() * 1000,
+      backgroundColor: '#141414'
+    };
+    setSelectedEvent(newEvent);
+    console.log(selected.dateStr);
+    setOpenSlot(true);
+  };
 
-        if (title) {
-            calendarApi.addEvent({
-                id: `${selected.dateStr}-${title}`,
-                title,
-                start: selected.startStr,
-                end: selected.endStr,
-                allDay: selected.allDay,
-            });
-        }
+  const handleEventClick = (selected: EventClickArg) => {
+    const event = {
+      id: selected.event.id,
+      title: selected.event.title,
+      eventLocation: selected.event.extendedProps.eventLocation,
+      allDay: selected.event.allDay,
+      start: selected.event.startStr,
+      end: selected.event.endStr,
+      organizerId: selected.event.extendedProps.organizerId,
+      backgroundColor: selected.event.backgroundColor
     };
 
-    const handleEventClick = (event: EventClickArg) => {
-        console.log(event.event.id)
-        // setOpenSlot(true)
-        console.log(event.event.start)
-        console.log(event.event.end)
-    };
+    setSelectedEvent(event);
+    setOpenSlot(true);
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newName = e.target.value;
-        setEventName(newName);
-    };
+  const currentDate = new Date();
+  const currentTime = dayjs(currentDate).format('HH:mm:ss');
 
-    return (
-        <Box m="20px">
-            {/* <Header title="Calendar" subtitle="Full Calendar Interactive Page" /> */}
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Box m="20px">
+      {/* <Header title="Calendar" subtitle="Full Calendar Interactive Page" /> */}
 
-            <Box display="flex" justifyContent="space-between">
-                <AddEventModal
-                    open={openSlot}
-                    handleClose={handleClose}
-                    onChange={handleChange}
-                    value={eventName}
+      <Box display="flex" justifyContent="space-between">
+        <AddEventModal
+          open={openSlot}
+          handleClose={handleClose}
+          selectedEvent={selectedEvent}
+        />
+        {/* CALENDAR SIDEBAR */}
+        <Box
+          sx={{
+            flex: '1 1 20%',
+            backgroundColor: 'secondary.main',
+            padding: '15px',
+            borderRadius: '4px'
+          }}
+        >
+          <Typography variant="h6" color='text.tertiary'>Upcoming Appointments</Typography>
+          <List>
+            {currentEvents.map((event) => (
+              <ListItem
+                key={event.id}
+                sx={{
+                  backgroundColor: 'tertiary.main',
+                  margin: "10px 0",
+                  borderRadius: "2px",
+                }}
+              >
+                <ListItemText
+                  primary={event.title}
+                  secondary={
+                    <Typography sx={{fontSize: '12px'}}>
+                      {event.start == undefined ? "" :
+                        formatDate(event.start, {
+                          // year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit"
+                        })} - {event.end == undefined ? "" :
+                        formatDate(event.end, {
+                          hour: "numeric",
+                          minute: "2-digit"
+                        })}
+
+                    </Typography>
+                  }
                 />
-                {/* CALENDAR SIDEBAR */}
-                <Box
-                    sx={{
-                        flex: '1 1 20%',
-                        backgroundColor: 'secondary.main',
-                        padding: '15px',
-                        borderRadius: '4px'
-                    }}
-                >
-                    <Typography variant="h6" color='text.tertiary'>Upcoming Appointments</Typography>
-                    <List>
-                        {currentEvents.map((event) => (
-                            <ListItem
-                                key={event.id}
-                                sx={{
-                                    backgroundColor: 'tertiary.main',
-                                    margin: "10px 0",
-                                    borderRadius: "2px",
-                                }}
-                            >
-                                <ListItemText
-                                    primary={event.title}
-                                    secondary={
-                                        <Typography>
-                                            {event.start == undefined ? "" :
-                                                formatDate(event.start, {
-                                                    year: "numeric",
-                                                    month: "short",
-                                                    day: "numeric"
-                                                })}
-
-                                        </Typography>
-                                    }
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box>
-
-                {/* CALENDAR */}
-                <Box flex="1 1 100%" ml="15px">
-                    <FullCalendar
-                        height="83vh"
-                        plugins={[
-                            dayGridPlugin,
-                            timeGridPlugin,
-                            interactionPlugin,
-                            listPlugin,
-                            multiMonthPlugin
-                        ]}
-                        headerToolbar={{
-                            left: "prev,next today",
-                            center: "title",
-                            right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-                        }}
-                        initialView="timeGridWeek"
-                        editable={true}
-                        selectable={true}
-                        selectMirror={true}
-                        dayMaxEvents={false}
-                        nowIndicator={true}
-                        select={handleDateClick}
-                        eventClick={handleEventClick}
-                        // eventsSet={(events) => setCurrentEvents(events)}
-                        events={currentEvents}
-                        eventColor="green"
-                        businessHours={{
-                            daysOfWeek: [1,2,3,4,5],
-                            startTime: '09:00',
-                            endTime: '17:00'
-                        }}
-                    />
-                </Box>
-            </Box>
+              </ListItem>
+            ))}
+          </List>
         </Box>
-    );
+
+        {/* CALENDAR */}
+        <Box flex="1 1 100%" ml="15px">
+          <FullCalendar
+            height="80vh"
+            handleWindowResize={true}
+            // contentHeight={"auto"}
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              interactionPlugin,
+              listPlugin,
+              multiMonthPlugin
+            ]}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+            }}
+            initialView="timeGridWeek"
+            scrollTime={currentTime}
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            dayMaxEvents={false}
+            nowIndicator={true}
+            contentHeight={'20px'}
+            dateClick={handleDateClick}
+            eventClick={handleEventClick}
+            events={currentEvents}
+            // eventsSet={(events) => setCurrentEvents(events)}
+            initialEvents={currentEvents}
+            eventColor="transparent"
+            businessHours={{
+              daysOfWeek: [1, 2, 3, 4, 5],
+              startTime: '08:00',
+              endTime: '18:00'
+            }}
+            defaultTimedEventDuration={'01:00'}
+            forceEventDuration={true}
+          />
+        </Box>
+      </Box>
+    </Box>
+    </LocalizationProvider>
+  );
 };
 
 export default AdminCalendar;

@@ -45,6 +45,9 @@ export const theme = createTheme({
     },
     info: {
       main: '#FFB700'
+    },
+    input: {
+      main: '#141414'
     }
   },
   typography: {
