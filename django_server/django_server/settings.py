@@ -28,11 +28,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -220,6 +219,8 @@ else:
         "http://mindfultrack.org",
         "http://mindfultrack.org:3000",
         "https://mindfultrack.org",
+        "https://mindfultrack.org:8000",
+        "http://mindfultrack.org:8000",
     ]
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -263,3 +264,9 @@ EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER") 
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")    
 DEFAULT_FROM_EMAIL = "jwdonaldson99@gmail.com" 
+
+
+UNFOLD = {
+    "SITE_TITLE": "Mindfultrack",
+    "SITE_HEADER": "Mindfultrack",
+}

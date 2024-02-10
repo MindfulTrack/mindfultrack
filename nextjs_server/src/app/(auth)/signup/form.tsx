@@ -53,6 +53,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           last_name: data.get('lastName'),
         })
       }).then((response) => {
+        console.log(response)
         if(response.status === 200){
           setOpenVerify(true)
           // router.push("/");
@@ -65,21 +66,26 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         interface holder {
           [key: string]: any
         }
-        for (const [key, value] of Object.entries(holder)) {
+        try{
+          for (const [key, value] of Object.entries(holder)) {
+            
           
-          console.log(value)
-          value.forEach((element: any) => {
-            console.log(element)
-            error += element + ' '
-          });
+            value.forEach((element: any) => {
+              console.log(element)
+              error += element + ' '
+            });
+          }
         }
+        catch{
+          error = "Account created but email verification may not have sent."
+        }
+
         router.push("/signup/"+error);
       });
     
     }
     else{
       router.push("/signup/"+"Passwords do not match!");
-      // setOpen(true);
     }
   };
 
@@ -191,7 +197,9 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link onClick={() => signIn(undefined, {callbackUrl: "/profile"})} variant="body2">
+              <div className="" style={{cursor: 'pointer'}}>
                 Already have an account? Sign in
+               </div>
               </Link>
             </Grid>
           </Grid>

@@ -74,9 +74,6 @@ export const authOptions = {
       async authorize(credentials, req) {
         // console.log(credentials)
         try {
-          console.log("URL: \n")
-          console.log(process.env.NEXTAUTH_BACKEND_URL + "auth/login/")
-          console.log("URL END")
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
             method: "post",
@@ -84,8 +81,6 @@ export const authOptions = {
             headers: {
               'Content-Type': 'application/json'}
           });
-          console.log("RESPONSE:")
-          console.log(response)
           const data = response.data;
           if (data) return data;
         } catch (error) {
@@ -93,13 +88,8 @@ export const authOptions = {
             return {'error': 'Request Timed Out. Try again.'}
           }
           try{
-          console.log("ERROR")
-          console.log(error)
-          console.log("END ERROR")
-          console.log(error.response.data.non_field_errors);
-          console.log(error.response.data.non_field_errors[0])
-          // console.error(error);
-          return {'error': error.response.data.non_field_errors[0]}
+          
+            return {'error': error.response.data.non_field_errors[0]}
           }
           catch (error){
             console.log(error)
