@@ -9,14 +9,20 @@ import {
   Switch,
   Box,
   Grid,
-  Typography
+  Typography,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  InputLabel
 } from "@mui/material"
 import { DesktopDatePicker, DesktopDateTimePicker, DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { Event } from "../../../ts/types";
+import { Circle } from "@mui/icons-material";
 
 interface AddEventModalProps {
   open: boolean;
+  isNewEvent: boolean;
   handleClose: Function;
   selectedEvent: Event | undefined;
 }
@@ -24,7 +30,9 @@ interface AddEventModalProps {
 const AddEventModal: React.FC<AddEventModalProps> = ({
   open,
   handleClose,
-  selectedEvent }) => {
+  selectedEvent,
+  isNewEvent 
+}) => {
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
@@ -48,7 +56,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     console.log("Saved!");
   };
 
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
     setEventTitle(newName);
@@ -57,33 +64,30 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     const newLocation = e.target.value;
     setEventLocation(newLocation);
   };
-
-  function roundToNearestHalfHour(date: Date) {
-    const roundedDate = new Date(date);
-    const minutes = roundedDate.getMinutes();
-    const remainder = minutes % 30;
-    
-    // Round the minutes to the nearest half-hour
-    if (remainder < 15) {
-      roundedDate.setMinutes(minutes - remainder);
-    } else {
-      roundedDate.setMinutes(minutes + (30 - remainder));
-    }
-    
-    // Reset seconds and milliseconds to zero
-    roundedDate.setSeconds(0);
-    roundedDate.setMilliseconds(0);
-    
-    return roundedDate;
-  };
   
-  const currentDate = new Date();
-  const nearestHalfHourDefaultEvent = roundToNearestHalfHour(currentDate);
+  const [selectedColor, setSelectedColor] = useState("");
+  const handleColorSelect = (event: SelectChangeEvent) => {
+    setSelectedColor(event.target.value as string);
+  }
+
+  const eventColorPalette = [
+    {id: 1, name: "Navy", value: "#002e5d" },
+    {id: 2, name: "Emerald", value: "#2ecc71" },
+    {id: 3, name: "Orange", value: "#f39c12" },
+    {id: 4, name: "Ruby", value: "#e74c3c" },
+    {id: 5, name: "Purple", value: "#9b59b6" },
+    {id: 6, name: "Turquoise", value: "#1abc9c" },
+    {id: 7, name: "Goldenrod", value: "#d35400" },
+    {id: 8, name: "Crimson", value: "#dc143c" },
+    {id: 9, name: "Indigo", value: "#4b0082" },
+    {id: 10, name: "Teal", value: "#008080" }
+  ];
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogContent sx={{ backgroundColor: 'tertiary.main' }}>
         <Box component="form" sx={{ width: '100%' }}>
+          <Typography>{isNewEvent ? "Add New Event" : "Edit Event"}</Typography>
           <TextField
             name="description"
             value={eventTitle}
@@ -120,7 +124,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 <DesktopDatePicker
                   // label="Start Date"
                   // autoFocus={true}
-                  defaultValue={ selectedEvent?.start ? dayjs(selectedEvent?.start) : dayjs(nearestHalfHourDefaultEvent)}
+                  defaultValue={dayjs(selectedEvent?.start)}
                   format="MMM D, YYYY"
                   slotProps={{
                     layout: {
@@ -140,7 +144,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <Grid item xs={6}>
                 <DesktopDatePicker
                   // label="End"
-                  defaultValue={selectedEvent?.start ? dayjs(selectedEvent?.end) : dayjs(nearestHalfHourDefaultEvent)}
+                  defaultValue={dayjs(selectedEvent?.end)}
                   format="MMM D, YYYY"
                   slotProps={{
                     layout: {
@@ -161,7 +165,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 <DateTimePicker
                   // label="Start"
                   // autoFocus={true}
-                  defaultValue={selectedEvent?.start ? dayjs(selectedEvent?.start) : dayjs(nearestHalfHourDefaultEvent)}
+                  defaultValue={dayjs(selectedEvent?.start)}
                   format="MMM D, h:mm a"
                   slotProps={{
                     layout: {
@@ -194,7 +198,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <Grid item xs={6}>
                 <DesktopDateTimePicker
                   // label="End"
-                  defaultValue={selectedEvent?.title ? dayjs(selectedEvent?.end) : dayjs(nearestHalfHourDefaultEvent).add(1, 'hour')}
+                  defaultValue={!isNewEvent ? dayjs(selectedEvent?.end) : dayjs(selectedEvent?.end).add(1, 'hour')}
                   format="MMM D, h:mm a"
                   slotProps={{
                     layout: {
@@ -229,6 +233,19 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               </Grid>
             </Grid>
           }
+          <InputLabel id="color-selector" sx={{color: 'text.primary', mt: 1.5}}>Event Color</InputLabel>
+          <Select 
+            sx={{backgroundColor: "#FFFFFF", mt: 1, width: '70%', color: 'text.primary'}}
+            labelId="color-selector"
+            value={selectedColor}
+            onChange={handleColorSelect}
+            color="primary"
+            
+          >
+            {eventColorPalette.map((color) => (
+              <MenuItem value={color.id}><Box sx={{display: 'flex'}}><Circle sx={{color: color.value, pr: 1}}/>{color.name}</Box></MenuItem>
+            ))}
+          </Select>
         </Box>
       </DialogContent>
 
@@ -236,7 +253,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         <Button color="error" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="success" onClick={handleSubmit}>
+        <Button color="primary" onClick={handleSubmit}>
           Add
         </Button>
       </DialogActions>
