@@ -16,9 +16,10 @@ import {
   InputLabel
 } from "@mui/material"
 import { DesktopDatePicker, DesktopDateTimePicker, DateTimePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import { Event } from "../../../ts/types";
 import { Circle } from "@mui/icons-material";
+import { News_Cycle } from "next/font/google";
 
 interface AddEventModalProps {
   open: boolean;
@@ -38,6 +39,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [eventLocation, setEventLocation] = useState("");
   const [allDayEvent, setAllDayEvent] = useState(false);
   const onClose = () => handleClose()
+  const [eventStart, setEventStartTime] = useState<Dayjs | null>(null)
+  const [eventEnd, setEventEndTime] = useState<Dayjs | null>(null)
 
   const handleAllDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAllDayEvent(event.target.checked);
@@ -48,12 +51,23 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       setEventTitle(selectedEvent?.title);
       setEventLocation(selectedEvent?.eventLocation || "");
       setAllDayEvent(selectedEvent.allDay);
+      setEventStartTime(dayjs(selectedEvent.start));
+      setEventEndTime(dayjs(selectedEvent.end));
     }
   }, [selectedEvent]);
 
 
   const handleSubmit = () => {
-    console.log("Saved!");
+    const savedEvent = {
+      id: (Math.random() * 1000).toString(),
+      title: eventTitle,
+      eventLocation: eventLocation,
+      allDay: allDayEvent,
+      start: eventStart,
+      end: eventEnd,
+      organizerId: Math.random() * 1000,
+      backgroundColor: selectedColor
+    };
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,8 +79,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     setEventLocation(newLocation);
   };
   
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColor, setSelectedColor] = useState("1");
   const handleColorSelect = (event: SelectChangeEvent) => {
+    console.log(event.target)
     setSelectedColor(event.target.value as string);
   }
 
@@ -100,6 +115,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             onChange={handleTitleChange}
             focused
             color="input"
+            required
           />
           <TextField
             name="description"
@@ -124,7 +140,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 <DesktopDatePicker
                   // label="Start Date"
                   // autoFocus={true}
-                  defaultValue={dayjs(selectedEvent?.start)}
+                  value={eventStart}
+                  onChange={(newStartTime) => setEventStartTime(newStartTime)}
                   format="MMM D, YYYY"
                   slotProps={{
                     layout: {
@@ -144,7 +161,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <Grid item xs={6}>
                 <DesktopDatePicker
                   // label="End"
-                  defaultValue={dayjs(selectedEvent?.end)}
+                  value={eventEnd}
+                  onChange={(newEndTime) => setEventEndTime(newEndTime)}
                   format="MMM D, YYYY"
                   slotProps={{
                     layout: {
@@ -165,7 +183,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 <DateTimePicker
                   // label="Start"
                   // autoFocus={true}
-                  defaultValue={dayjs(selectedEvent?.start)}
+                  value={eventStart}
+                  onChange={(newStartTime) => setEventStartTime(newStartTime)}
                   format="MMM D, h:mm a"
                   slotProps={{
                     layout: {
@@ -196,9 +215,10 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                 />
               </Grid>
               <Grid item xs={6}>
-                <DesktopDateTimePicker
+                <DateTimePicker
                   // label="End"
-                  defaultValue={!isNewEvent ? dayjs(selectedEvent?.end) : dayjs(selectedEvent?.end).add(1, 'hour')}
+                  value={!isNewEvent ? eventEnd : eventStart?.add(1, 'hour')}
+                  onChange={(newEndTime) => setEventEndTime(newEndTime)}
                   format="MMM D, h:mm a"
                   slotProps={{
                     layout: {
@@ -240,7 +260,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             value={selectedColor}
             onChange={handleColorSelect}
             color="primary"
-            
           >
             {eventColorPalette.map((color) => (
               <MenuItem value={color.id}><Box sx={{display: 'flex'}}><Circle sx={{color: color.value, pr: 1}}/>{color.name}</Box></MenuItem>
@@ -253,7 +272,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         <Button color="error" onClick={onClose}>
           Cancel
         </Button>
-        <Button color="primary" onClick={handleSubmit}>
+        <Button color="primary" onClick={handleSubmit} disabled={eventTitle.length == 0 ? true : false}>
           Add
         </Button>
       </DialogActions>
