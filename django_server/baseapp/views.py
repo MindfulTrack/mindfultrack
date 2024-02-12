@@ -9,6 +9,9 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
 
 class AdminPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -59,7 +62,7 @@ class ResourceDetailsView(APIView):
         resources = Resource.objects.get(resource_id=resource_id)
         return Response(resources)
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class ResourceCategoryView(APIView):
     def get(self, request):
         categories = ResourceCategory.objects.all()
@@ -75,18 +78,30 @@ class QueuePositionView(APIView):
             startTime__lt = student_entry.startTime
         ).count() + 1
         return Response(student_position)
-    
+
+@permission_classes([IsAuthenticated])
 class StudentQueueView(APIView):
     # GET all students in the queue
-    print("we at least made it to the api call")
     def get (self, request, format=None):
         studentQueue = StudentQueue.objects.all()
         serializer = StudentQueueSerializer(studentQueue, many=True)
         return Response(serializer.data)
 
     # POST a new student to the queue
+    def post (self, request):
+        # queueData = request
+        serializer = StudentQueueSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     # DELETE a student from the queue
+    def delete (self, request, person_id):
+        studentQueue = get_object_or_404(StudentQueue, person_id = person_id)
+        studentQueue.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 #Person
