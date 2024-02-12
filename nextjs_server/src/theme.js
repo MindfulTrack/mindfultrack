@@ -33,7 +33,7 @@ export const theme = createTheme({
     },
     background: {
       default: "#ffffff",
-      paper: "#002E5D",
+      paper: "#FFFFFF",
     },
     text: {
       primary: '#141414', // DARK GRAY
@@ -45,6 +45,9 @@ export const theme = createTheme({
     },
     info: {
       main: '#FFB700'
+    },
+    input: {
+      main: '#141414'
     }
   },
   typography: {
