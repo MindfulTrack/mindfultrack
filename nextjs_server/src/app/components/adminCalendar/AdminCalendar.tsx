@@ -21,20 +21,22 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
 import { Event } from "../../../ts/types";
+import { InfoRounded } from "@mui/icons-material";
 
 interface AdminCalendarProps {
 
 };
 
 const AdminCalendar: React.FC<AdminCalendarProps> = () => {
-  const [currentEvents, setCurrentEvents] = useState<Event[]>([]);
+  const calendarEvents = mockEvents as Event[]
+  const [currentEvents, setCurrentEvents] = useState(calendarEvents);
   const [openSlot, setOpenSlot] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [isNewEvent, setIsNewEvent] = useState(false);
 
-  useEffect(() => {
-    setCurrentEvents(mockEvents);
-  });
+  // useEffect(() => {
+  //   setCurrentEvents(mockEvents);
+  // });
 
   const handleClose = () => {
     setOpenSlot(false)
@@ -50,14 +52,14 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       start: selected.dateStr,
       end: selected.dateStr,
       organizerId: Math.random() * 1000,
-      backgroundColor: '#141414'
+      backgroundColor: '#141414',
+      editable: true
     };
     setSelectedEvent(newEvent);
     setOpenSlot(true);
   };
 
-  const handleEventClick = (selected: EventClickArg) => {
-    console.log(dayjs(new Date()))
+  const handleEventClick = (selected: any) => {
     setIsNewEvent(false);
     const event = {
       id: selected.event.id,
@@ -67,7 +69,8 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       start: selected.event.startStr,
       end: selected.event.endStr,
       organizerId: selected.event.extendedProps.organizerId,
-      backgroundColor: selected.event.backgroundColor
+      backgroundColor: selected.event.backgroundColor,
+      editable: selected.event.editable
     };
 
     setSelectedEvent(event);
@@ -77,10 +80,68 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const currentDate = new Date();
   const currentTime = dayjs(currentDate).format('HH:mm:ss');
 
+  const handleEventsUpdate = (updatedEvent: Event) => {
+    const savedEvent: Event = {
+      id: updatedEvent.id,
+      title: updatedEvent.title,
+      eventLocation: updatedEvent.eventLocation,
+      allDay: updatedEvent.allDay,
+      start: updatedEvent.start,
+      end: updatedEvent.end,
+      organizerId: updatedEvent.organizerId,
+      backgroundColor: updatedEvent.backgroundColor,
+      editable: updatedEvent.editable
+    };
+
+    const updatedEvents = currentEvents.filter(event =>
+      event.id === savedEvent.id
+    );
+
+    if (updatedEvents.length === 0) {
+      setCurrentEvents(prevEvents => [...prevEvents, savedEvent]);
+    } else {
+      const updatedEventIndex = currentEvents.findIndex(event => event.id === updatedEvent.id);
+
+      if (updatedEventIndex !== -1) {
+        const updatedEvents = [...currentEvents];
+        updatedEvents[updatedEventIndex] = {
+          ...updatedEvents[updatedEventIndex],
+          id: updatedEvent.id,
+          title: updatedEvent.title,
+          eventLocation: updatedEvent.eventLocation,
+          allDay: updatedEvent.allDay,
+          start: updatedEvent.start,
+          end: updatedEvent.end,
+          organizerId: updatedEvent.organizerId,
+          backgroundColor: updatedEvent.backgroundColor,
+          editable: updatedEvent.editable
+        };
+        setCurrentEvents(updatedEvents);
+      }
+    }
+
+    setOpenSlot(false);
+  };
+
+  const handleEventDrag = (info: { event: any }) => {
+    const updatedEventIndex = currentEvents.findIndex(event => event.id === info.event.id);
+
+    if (updatedEventIndex !== -1) {
+      const updatedEvents = [...currentEvents];
+      updatedEvents[updatedEventIndex] = {
+        ...updatedEvents[updatedEventIndex],
+        start: info.event.start,
+        end: info.event.end,
+        allDay: info.event.allDay,
+        editable: info.event.allDay ? false : true
+      };
+      setCurrentEvents(updatedEvents);
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box m="20px">
-        {/* <Header title="Calendar" subtitle="Full Calendar Interactive Page" /> */}
 
         <Box display="flex" justifyContent="space-between">
           <AddEventModal
@@ -88,6 +149,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
             isNewEvent={isNewEvent}
             handleClose={handleClose}
             selectedEvent={selectedEvent}
+            handleEventsUpdate={handleEventsUpdate}
           />
           {/* CALENDAR SIDEBAR */}
           <Box
@@ -124,37 +186,65 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
                       borderRadius: "2px",
                     }}
                   >
+
                     <ListItemText
                       primary={event.title}
                       secondary={
                         <Typography sx={{ fontSize: '12px' }}>
-                          {event.start == undefined ? "" :
-                            formatDate(event.start, {
-                              // year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit"
-                            })} - {event.end == undefined ? "" :
-                              formatDate(event.end, {
-                                hour: "numeric",
-                                minute: "2-digit"
-                              })}
+                          {/* Sidebar cards */}
 
+                          {event.allDay ?
+                            <>
+                              {/* All day stuff */}
+                              {event.start == undefined ? "" :
+                                formatDate(event.start, {
+                                  // year: "numeric",
+                                  month: "short",
+                                  day: "numeric"
+                                })}
+                              {event.end == undefined ||
+                                dayjs(event.start).add(1, 'day').date()
+                                === dayjs(event.end).date()
+                                ? ""
+                                : " - "
+                              }
+                              {event.end == undefined ||
+                                dayjs(event.start).add(1, 'day').date()
+                                === dayjs(event.end).date()
+                                ? ""
+                                :
+                                formatDate(event.end, {
+                                  month: "short",
+                                  day: "numeric"
+                                })}
+                            </>
+                            :
+                            <>
+                              {/* Normal event stuff */}
+                              {event.start == undefined ? "" :
+                                formatDate(event.start, {
+                                  hour: "numeric",
+                                  minute: "2-digit"
+                                })} - {event.end == undefined ? "" :
+                                  formatDate(event.end, {
+                                    hour: "numeric",
+                                    minute: "2-digit"
+                                  })}
+                            </>
+                          }
                         </Typography>
                       }
                     />
-                  </ListItem>
-                ))}
+                  </ListItem>))
+              }
             </List>
           </Box>
 
           {/* CALENDAR */}
           <Box flex="1 1 100%" ml="15px">
             <FullCalendar
-              height="80vh"
+              height="85vh"
               handleWindowResize={true}
-              // contentHeight={"auto"}
               plugins={[
                 dayGridPlugin,
                 timeGridPlugin,
@@ -169,25 +259,23 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
               }}
               initialView="timeGridWeek"
               scrollTime={currentTime}
-              editable={true}
               selectable={true}
               selectMirror={true}
               dayMaxEvents={false}
               nowIndicator={true}
+              allDayMaintainDuration={true}
+              eventDrop={(event) => handleEventDrag(event)}
               contentHeight={'20px'}
               dateClick={handleDateClick}
               eventClick={handleEventClick}
+              eventResize={handleEventDrag}
               events={currentEvents}
-              // eventsSet={(events) => setCurrentEvents(events)}
-              initialEvents={currentEvents}
               eventColor="transparent"
               businessHours={{
                 daysOfWeek: [1, 2, 3, 4, 5],
                 startTime: '08:00',
                 endTime: '18:00'
               }}
-              defaultTimedEventDuration={'01:00'}
-              forceEventDuration={true}
             />
           </Box>
         </Box>
