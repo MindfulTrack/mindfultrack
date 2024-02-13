@@ -106,7 +106,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
 # Student Queue
 class StudentQueueSerializer(serializers.ModelSerializer):
-    print("we made it to the serializer")
     class Meta:
         model = StudentQueue
         fields = '__all__'
