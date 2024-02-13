@@ -66,10 +66,19 @@ class Person(models.Model):
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
 
+
+class QueueLeaveReason(models.Model):
+    leaveReason = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.leaveReason
+    
 class StudentQueue(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     startTime = models.DateTimeField()
     endTime = models.DateTimeField(blank=True, null=True)
+    leaveReason = models.ForeignKey(QueueLeaveReason, on_delete=models.SET_NULL, null=True, blank=True)
+    notes = models.CharField(max_length=1048, blank=True, null=True)
 
     def __str__(self):
         return self.person.last_name + " " + str(self.startTime)
