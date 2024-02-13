@@ -67,7 +67,13 @@ MIDDLEWARE = [
     
 ]
 
-CSRF_TRUSTED_ORIGINS=['https://*.MINDFULTRACK.ORG', 'http://*.MINDFULTRACK.ORG']
+CSRF_TRUSTED_ORIGINS=[
+    'https://*.mindfultrack.org',
+    'http://*.mindfultrack.org', 
+    'https://mindfultrack.org',
+    'https://mindfultrack.org:8000',
+    'http://mindfultrack.org',
+    ]
 
 ROOT_URLCONF = 'django_server.urls'
 
@@ -134,7 +140,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-ALLOWED_HOSTS = ['*', '.mindfultrack.org']
+ALLOWED_HOSTS = ['*', '.mindfultrack.org', 'mindfultrack.org']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -222,7 +228,8 @@ else:
         "http://mindfultrack.org:3000",
         "https://mindfultrack.org",
         "https://mindfultrack.org:8000",
-        "http://mindfultrack.org:8000",
+        "http://mindfultrack.org:8000"
+        "mindfultrack.org",
     ]
 
 ACCOUNT_EMAIL_REQUIRED = True
