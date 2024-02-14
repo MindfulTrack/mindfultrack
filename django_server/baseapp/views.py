@@ -109,7 +109,7 @@ class StudentQueueView(APIView):
 
 #University
 @permission_classes([IsAuthenticated])
-class UniversityView(APIView):
+class UniversitysView(APIView):
     # GET all universities
     def get (self, request, format=None):
         university = University.objects.all()
@@ -123,7 +123,6 @@ class UniversityView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     # DELETE university
     def delete (self, request, university_id):

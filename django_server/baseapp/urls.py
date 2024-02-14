@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
-from .views import UniversityView
+from .views import UniversitysView
 
 urlpatterns = [
     path('healthcheck/', healthcheck, name='healthcheck'),
@@ -24,6 +24,6 @@ urlpatterns = [
     #Person
 
     #University
-    path('university/', UniversityView.as_view(), name='studentQueue'),
-    path('university/<int:university_id>/', UniversityView.as_view(), name='studentQueueDelete')
+    path('university/', UniversitysView.as_view(), name='universitysView'),
+    path('university/<int:university_id>/', UniversitysView.as_view(), name='universitysDelete')
 ]
