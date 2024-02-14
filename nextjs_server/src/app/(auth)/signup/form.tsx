@@ -28,12 +28,12 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [openVerify, setOpenVerify] = React.useState(false);
 
-  const handleCloseVerify = (event: any, reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenVerify(false);
-  };
+  // const handleCloseVerify = (event: any, reason: string) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpenVerify(false);
+  // };
 
   const handleSubmit = async (event: any) => {
     console.log("NORMAL AUTH")
@@ -66,21 +66,23 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         interface holder {
           [key: string]: any
         }
-        try{
-          for (const [key, value] of Object.entries(holder)) {
+        if(data.error){
+          try{
+            for (const [key, value] of Object.entries(holder)) {
+              
             
-          
-            value.forEach((element: any) => {
-              console.log(element)
-              error += element + ' '
-            });
+              value.forEach((element: any) => {
+                console.log(element)
+                error += element + ' '
+              });
+            }
           }
-        }
-        catch{
-          error = "Account created but email verification may not have sent."
-        }
+          catch{
+            error = "Account created but email verification may not have sent."
+          }
 
-        router.push("/signup/"+error);
+          router.push("/signup/"+error);
+        }
       });
     
     }
@@ -110,7 +112,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           Sign up
         </Typography>
 
-        { openVerify ? <Alert severity="success" onClose={() => handleCloseVerify}>
+        { openVerify ? <Alert severity="success" onClose={() => setOpenVerify(false)}>
         Email Verification Sent!
         </Alert> : null}
         

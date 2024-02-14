@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'corsheaders',
     'allauth.socialaccount.providers.google',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -205,6 +206,14 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Mindfultrack API',
+    'DESCRIPTION': 'Scheduling mental health services simply and efficiently',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 SITE_ID = 1

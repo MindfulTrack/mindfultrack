@@ -12,12 +12,12 @@ interface PasswordResetFormProps {
 const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
   const [open, setOpen] = useState(false);
   
-  const handleClose = (event: any, reason: any) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  // const handleClose = (event: any, reason: any) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
 
   const handleSubmit = async (event: any) => {
 
@@ -50,7 +50,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = () => {
           Send Email Verification
         </Typography>
         
-        { open ? <Alert severity="success" onClose={() => handleClose}>
+        { open ? <Alert severity="success" onClose={() => setOpen(false)}>
         Email Sent!
         </Alert> : null}
 
