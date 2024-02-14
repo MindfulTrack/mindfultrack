@@ -14,7 +14,7 @@ export async function POST(request){
         let data
         try {
             const response = await axios({
-                url: process.env.NEXTAUTH_BACKEND_URL + "auth/password/reset/",
+                url: process.env.NEXT_PUBLIC_BACKEND_URL + "auth/password/reset/",
                 method: "post",
                 data:{
                     email: email,
