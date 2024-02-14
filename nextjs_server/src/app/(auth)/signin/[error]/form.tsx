@@ -24,12 +24,12 @@ const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
   const error = String(decodeURIComponent(params.error))
   const [open, setOpen] = React.useState(true);
 
-  const handleClose = (event: any, reason: any) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  // const handleClose = (event: any, reason: any) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
   
   // const router = useRouter();
   const handleLoginWithGoogle = () => {
@@ -67,7 +67,7 @@ const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
               Resend Email Verification?
           </Button>}>
           {error}
-        </Alert> : open ? <Alert severity="error" onClose={() => handleClose}>
+        </Alert> : open ? <Alert severity="error" onClose={() => setOpen(false)}>
         {error}
         </Alert> : null
         }

@@ -26,24 +26,24 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
   const router = useRouter();
   
   //Error Alert
-  const error = String(decodeURIComponent(params.error))
+  let error = String(decodeURIComponent(params.error))
   // let passwordError = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(true);
   const [openVerify, setOpenVerify] = React.useState(true);
 
-  const handleClose = (event: any, reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  // const handleClose = (event: any, reason: string) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpen(false);
+  // };
 
-  const handleCloseVerify = (event: any, reason: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenVerify(false);
-  };
+  // const handleCloseVerify = (event: any, reason: string) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setOpenVerify(false);
+  // };
 
   const handleSubmit = async (event: any) => {
     console.log("NORMAL AUTH")
@@ -66,6 +66,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
         if(response.status === 200){
           // router.push("/");
           setOpenVerify(true)
+          setOpen(false)
         }
         return response.json();
       })
@@ -75,24 +76,27 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
         interface holder {
           [key: string]: any
         }
-        try{
-          for (const [key, value] of Object.entries(holder)) {
-            
-            console.log(value)
-            value.forEach((element: any) => {
-              console.log(element)
-              error += element + ' '
-            });
+        if(holder){
+          try{
+            for (const [key, value] of Object.entries(holder)) {
+              
+              console.log(value)
+              value.forEach((element: any) => {
+                console.log(element)
+                error += element + ' '
+              });
+            }
           }
+          catch{
+            error = "Account created but email verification may not have sent."
+          }
+          router.push("/signup/"+error);
         }
-        catch{
-          error = "Account created but email verification may not have sent."
-        }
-        router.push("/signup/"+error);
       });
     
     }
     else{
+      error = 'Passwords must match';
       setOpen(true);
     }
   }
@@ -117,12 +121,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        {open ? <Alert severity="error" onClose={() => handleClose}>
+        {open ? <Alert severity="error" onClose={() => setOpen(false)}>
         {error}
         </Alert> : null}
-        { openVerify ? <Alert severity="success" onClose={() => handleCloseVerify}>
+        { openVerify ? <Alert severity="success" onClose={() => setOpenVerify(false)}>
         Email Verification Sent!
         </Alert> : null}
+
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
