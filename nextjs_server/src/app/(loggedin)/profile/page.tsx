@@ -18,7 +18,7 @@ export default function Profile() {
     try {
       const response = await axios({
         method: "get",
-        url: process.env.NEXT_PUBLIC_BACKEND_URL + "auth/user/",
+        url: process.env.NEXTAUTH_BACKEND_URL + "auth/user/",
         headers: useToken ? {Authorization: "Bearer " + session.access_token} : {},
       });
       setResponse(JSON.stringify(response.data));

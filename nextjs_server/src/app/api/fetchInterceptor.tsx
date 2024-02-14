@@ -7,7 +7,7 @@ async function customFetch(url : any, options : any = {}) {
   const op : any = authOptions;
   const session : any = await getServerSession(op);
   const token = session?.access_token;
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  const baseUrl = process.env.NEXTAUTH_BACKEND_URL
 
   const customOptions = {
     ...options,

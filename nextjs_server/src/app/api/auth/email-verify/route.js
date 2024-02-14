@@ -15,7 +15,7 @@ export async function POST(request){
         console.log(decodeURIComponent(key))
         try {
             const response = await axios({
-                url: process.env.NEXTAUTH_BACKEND_URL + "auth/register/verify-email/",
+                url: process.env.NEXT_PUBLIC_BACKEND_URL + "auth/register/verify-email/",
                 method: "post",
                 data:{
                     key: String(decodeURIComponent(key)),
