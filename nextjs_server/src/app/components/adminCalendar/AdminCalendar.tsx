@@ -21,7 +21,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
 import { Event } from "../../../ts/types";
-import { InfoRounded } from "@mui/icons-material";
 
 interface AdminCalendarProps {
 
@@ -33,10 +32,6 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [isNewEvent, setIsNewEvent] = useState(false);
-
-  // useEffect(() => {
-  //   setCurrentEvents(mockEvents);
-  // });
 
   const handleClose = () => {
     setOpenSlot(false)
@@ -53,7 +48,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       end: selected.dateStr,
       organizerId: Math.random() * 1000,
       backgroundColor: '#141414',
-      editable: true
+      oneDayEvent: false
     };
     setSelectedEvent(newEvent);
     setOpenSlot(true);
@@ -67,10 +62,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       eventLocation: selected.event.extendedProps.eventLocation,
       allDay: selected.event.allDay,
       start: selected.event.startStr,
-      end: selected.event.endStr,
+      end: selected.event.allDay && !selected.event.oneDayEvent ? dayjs(selected.event.end).subtract(1, 'day').format('YYYY-MM-DD'): selected.event.end,
       organizerId: selected.event.extendedProps.organizerId,
       backgroundColor: selected.event.backgroundColor,
-      editable: selected.event.editable
+      oneDayEvent: selected.event.extendedProps.oneDayEvent
     };
 
     setSelectedEvent(event);
@@ -87,10 +82,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       eventLocation: updatedEvent.eventLocation,
       allDay: updatedEvent.allDay,
       start: updatedEvent.start,
-      end: updatedEvent.end,
+      end: updatedEvent.allDay && !updatedEvent.oneDayEvent ? dayjs(updatedEvent.end).add(1, 'day').format('YYYY-MM-DD'): updatedEvent.end,
       organizerId: updatedEvent.organizerId,
       backgroundColor: updatedEvent.backgroundColor,
-      editable: updatedEvent.editable
+      oneDayEvent: updatedEvent.oneDayEvent
     };
 
     const updatedEvents = currentEvents.filter(event =>
@@ -106,15 +101,15 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
         const updatedEvents = [...currentEvents];
         updatedEvents[updatedEventIndex] = {
           ...updatedEvents[updatedEventIndex],
-          id: updatedEvent.id,
-          title: updatedEvent.title,
-          eventLocation: updatedEvent.eventLocation,
-          allDay: updatedEvent.allDay,
-          start: updatedEvent.start,
-          end: updatedEvent.end,
-          organizerId: updatedEvent.organizerId,
-          backgroundColor: updatedEvent.backgroundColor,
-          editable: updatedEvent.editable
+          id: savedEvent.id,
+          title: savedEvent.title,
+          eventLocation: savedEvent.eventLocation,
+          allDay: savedEvent.allDay,
+          start: savedEvent.start,
+          end: savedEvent.end,
+          organizerId: savedEvent.organizerId,
+          backgroundColor: savedEvent.backgroundColor,
+          oneDayEvent: savedEvent.oneDayEvent
         };
         setCurrentEvents(updatedEvents);
       }
@@ -123,20 +118,30 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
     setOpenSlot(false);
   };
 
+  const [adjustedEnd, setAdjustedEnd] = useState("");
   const handleEventDrag = (info: { event: any }) => {
     const updatedEventIndex = currentEvents.findIndex(event => event.id === info.event.id);
 
+    console.log('start', dayjs(info.event.start).day())
+    console.log('end', dayjs(info.event.start).day())
     if (updatedEventIndex !== -1) {
       const updatedEvents = [...currentEvents];
       updatedEvents[updatedEventIndex] = {
         ...updatedEvents[updatedEventIndex],
+        oneDayEvent: info.event.end === null || dayjs(info.event.start).day() === dayjs(info.event.end).subtract(1,'day').day() ? true : false,
         start: info.event.start,
-        end: info.event.end,
-        allDay: info.event.allDay,
-        editable: info.event.allDay ? false : true
+        end: info.event.oneDayEvent ? info.event.start : info.event.end === null ? dayjs(info.event.start).add(1, 'hour').format('YYYY-MM-DDTHH:mm') : info.event.end,
+        allDay: info.event.allDay
       };
+
       setCurrentEvents(updatedEvents);
     }
+  };
+
+  const handleDelete = (id: string) => {
+    const updatedEvents = currentEvents.filter(event => event.id !== id);
+    setCurrentEvents(updatedEvents);
+    setOpenSlot(false);
   };
 
   return (
@@ -150,6 +155,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
             handleClose={handleClose}
             selectedEvent={selectedEvent}
             handleEventsUpdate={handleEventsUpdate}
+            handleDelete={handleDelete}
           />
           {/* CALENDAR SIDEBAR */}
           <Box
@@ -202,27 +208,23 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
                                   month: "short",
                                   day: "numeric"
                                 })}
-                              {event.end == undefined ||
-                                dayjs(event.start).add(1, 'day').date()
-                                === dayjs(event.end).date()
+                              {event.oneDayEvent
                                 ? ""
                                 : " - "
                               }
-                              {event.end == undefined ||
-                                dayjs(event.start).add(1, 'day').date()
-                                === dayjs(event.end).date()
+                              {event.oneDayEvent
                                 ? ""
                                 :
-                                formatDate(event.end, {
-                                  month: "short",
-                                  day: "numeric"
-                                })}
+                                dayjs(event.end).subtract(1, 'day').format('MMM DD')
+                              }
                             </>
                             :
                             <>
                               {/* Normal event stuff */}
                               {event.start == undefined ? "" :
                                 formatDate(event.start, {
+                                  month: "short",
+                                  day: "numeric",
                                   hour: "numeric",
                                   minute: "2-digit"
                                 })} - {event.end == undefined ? "" :
@@ -255,20 +257,21 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
               headerToolbar={{
                 left: "prev,next today",
                 center: "title",
-                right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+                right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay",
               }}
               initialView="timeGridWeek"
               scrollTime={currentTime}
+              editable={true}
               selectable={true}
               selectMirror={true}
               dayMaxEvents={false}
               nowIndicator={true}
-              allDayMaintainDuration={true}
+              allDayMaintainDuration={false}
               eventDrop={(event) => handleEventDrag(event)}
               contentHeight={'20px'}
               dateClick={handleDateClick}
               eventClick={handleEventClick}
-              eventResize={handleEventDrag}
+              eventResize={(event) => handleEventDrag(event)}
               events={currentEvents}
               eventColor="transparent"
               businessHours={{

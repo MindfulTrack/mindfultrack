@@ -7,7 +7,7 @@ export interface Event {
   end: string;
   organizerId?: number;
   backgroundColor: string;
-  editable: boolean;
+  oneDayEvent: boolean;
 };
 
 export const eventColorPalette = [

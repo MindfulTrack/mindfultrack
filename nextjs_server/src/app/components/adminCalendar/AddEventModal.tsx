@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   TextField,
   Dialog,
@@ -13,12 +13,13 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  InputLabel
+  InputLabel,
+  Checkbox
 } from "@mui/material"
-import { DesktopDatePicker, DesktopDateTimePicker, DateTimePicker } from "@mui/x-date-pickers";
+import { DesktopDatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { Event } from "../../../ts/types";
-import { Circle } from "@mui/icons-material";
+import { Delete, Circle } from "@mui/icons-material";
 import { eventColorPalette } from "../../../ts/types";
 
 interface AddEventModalProps {
@@ -27,6 +28,7 @@ interface AddEventModalProps {
   handleClose: Function;
   selectedEvent: Event | undefined;
   handleEventsUpdate: Function;
+  handleDelete: Function;
 }
 
 const AddEventModal: React.FC<AddEventModalProps> = ({
@@ -34,18 +36,41 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   handleClose,
   selectedEvent,
   isNewEvent,
-  handleEventsUpdate
+  handleEventsUpdate,
+  handleDelete
 }) => {
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [allDayEvent, setAllDayEvent] = useState(false);
-  const onClose = () => handleClose();
-  const [eventStart, setEventStartTime] = useState<Dayjs | null>(null)
-  const [eventEnd, setEventEndTime] = useState<Dayjs | null>(null)
+  const [todayOnly, setTodayOnly] = useState(false);
+  const [eventStart, setEventStartTime] = useState<Dayjs | null>(null);
+  const [eventEnd, setEventEndTime] = useState<Dayjs | null>(null);
+  const [tempEventEnd, setTempEventEnd] = useState<Dayjs | null>(null);
+  const [tempEventTimeEnd, setTempEventTimeEnd] = useState<Dayjs | null>(null);
+  const [changedFromAllDay, setChangedFromAllDay] = useState(false);
 
   const handleAllDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (allDayEvent && !changedFromAllDay) {
+      setChangedFromAllDay(true);
+      const eventHour = dayjs(eventStart).hour();
+      if (eventHour < 8) {
+        setEventStartTime(dayjs(eventStart).add(9, 'hours'));
+        setEventEndTime(dayjs(eventStart).add(1, 'hour'));
+      } else {
+        setEventStartTime(eventStart)
+        setEventEndTime(eventEnd)
+      }
+    }
+    setTodayOnly(true);
     setAllDayEvent(event.target.checked);
+
+  };
+  const handleOneDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodayOnly(event.target.checked);
+    if (!todayOnly) {
+      setEventEndTime(tempEventEnd);
+    }
   };
 
   useEffect(() => {
@@ -54,32 +79,51 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       setEventLocation(selectedEvent?.eventLocation || "");
       setAllDayEvent(selectedEvent.allDay);
       setEventStartTime(dayjs(selectedEvent.start));
+      setTempEventEnd(dayjs(selectedEvent.start).add(1, 'days'));
+      // setTempEventTimeEnd(dayjs(selectedEvent.end));
       setEventEndTime(dayjs(selectedEvent.end))
       const backgroundColor = eventColorPalette
         .filter((eventColor) => eventColor.value === selectedEvent.backgroundColor);
       setSelectedColor(backgroundColor[0]?.id.toString() || "1");
+      setTodayOnly(selectedEvent.oneDayEvent);
     }
   }, [selectedEvent]);
 
+  const handleCancel = () => {
+    setChangedFromAllDay(false);
+    handleClose()
+  };
 
   const handleSubmit = () => {
+    setChangedFromAllDay(false);
     const backgroundColor = eventColorPalette
       .filter((eventColor) => eventColor.id.toString() === selectedColor.toString());
 
+    if (allDayEvent && !todayOnly) {
+      const addedDay = dayjs(eventEnd).add(1, 'day');
+      setEventEndTime(addedDay);
+    }
     const savedEvent = {
       id: isNewEvent ? Math.round(Math.random() * 1000).toString() : selectedEvent?.id,
       title: eventTitle,
       eventLocation: eventLocation,
       allDay: allDayEvent,
-      start: dayjs(eventStart).format('YYYY-MM-DDTHH:mm:ss'),
-      end: dayjs(eventEnd).format('YYYY-MM-DDTHH:mm:ss'),
+      start: allDayEvent ? dayjs(eventStart).format('YYYY-MM-DD') : dayjs(eventStart).format('YYYY-MM-DDTHH:mm'),
+      end: allDayEvent ? dayjs(eventEnd).format('YYYY-MM-DD') : dayjs(eventEnd).format('YYYY-MM-DDTHH:mm'),
       organizerId: isNewEvent ? Math.round(Math.random() * 1000) : selectedEvent?.organizerId,
       backgroundColor: backgroundColor[0].value,
-      editable: !allDayEvent ? true : false
+      oneDayEvent: todayOnly
     };
 
     handleEventsUpdate(savedEvent);
   };
+
+  const handleDeleteClick = () => {
+    let confirmation = confirm("Are you sure you would like to delete this event? " + '"' + selectedEvent?.title + '"')
+    if (confirmation) {
+      handleDelete(selectedEvent?.id);
+    }
+  }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
@@ -96,10 +140,13 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleCancel}>
       <DialogContent sx={{ backgroundColor: 'tertiary.main' }}>
         <Box component="form" sx={{ width: '100%' }}>
+          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography>{isNewEvent ? "Add New Event" : "Edit Event"}</Typography>
+          {!isNewEvent ? <Delete onClick={handleDeleteClick} sx={{cursor: 'pointer'}}/> : <></>}
+          </Box>
           <TextField
             name="description"
             value={eventTitle}
@@ -111,7 +158,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             variant="filled"
             onChange={handleTitleChange}
             focused
-            // color="input"
+            color="input"
             required
           />
           <TextField
@@ -125,12 +172,20 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             variant="filled"
             onChange={handleLocationChange}
             focused
-            // color="input"
+            color="input"
           />
           <Box sx={{ mt: 1.5, mb: 1.5, display: 'flex' }}>
             <Switch color="primary" onChange={handleAllDayEvent} checked={allDayEvent} />
             <Typography variant='body1' color={'text.primary'}>All day</Typography>
           </Box>
+          {allDayEvent ?
+            <Box sx={{ display: 'flex' }}>
+              <Checkbox color="primary" onChange={handleOneDayEvent} checked={todayOnly} sx={{ mb: '10px', pt: 0.5 }} />
+              <Typography variant='body1' color={'text.primary'}>One-day event?</Typography>
+            </Box>
+            :
+            <></>
+          }
           {allDayEvent ?
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -146,9 +201,6 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                         '.MuiDateCalendar-root': {
                           color: 'text.primary',
                           backgroundColor: '#ffffff'
-                        },
-                        '.MuiFormLabel-root': {
-                          color: 'text.primary'
                         }
                       }
                     }
@@ -158,8 +210,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <Grid item xs={6}>
                 <DesktopDatePicker
                   // label="End"
-                  value={eventEnd}
+                  value={todayOnly ? eventStart : eventEnd}                 
                   onChange={(newEndTime) => setEventEndTime(newEndTime)}
+                  disabled={todayOnly ? true : false}
                   format="ddd, MMM D, YYYY"
                   slotProps={{
                     layout: {
@@ -167,6 +220,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                         '.MuiDateCalendar-root': {
                           color: 'text.primary',
                           backgroundColor: '#ffffff'
+                        },
+                        '.MuiInputBase-root-MuiOutlinedInput-root': {
+                          color: dayjs(eventEnd)?.valueOf() < dayjs(eventStart)?.valueOf() ? 'error' : 'text.primary'
                         }
                       }
                     }
@@ -214,7 +270,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <Grid item xs={6}>
                 <DateTimePicker
                   // label="End"
-                  value={!isNewEvent ? eventEnd : eventStart?.add(1, 'hour')}
+                  value={isNewEvent && changedFromAllDay ? eventStart?.add(1, 'hour') : eventEnd}
                   onChange={(newEndTime) => setEventEndTime(newEndTime)}
                   format="ddd, MMM D, h:mm a"
                   slotProps={{
@@ -259,17 +315,17 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             color="primary"
           >
             {eventColorPalette.map((color) => (
-              <MenuItem value={color.id}><Box sx={{ display: 'flex' }}><Circle sx={{ color: color.value, pr: 1 }} />{color.name}</Box></MenuItem>
+              <MenuItem key={color.id} value={color.id}><Box sx={{ display: 'flex' }}><Circle sx={{ color: color.value, pr: 1 }} />{color.name}</Box></MenuItem>
             ))}
           </Select>
         </Box>
       </DialogContent>
 
       <DialogActions sx={{ backgroundColor: 'tertiary.main' }}>
-        <Button color="error" onClick={onClose}>
+        <Button color="error" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" color="primary" onClick={handleSubmit} disabled={eventTitle.length == 0 ? true : false}>
+        <Button variant="contained" color="primary" onClick={handleSubmit} disabled={eventTitle.length == 0 || dayjs(eventEnd)?.valueOf() < dayjs(eventStart)?.valueOf() ? true : false}>
           Save
         </Button>
       </DialogActions>

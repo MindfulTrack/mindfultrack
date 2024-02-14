@@ -7,8 +7,8 @@
     "end": "2024-02-04T09:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#002e5d",
-    "editable": true
+    "backgroundColor": "#002e5d", 
+    "oneDayEvent": false
   },
   {
     "id": "2",
@@ -19,7 +19,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#2ecc71",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "3",
@@ -30,7 +30,7 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#f39c12",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "4",
@@ -41,7 +41,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#e74c3c",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "5",
@@ -52,7 +52,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#9b59b6",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "6",
@@ -63,7 +63,7 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#1abc9c",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "7",
@@ -74,7 +74,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#d35400",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "8",
@@ -85,7 +85,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#dc143c",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "9",
@@ -96,7 +96,7 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#4b0082",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "10",
@@ -107,7 +107,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#008080",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "11",
@@ -117,7 +117,7 @@
     "end": "2024-02-11",
     "organizerId": 789,
     "backgroundColor": "#008080",
-    "editable": false
+    "oneDayEvent": false
   },
   {
     "id": "12",
@@ -128,7 +128,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#002e5d",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "13",
@@ -139,7 +139,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#2ecc71",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "14",
@@ -150,7 +150,7 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#f39c12",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "15",
@@ -161,7 +161,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#e74c3c",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "16",
@@ -172,7 +172,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#9b59b6",
-    "editable": true
+    "oneDayEvent": false
   },
   {
     "id": "17",
@@ -183,7 +183,7 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#1abc9c",
-    "editable": true
+     "oneDayEvent": false
   },
   {
     "id": "18",
@@ -194,7 +194,7 @@
     "organizerId": 123,
     "allDay": false,
     "backgroundColor": "#d35400",
-    "editable": true
+     "oneDayEvent": false
   },
   {
     "id": "19",
@@ -205,7 +205,7 @@
     "organizerId": 456,
     "allDay": false,
     "backgroundColor": "#dc143c",
-    "editable": true
+     "oneDayEvent": false
   },
   {
     "id": "20",
@@ -216,6 +216,6 @@
     "organizerId": 789,
     "allDay": false,
     "backgroundColor": "#4b0082",
-    "editable": true
+     "oneDayEvent": false
   }
 ]
