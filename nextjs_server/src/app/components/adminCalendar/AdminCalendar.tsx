@@ -38,17 +38,18 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   };
 
   const handleDateClick = (selected: any) => {
+    console.log(selected.dateStr)
     setIsNewEvent(true);
     const newEvent = {
       id: (Math.random() * 1000).toString(),
       title: "",
       eventLocation: "",
-      allDay: false,
+      allDay: selected.allDay ? true : false,
       start: selected.dateStr,
-      end: selected.dateStr,
+      end: dayjs(selected.dateStr).add(1,'hour').format(),
       organizerId: Math.random() * 1000,
       backgroundColor: '#141414',
-      oneDayEvent: false
+      oneDayEvent: selected.allDay ? true : false
     };
     setSelectedEvent(newEvent);
     setOpenSlot(true);
@@ -122,8 +123,8 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const handleEventDrag = (info: { event: any }) => {
     const updatedEventIndex = currentEvents.findIndex(event => event.id === info.event.id);
 
-    console.log('start', dayjs(info.event.start).day())
-    console.log('end', dayjs(info.event.start).day())
+    console.log('start', dayjs(info.event.start).format('YYYY-MM-DD HH:MM'))
+    console.log('end', dayjs(info.event.start).format('YYYY-MM-DD HH:MM'))
     if (updatedEventIndex !== -1) {
       const updatedEvents = [...currentEvents];
       updatedEvents[updatedEventIndex] = {
