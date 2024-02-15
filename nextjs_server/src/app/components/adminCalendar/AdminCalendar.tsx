@@ -27,37 +27,35 @@ interface AdminCalendarProps {
 };
 
 const AdminCalendar: React.FC<AdminCalendarProps> = () => {
-  const [currentEvents, setCurrentEvents] = useState<Event[]>([]);
+  const calendarEvents = mockEvents as Event[]
+  const [currentEvents, setCurrentEvents] = useState(calendarEvents);
   const [openSlot, setOpenSlot] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [isNewEvent, setIsNewEvent] = useState(false);
-
-  useEffect(() => {
-    setCurrentEvents(mockEvents);
-  });
 
   const handleClose = () => {
     setOpenSlot(false)
   };
 
   const handleDateClick = (selected: any) => {
+    console.log(selected.dateStr)
     setIsNewEvent(true);
     const newEvent = {
       id: (Math.random() * 1000).toString(),
       title: "",
       eventLocation: "",
-      allDay: false,
+      allDay: selected.allDay ? true : false,
       start: selected.dateStr,
-      end: selected.dateStr,
+      end: dayjs(selected.dateStr).add(1,'hour').format(),
       organizerId: Math.random() * 1000,
-      backgroundColor: '#141414'
+      backgroundColor: '#141414',
+      oneDayEvent: selected.allDay ? true : false
     };
     setSelectedEvent(newEvent);
     setOpenSlot(true);
   };
 
-  const handleEventClick = (selected: EventClickArg) => {
-    console.log(dayjs(new Date()))
+  const handleEventClick = (selected: any) => {
     setIsNewEvent(false);
     const event = {
       id: selected.event.id,
@@ -65,9 +63,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       eventLocation: selected.event.extendedProps.eventLocation,
       allDay: selected.event.allDay,
       start: selected.event.startStr,
-      end: selected.event.endStr,
+      end: selected.event.allDay && !selected.event.oneDayEvent ? dayjs(selected.event.end).subtract(1, 'day').format('YYYY-MM-DD'): selected.event.end,
       organizerId: selected.event.extendedProps.organizerId,
-      backgroundColor: selected.event.backgroundColor
+      backgroundColor: selected.event.backgroundColor,
+      oneDayEvent: selected.event.extendedProps.oneDayEvent
     };
 
     setSelectedEvent(event);
@@ -77,10 +76,78 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const currentDate = new Date();
   const currentTime = dayjs(currentDate).format('HH:mm:ss');
 
+  const handleEventsUpdate = (updatedEvent: Event) => {
+    const savedEvent: Event = {
+      id: updatedEvent.id,
+      title: updatedEvent.title,
+      eventLocation: updatedEvent.eventLocation,
+      allDay: updatedEvent.allDay,
+      start: updatedEvent.start,
+      end: updatedEvent.allDay && !updatedEvent.oneDayEvent ? dayjs(updatedEvent.end).add(1, 'day').format('YYYY-MM-DD'): updatedEvent.end,
+      organizerId: updatedEvent.organizerId,
+      backgroundColor: updatedEvent.backgroundColor,
+      oneDayEvent: updatedEvent.oneDayEvent
+    };
+
+    const updatedEvents = currentEvents.filter(event =>
+      event.id === savedEvent.id
+    );
+
+    if (updatedEvents.length === 0) {
+      setCurrentEvents(prevEvents => [...prevEvents, savedEvent]);
+    } else {
+      const updatedEventIndex = currentEvents.findIndex(event => event.id === updatedEvent.id);
+
+      if (updatedEventIndex !== -1) {
+        const updatedEvents = [...currentEvents];
+        updatedEvents[updatedEventIndex] = {
+          ...updatedEvents[updatedEventIndex],
+          id: savedEvent.id,
+          title: savedEvent.title,
+          eventLocation: savedEvent.eventLocation,
+          allDay: savedEvent.allDay,
+          start: savedEvent.start,
+          end: savedEvent.end,
+          organizerId: savedEvent.organizerId,
+          backgroundColor: savedEvent.backgroundColor,
+          oneDayEvent: savedEvent.oneDayEvent
+        };
+        setCurrentEvents(updatedEvents);
+      }
+    }
+
+    setOpenSlot(false);
+  };
+
+  const [adjustedEnd, setAdjustedEnd] = useState("");
+  const handleEventDrag = (info: { event: any }) => {
+    const updatedEventIndex = currentEvents.findIndex(event => event.id === info.event.id);
+
+    console.log('start', dayjs(info.event.start).format('YYYY-MM-DD HH:MM'))
+    console.log('end', dayjs(info.event.start).format('YYYY-MM-DD HH:MM'))
+    if (updatedEventIndex !== -1) {
+      const updatedEvents = [...currentEvents];
+      updatedEvents[updatedEventIndex] = {
+        ...updatedEvents[updatedEventIndex],
+        oneDayEvent: info.event.end === null || dayjs(info.event.start).day() === dayjs(info.event.end).subtract(1,'day').day() ? true : false,
+        start: info.event.start,
+        end: info.event.oneDayEvent ? info.event.start : info.event.end === null ? dayjs(info.event.start).add(1, 'hour').format('YYYY-MM-DDTHH:mm') : info.event.end,
+        allDay: info.event.allDay
+      };
+
+      setCurrentEvents(updatedEvents);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    const updatedEvents = currentEvents.filter(event => event.id !== id);
+    setCurrentEvents(updatedEvents);
+    setOpenSlot(false);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box m="20px">
-        {/* <Header title="Calendar" subtitle="Full Calendar Interactive Page" /> */}
 
         <Box display="flex" justifyContent="space-between">
           <AddEventModal
@@ -88,6 +155,8 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
             isNewEvent={isNewEvent}
             handleClose={handleClose}
             selectedEvent={selectedEvent}
+            handleEventsUpdate={handleEventsUpdate}
+            handleDelete={handleDelete}
           />
           {/* CALENDAR SIDEBAR */}
           <Box
@@ -124,37 +193,61 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
                       borderRadius: "2px",
                     }}
                   >
+
                     <ListItemText
                       primary={event.title}
                       secondary={
                         <Typography sx={{ fontSize: '12px' }}>
-                          {event.start == undefined ? "" :
-                            formatDate(event.start, {
-                              // year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit"
-                            })} - {event.end == undefined ? "" :
-                              formatDate(event.end, {
-                                hour: "numeric",
-                                minute: "2-digit"
-                              })}
+                          {/* Sidebar cards */}
 
+                          {event.allDay ?
+                            <>
+                              {/* All day stuff */}
+                              {event.start == undefined ? "" :
+                                formatDate(event.start, {
+                                  // year: "numeric",
+                                  month: "short",
+                                  day: "numeric"
+                                })}
+                              {event.oneDayEvent
+                                ? ""
+                                : " - "
+                              }
+                              {event.oneDayEvent
+                                ? ""
+                                :
+                                dayjs(event.end).subtract(1, 'day').format('MMM DD')
+                              }
+                            </>
+                            :
+                            <>
+                              {/* Normal event stuff */}
+                              {event.start == undefined ? "" :
+                                formatDate(event.start, {
+                                  month: "short",
+                                  day: "numeric",
+                                  hour: "numeric",
+                                  minute: "2-digit"
+                                })} - {event.end == undefined ? "" :
+                                  formatDate(event.end, {
+                                    hour: "numeric",
+                                    minute: "2-digit"
+                                  })}
+                            </>
+                          }
                         </Typography>
                       }
                     />
-                  </ListItem>
-                ))}
+                  </ListItem>))
+              }
             </List>
           </Box>
 
           {/* CALENDAR */}
           <Box flex="1 1 100%" ml="15px">
             <FullCalendar
-              height="80vh"
+              height="85vh"
               handleWindowResize={true}
-              // contentHeight={"auto"}
               plugins={[
                 dayGridPlugin,
                 timeGridPlugin,
@@ -165,7 +258,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
               headerToolbar={{
                 left: "prev,next today",
                 center: "title",
-                right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+                right: "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay",
               }}
               initialView="timeGridWeek"
               scrollTime={currentTime}
@@ -174,20 +267,19 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
               selectMirror={true}
               dayMaxEvents={false}
               nowIndicator={true}
+              allDayMaintainDuration={false}
+              eventDrop={(event) => handleEventDrag(event)}
               contentHeight={'20px'}
               dateClick={handleDateClick}
               eventClick={handleEventClick}
+              eventResize={(event) => handleEventDrag(event)}
               events={currentEvents}
-              // eventsSet={(events) => setCurrentEvents(events)}
-              initialEvents={currentEvents}
               eventColor="transparent"
               businessHours={{
                 daysOfWeek: [1, 2, 3, 4, 5],
                 startTime: '08:00',
                 endTime: '18:00'
               }}
-              defaultTimedEventDuration={'01:00'}
-              forceEventDuration={true}
             />
           </Box>
         </Box>
