@@ -7,7 +7,8 @@
     "end": "2024-02-04T09:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#002e5d"
+    "backgroundColor": "#002e5d", 
+    "oneDayEvent": false
   },
   {
     "id": "2",
@@ -17,7 +18,8 @@
     "end": "2024-02-05T11:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#2ecc71"
+    "backgroundColor": "#2ecc71",
+    "oneDayEvent": false
   },
   {
     "id": "3",
@@ -27,7 +29,8 @@
     "end": "2024-02-06T15:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#f39c12"
+    "backgroundColor": "#f39c12",
+    "oneDayEvent": false
   },
   {
     "id": "4",
@@ -37,7 +40,8 @@
     "end": "2024-02-07T12:00:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#e74c3c"
+    "backgroundColor": "#e74c3c",
+    "oneDayEvent": false
   },
   {
     "id": "5",
@@ -47,7 +51,8 @@
     "end": "2024-02-08T13:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#9b59b6"
+    "backgroundColor": "#9b59b6",
+    "oneDayEvent": false
   },
   {
     "id": "6",
@@ -57,7 +62,8 @@
     "end": "2024-02-09T16:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#1abc9c"
+    "backgroundColor": "#1abc9c",
+    "oneDayEvent": false
   },
   {
     "id": "7",
@@ -67,7 +73,8 @@
     "end": "2024-02-10T16:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#d35400"
+    "backgroundColor": "#d35400",
+    "oneDayEvent": false
   },
   {
     "id": "8",
@@ -77,7 +84,8 @@
     "end": "2024-02-11T12:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#dc143c"
+    "backgroundColor": "#dc143c",
+    "oneDayEvent": false
   },
   {
     "id": "9",
@@ -87,7 +95,8 @@
     "end": "2024-02-12T12:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#4b0082"
+    "backgroundColor": "#4b0082",
+    "oneDayEvent": false
   },
   {
     "id": "10",
@@ -97,7 +106,8 @@
     "end": "2024-02-13T15:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#008080"
+    "backgroundColor": "#008080",
+    "oneDayEvent": false
   },
   {
     "id": "11",
@@ -106,7 +116,8 @@
     "start": "2024-02-09",
     "end": "2024-02-11",
     "organizerId": 789,
-    "backgroundColor": "#008080"
+    "backgroundColor": "#008080",
+    "oneDayEvent": false
   },
   {
     "id": "12",
@@ -116,7 +127,8 @@
     "end": "2024-02-14T09:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#002e5d"
+    "backgroundColor": "#002e5d",
+    "oneDayEvent": false
   },
   {
     "id": "13",
@@ -126,7 +138,8 @@
     "end": "2024-02-15T11:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#2ecc71"
+    "backgroundColor": "#2ecc71",
+    "oneDayEvent": false
   },
   {
     "id": "14",
@@ -136,7 +149,8 @@
     "end": "2024-02-16T15:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#f39c12"
+    "backgroundColor": "#f39c12",
+    "oneDayEvent": false
   },
   {
     "id": "15",
@@ -146,7 +160,8 @@
     "end": "2024-02-17T12:00:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#e74c3c"
+    "backgroundColor": "#e74c3c",
+    "oneDayEvent": false
   },
   {
     "id": "16",
@@ -156,7 +171,8 @@
     "end": "2024-02-18T13:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#9b59b6"
+    "backgroundColor": "#9b59b6",
+    "oneDayEvent": false
   },
   {
     "id": "17",
@@ -166,7 +182,8 @@
     "end": "2024-02-19T16:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#1abc9c"
+    "backgroundColor": "#1abc9c",
+     "oneDayEvent": false
   },
   {
     "id": "18",
@@ -176,7 +193,8 @@
     "end": "2024-02-20T16:30:00",
     "organizerId": 123,
     "allDay": false,
-    "backgroundColor": "#d35400"
+    "backgroundColor": "#d35400",
+     "oneDayEvent": false
   },
   {
     "id": "19",
@@ -186,7 +204,8 @@
     "end": "2024-02-21T12:30:00",
     "organizerId": 456,
     "allDay": false,
-    "backgroundColor": "#dc143c"
+    "backgroundColor": "#dc143c",
+     "oneDayEvent": false
   },
   {
     "id": "20",
@@ -196,6 +215,7 @@
     "end": "2024-02-22T12:00:00",
     "organizerId": 789,
     "allDay": false,
-    "backgroundColor": "#4b0082"
+    "backgroundColor": "#4b0082",
+     "oneDayEvent": false
   }
 ]
