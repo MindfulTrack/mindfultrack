@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource, University
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer
+from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, ResourceSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -55,18 +55,21 @@ class TestAuthView(APIView):
 #Student Availability    
 
 
-# Resources
+# RESOURCES
 @permission_classes([IsAuthenticated])
 class ResourceDetailsView(APIView):
     def get(self, request, resource_id):
         resources = Resource.objects.get(resource_id=resource_id)
+        serializer = ResourceSerializer(resources, many=True)
         return Response(resources)
 
 @permission_classes([IsAuthenticated])
 class ResourceCategoryView(APIView):
+    # Get all resource categories
     def get(self, request):
         categories = ResourceCategory.objects.all()
-        return Response(categories)
+        serializer = ResourceCategorySerializer(categories, many=True)
+        return Response(serializer.data)
 
 
 #Student Queue

@@ -262,7 +262,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             color="primary"
           >
             {eventColorPalette.map((color) => (
-              <MenuItem value={color.id}><Box sx={{display: 'flex'}}><Circle sx={{color: color.value, pr: 1}}/>{color.name}</Box></MenuItem>
+              <MenuItem key={color.id} value={color.id}><Box sx={{display: 'flex'}}><Circle sx={{color: color.value, pr: 1}}/>{color.name}</Box></MenuItem>
             ))}
           </Select>
         </Box>
