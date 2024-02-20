@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
+from rest_framework import status, generics, viewsets
 
 class AdminPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -109,24 +110,8 @@ class StudentQueueDetailsView(APIView):
     
 
 #University
-@permission_classes([IsAuthenticated])
-class UniversitysView(APIView):
-    # GET all universities
-    def get (self, request, format=None):
-        university = University.objects.all()
-        serializer = UniversitySerializer(university, many=True)
-        return Response(serializer.data)
-
-    # POST a new university
-    def post (self, request):
-        serializer = UniversitySerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # DELETE university
-    def delete (self, request, university_id):
-        university = get_object_or_404(University, id = university_id)
-        university.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+# @permission_classes([IsAuthenticated])
+class UniversitiesView(viewsets.ModelViewSet):
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer
+    # permission_classes = [IsAuthenticated]
