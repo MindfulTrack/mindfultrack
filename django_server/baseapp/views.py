@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
-from rest_framework import status
 
 class AdminPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -70,7 +69,7 @@ class ResourceCategoryView(APIView):
 
 
 #Student Queue
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, StudentPermission])
 class QueuePositionView(APIView):
     def get (self, request, person_id, format=None):
         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
@@ -79,27 +78,29 @@ class QueuePositionView(APIView):
         ).count() + 1
         return Response(student_position)
 
-@permission_classes([IsAuthenticated])
-class StudentQueueView(APIView):
-    # GET all students in the queue
-    def get (self, request, format=None):
-        studentQueue = StudentQueue.objects.all()
-        serializer = StudentQueueSerializer(studentQueue, many=True)
-        return Response(serializer.data)
+@permission_classes([IsAuthenticated, StaffPermission])
+class StudentQueueView(viewsets.ModelViewSet):
+    queryset = StudentQueue.objects.all()
+    serializer_class = StudentQueueSerializer
 
-    # POST a new student to the queue
-    def post (self, request):
-        # queueData = request
-        serializer = StudentQueueSerializer(data = request.data)
+
+# Details API
+# @permission_classes([IsAuthenticated])
+class StudentQueueDetailsView(APIView):
+    # PUT - save changes to a student - including adding reason why the student left the queue
+    def put (self, request, id):
+        queue = get_object_or_404(StudentQueue, id = id)
+        serializer = StudentQueueSerializer(queue, data = request.data)
+        
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        print(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     # DELETE a student from the queue
-    def delete (self, request, person_id):
-        studentQueue = get_object_or_404(StudentQueue, person_id = person_id)
+    def delete (self, request, id):
+        studentQueue = get_object_or_404(StudentQueue, id = id)
         studentQueue.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
