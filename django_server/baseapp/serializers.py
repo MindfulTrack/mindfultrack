@@ -114,3 +114,13 @@ class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = '__all__'
+
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+class PersonPermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = ['permissionLevel']
