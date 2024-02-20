@@ -20,13 +20,11 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
   const headersList = headers();
-  const currentUrl = headersList.get('next-url')
+  const currentUrl = headersList.get('next-url');
  
   if(currentUrl != '/test'){
     const op : any = authOptions;
     const session : any = await getServerSession(op);
-    console.log("STATUS")
-    console.log(session)
     
     return (
       <html lang="en">
