@@ -32,6 +32,7 @@ const SIGN_IN_HANDLERS = {
       });
       account["meta"] = response.data;
       return true;
+
     } catch (error) {
       console.log(error)
       return false;
@@ -72,7 +73,7 @@ export const authOptions = {
       // The data returned from this function is passed forward as the
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
-        // console.log(credentials)
+        
         try {
           const response = await axios({
             url: process.env.NEXTAUTH_BACKEND_URL + "auth/login/",
@@ -81,8 +82,10 @@ export const authOptions = {
             headers: {
               'Content-Type': 'application/json'}
           });
+
           const data = response.data;
           if (data) return data;
+          
         } catch (error) {
           if (error.code === 'ETIMEDOUT'){
             return {'error': 'Request Timed Out. Try again.'}
@@ -92,8 +95,12 @@ export const authOptions = {
             return {'error': error.response.data.non_field_errors[0]}
           }
           catch (error){
-            console.log(error)
-            return {'error': 'Unknown Error'}
+            return 'unathenticated'
+
+            // if(error === 'unauthenticated'){
+            //   return 'unathenticated'
+            // }
+            // return {'error': 'Unknown Error'}
           }
         }
         return null;
@@ -116,8 +123,7 @@ export const authOptions = {
 
       if (user && account) {
         let backendResponse = account.provider === "credentials" ? user : account.meta;
-        console.log("BACKEND RESPONSE")
-        console.log(backendResponse)
+
         token["user"] = backendResponse.user;
         token["access_token"] = backendResponse.access;
         token["refresh_token"] = backendResponse.refresh;
