@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
-from .views import UniversitysView, PersonView
+from .views import UniversitysView, PersonView, PersonPermissionView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
@@ -28,6 +28,7 @@ urlpatterns = [
 
     #Person
     path('', include(router.urls)),
+    path('personPermission/<int:person_id>/', PersonPermissionView.as_view(), name='personPermissions'),
 
     #University
     path('university/', UniversitysView.as_view(), name='universitysView'),

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource, University, Person
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer
+from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -12,6 +12,7 @@ from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status, generics, viewsets
+from rest_framework.generics import RetrieveAPIView
 
 class AdminPermission(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -109,6 +110,14 @@ class StudentQueueView(APIView):
 class PersonView(viewsets.ModelViewSet):   
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+      
+
+class PersonPermissionView(RetrieveAPIView):
+    # GET person Permissions
+    def retrieve(self, request, person_id):
+        person = get_object_or_404(Person, id = person_id)
+        serializer = PersonPermissionSerializer(person)
+        return Response(serializer.data)
 
 #University
 @permission_classes([IsAuthenticated])
