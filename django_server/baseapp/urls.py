@@ -3,7 +3,8 @@ from .views import TestView, QueuePositionView, healthcheck, TestAuthView
 
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
 from .views import UniversitiesView, PersonView, PersonPermissionView, PersonAvailabilityView
-from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView, StudentQueueDetailsView, StudentAvailabilityView
+from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView
+from .views import StudentQueueDetailsView, StudentAvailabilityView, DayAvailabilityView, TimeAvailabilityView, DayTimeAvailabilityView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
@@ -23,6 +24,9 @@ urlpatterns = [
     #Student Availability
     path('', include(router.urls)),
     path('personAvailability/<int:person_id>/', PersonAvailabilityView.as_view(), name='personAvailability'),
+    path('dayAvailability/<int:day_id>/', DayAvailabilityView.as_view(), name='dayAvailability'),
+    path('timeAvailability/<int:time_id>/', TimeAvailabilityView.as_view(), name='timeAvailability'),
+    path('daytimeAvailability/<int:day_id>/<int:time_id>/', DayTimeAvailabilityView.as_view(), name='daytimeAvailability'),
 
     #Resources
     path('resourceDetails/<int:resource_id>', ResourceDetailsView.as_view(), name='resourceDetails'),

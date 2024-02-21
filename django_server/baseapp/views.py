@@ -67,6 +67,27 @@ class PersonAvailabilityView(RetrieveAPIView):
         serializer = StudentAvailabilitySerializer(timeSlots, many=True)
         return Response(serializer.data)
 
+class DayAvailabilityView(RetrieveAPIView):
+    # GET Day of Week Availability
+    def retrieve(self, request, day_id):
+        timeSlots = AvailableTimeSlot.objects.filter(dayOfWeek=day_id)
+        serializer = StudentAvailabilitySerializer(timeSlots, many=True)
+        return Response(serializer.data)
+
+class TimeAvailabilityView(RetrieveAPIView):
+    # GET Time Slot Availability
+    def retrieve(self, request, time_id):
+        timeSlots = AvailableTimeSlot.objects.filter(timeSlot=time_id)
+        serializer = StudentAvailabilitySerializer(timeSlots, many=True)
+        return Response(serializer.data)
+    
+class DayTimeAvailabilityView(RetrieveAPIView):
+    # GET Day AND Time Availability
+    def retrieve(self, request, day_id, time_id):
+        timeSlots = AvailableTimeSlot.objects.filter(dayOfWeek=day_id, timeSlot=time_id)
+        serializer = StudentAvailabilitySerializer(timeSlots, many=True)
+        return Response(serializer.data)
+
 # Resources
 @permission_classes([IsAuthenticated])
 class ResourceDetailsView(APIView):
