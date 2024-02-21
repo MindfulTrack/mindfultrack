@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource, University, Person
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer
+from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource, University, Person, AvailableTimeSlot
+from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -55,7 +55,17 @@ class TestAuthView(APIView):
         return Response(serializer.data)
 
 #Student Availability    
+# @permission_classes([IsAuthenticated])
+class StudentAvailabilityView(viewsets.ModelViewSet):   
+    queryset = AvailableTimeSlot.objects.all()
+    serializer_class = StudentAvailabilitySerializer
 
+class PersonAvailabilityView(RetrieveAPIView):
+    # GET person Availability
+    def retrieve(self, request, person_id):
+        timeSlots = AvailableTimeSlot.objects.filter(person=person_id)
+        serializer = StudentAvailabilitySerializer(timeSlots, many=True)
+        return Response(serializer.data)
 
 # Resources
 @permission_classes([IsAuthenticated])
