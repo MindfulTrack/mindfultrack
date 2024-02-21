@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
 
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
-from .views import UniversitysView, PersonView, PersonPermissionView
+from .views import UniversitiesView, PersonView, PersonPermissionView
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView, StudentQueueDetailsView
 from rest_framework.routers import DefaultRouter
 
@@ -10,6 +10,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'person', PersonView, basename='person')
 router.register(r'universities', UniversitiesView, basename='universities')
+router.register(r'studentQueue', StudentQueueView, basename='studentQueue')
 
 urlpatterns = [
     path('healthcheck/', healthcheck, name='healthcheck'),
