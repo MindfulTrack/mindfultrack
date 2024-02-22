@@ -31,9 +31,7 @@ urlpatterns = [
     path('daytimeAvailability/<int:day_id>/<int:time_id>/', DayTimeAvailabilityView.as_view(), name='daytimeAvailability'),
 
     #Resources
-    # path('resourceCategory/', ResourceCategoryView.as_view(), name='resourceCategory'),
-    # path('resourceDetails/<int:resource_id>', ResourceDetailsView.as_view(), name='resourceDetails'),
-
+    
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
 
