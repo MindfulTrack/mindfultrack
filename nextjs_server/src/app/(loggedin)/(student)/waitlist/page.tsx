@@ -4,22 +4,47 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper, Button, CircularProgress, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
+import customFetch from '../../../api/fetchInterceptor';
+import {errorCodes} from '../../../api/errorCodes';
+import Alert from '@mui/material/Alert';
 
 interface WaitlistPageProps {
 
 };
 
-const WaitlistPage: React.FC<WaitlistPageProps> = () => {
+const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
   const [progress, setProgress] = useState(0);
-  const queueLength = 200;
-  const [spotInLine, setSpotInLine] = useState(120);
+  const [spotInLine, setSpotInLine] = useState(2);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const positionPercentage = Math.round((queueLength - spotInLine) / queueLength * 100);
-    setProgress(positionPercentage);
-  });
+    const fetchQueue = async () => {
+      try {
+        const queueResponse = await customFetch('base/studentQueue');
+        setLoading(false);
+        const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
+        setProgress(positionPercentage);
+      } catch (error) {
+        console.error(error)
+      }
+    };
 
-
+    fetchQueue();
+    
+  }, []);
+  
+  if (loading) {
+    // const statusCode : any = errorCodes
+    
+    // console.log(statusCode[queueLength.status])
+    // return (
+    //   <Alert variant="outlined" severity="error">
+    //   {statusCode[queueLength.status]}
+    //   </Alert>)
+    return <div>Loading...</div>
+  }
+  else{
+    
   return (
     <Box>
       {/* Heading */}
@@ -107,6 +132,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = () => {
     </Box>
 
   );
+  }
 };
 
 export default WaitlistPage;

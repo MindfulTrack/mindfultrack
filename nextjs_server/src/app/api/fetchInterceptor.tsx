@@ -1,8 +1,9 @@
+'use server'
 import { authOptions } from './auth/[...nextauth]/authOptions.js';
 import { getServerSession } from "next-auth";
 
 
-async function customFetch(url : any, methodType : any = 'GET', data : any = null, customOption : any = null) {
+export default async function customFetch(url : any, methodType : any = 'GET', body : any = null, customOption : any = null) {
   const op : any = authOptions;
   const session : any = await getServerSession(op);
   const token = session?.access_token;
@@ -17,10 +18,10 @@ async function customFetch(url : any, methodType : any = 'GET', data : any = nul
     },
   };
 
-  if(data){
-    customOptions['body'] =JSON.stringify(data)
+  if(body){
+    customOptions['body'] =JSON.stringify(body)
   }
-  return fetch(baseUrl + url, customOptions);
+  const data =  fetch(baseUrl + url, customOptions);
+  return (await data).json();
 }
 
-export default customFetch;
