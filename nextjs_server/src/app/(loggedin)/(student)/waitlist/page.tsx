@@ -21,11 +21,20 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     const fetchQueue = async () => {
       try {
         const queueResponse = await customFetch('base/studentQueue');
+        if(queueResponse.status !== 200){
+          const statusCode : any = errorCodes
+          return (<Alert variant="outlined" severity="error">
+            {statusCode[queueResponse.status]}
+            </Alert>)
+        }
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
         setProgress(positionPercentage);
-      } catch (error) {
-        console.error(error)
+      } catch (error : any) {
+        console.log(error)
+        return (<Alert variant="outlined" severity="error">
+          {error}
+        </Alert>)
       }
     };
 
