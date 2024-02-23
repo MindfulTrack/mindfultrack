@@ -2,9 +2,9 @@ from django.urls import path, include
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
 
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
-from .views import UniversitiesView, PersonView, PersonAvailabilityView
+from .views import UniversitiesView, PersonView
 from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView
-from .views import StudentQueueDetailsView, StudentAvailabilityView, DayAvailabilityView, TimeAvailabilityView, DayTimeAvailabilityView
+from .views import StudentQueueDetailsView, StudentAvailabilityView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
