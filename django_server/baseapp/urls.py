@@ -23,10 +23,10 @@ urlpatterns = [
 
     #Student Availability
     path('', include(router.urls)),
-    path('personAvailability/<int:person_id>/', PersonAvailabilityView.as_view(), name='personAvailability'),
-    path('dayAvailability/<int:day_id>/', DayAvailabilityView.as_view(), name='dayAvailability'),
-    path('timeAvailability/<int:time_id>/', TimeAvailabilityView.as_view(), name='timeAvailability'),
-    path('daytimeAvailability/<int:day_id>/<int:time_id>/', DayTimeAvailabilityView.as_view(), name='daytimeAvailability'),
+    # path('personAvailability/<int:person_id>/', PersonAvailabilityView.as_view(), name='personAvailability'),
+    # path('dayAvailability/<int:day_id>/', DayAvailabilityView.as_view(), name='dayAvailability'),
+    # path('timeAvailability/<int:time_id>/', TimeAvailabilityView.as_view(), name='timeAvailability'),
+    # path('daytimeAvailability/<int:day_id>/<int:time_id>/', DayTimeAvailabilityView.as_view(), name='daytimeAvailability'),
 
     #Resources
     path('resourceDetails/<int:resource_id>', ResourceDetailsView.as_view(), name='resourceDetails'),
@@ -37,7 +37,7 @@ urlpatterns = [
 
     #Person
     path('', include(router.urls)),
-    path('personPermission/<int:person_id>/', PersonPermissionView.as_view(), name='personPermissions'),
+    # path('personPermission/<int:person_id>/', PersonPermissionView.as_view(), name='personPermissions'),
 
     #University
     path('', include(router.urls)),
