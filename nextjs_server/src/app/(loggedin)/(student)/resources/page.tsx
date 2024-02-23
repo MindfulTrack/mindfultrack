@@ -15,7 +15,7 @@ interface ResourcesMainPageProps {
 };
 
 
-const ResourcesMainPage: React.FC<ResourcesMainPageProps> = async () => {
+const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
 
   const mockData = mockResources;
   const [resources, setResources] = useState<ResourceViewModel[]>([])
