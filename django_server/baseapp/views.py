@@ -113,3 +113,8 @@ class UniversitiesView(viewsets.ModelViewSet):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
     # permission_classes = [IsAuthenticated]
+
+
+
+### LOGIC FOR SCHEDULING ###
+    ## DISPLAY
