@@ -167,7 +167,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             variant="filled"
             onChange={handleTitleChange}
             focused
-            color={eventTitle.length === 0 ? "secondary" : "input"}
+            // color={eventTitle.length === 0 ? "secondary" : "input"}
             required
           />
           <TextField
@@ -181,7 +181,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             variant="filled"
             onChange={handleLocationChange}
             focused
-            color="input"
+            // color="input"
           />
           <Box sx={{ mt: 1.5, mb: 1.5, display: 'flex' }}>
             <Switch color="primary" onChange={handleAllDayEvent} checked={allDayEvent} />
