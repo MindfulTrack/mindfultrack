@@ -67,6 +67,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
           // router.push("/");
           setOpenVerify(true)
           setOpen(false)
+          router.push("login");
         }
         return response.json();
       })

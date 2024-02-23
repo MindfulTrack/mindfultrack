@@ -56,7 +56,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
         console.log(response)
         if(response.status === 200){
           setOpenVerify(true)
-          // router.push("/");
+          router.push("login");
         }
         return response.json();
       })
