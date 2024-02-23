@@ -10,6 +10,22 @@ export interface Event {
   oneDayEvent: boolean;
 };
 
+export interface ResourceViewModel {
+  id: number;
+  name: string;
+  image?: string;
+};
+
+export interface ResourceDetailsViewModel {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+  category_id: number;
+  university_id: number;
+}
+
 export const eventColorPalette = [
   {id: 1, name: "Navy", value: "#002e5d" },
   {id: 2, name: "Emerald", value: "#2ecc71" },
