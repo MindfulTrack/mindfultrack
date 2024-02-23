@@ -11,18 +11,18 @@ interface CounselorPageProps {
 };
 
 const CounselorPage: React.FC<CounselorPageProps> = async () => {
+  let errorMessage;
+  let data;
+  try{
+    data = await customFetch('base/testAuth')
+  }catch(error : any){
+    errorMessage = await error.message;
+  }
 
-  const response : any = await customFetch('base/testAuth')
-  const data : any = await response.json();
-  console.log(response)
-  console.log(data)
-  if (response.status !== 200) {
-    const statusCode : any = errorCodes
-    
-    console.log(statusCode[response.status])
+  if (errorMessage) {
     return (
       <Alert variant="outlined" severity="error">
-      {statusCode[response.status]}
+      {errorMessage}
       </Alert>)
   }
   else{

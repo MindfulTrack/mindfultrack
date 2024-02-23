@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import { Paper, Button, CircularProgress, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
 import customFetch from '../../../api/fetchInterceptor';
-import {errorCodes} from '../../../api/errorCodes';
 import Alert from '@mui/material/Alert';
+import CircularProgressWithLabel from '@mui/material/CircularProgress'
 
 interface WaitlistPageProps {
 
@@ -16,40 +16,31 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
   const [progress, setProgress] = useState(0);
   const [spotInLine, setSpotInLine] = useState(2);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchQueue = async () => {
       try {
         const queueResponse = await customFetch('base/studentQueue');
-        if(queueResponse.status !== 200){
-          const statusCode : any = errorCodes
-          return (<Alert variant="outlined" severity="error">
-            {statusCode[queueResponse.status]}
-            </Alert>)
-        }
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
         setProgress(positionPercentage);
       } catch (error : any) {
-        return (<Alert variant="outlined" severity="error">
-          {error}
-        </Alert>)
+        setError(error.message);
       }
     };
 
     fetchQueue();
     
   }, []);
-  
-  if (loading) {
-    // const statusCode : any = errorCodes
-    
-    // console.log(statusCode[queueLength.status])
-    // return (
-    //   <Alert variant="outlined" severity="error">
-    //   {statusCode[queueLength.status]}
-    //   </Alert>)
-    return <div>Loading...</div>
+  if (error) {
+    return <Alert variant="outlined" severity="error">{error}</Alert>;
+  }
+  else if (loading) {
+
+    return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <CircularProgress /> <div>Loading...</div>
+      </Box>
   }
   else{
     

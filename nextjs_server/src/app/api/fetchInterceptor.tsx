@@ -1,6 +1,7 @@
 'use server'
 import { authOptions } from './auth/[...nextauth]/authOptions.js';
 import { getServerSession } from "next-auth";
+import {errorCodes} from '../api/errorCodes';
 
 
 export default async function customFetch(url : any, methodType : any = 'GET', body : any = null, customOption : any = null) {
@@ -21,7 +22,12 @@ export default async function customFetch(url : any, methodType : any = 'GET', b
   if(body){
     customOptions['body'] =JSON.stringify(body)
   }
-  const data =  fetch(baseUrl + url, customOptions);
-  return (await data).json();
+  const data = await fetch(baseUrl + url, customOptions);
+
+  if (!data.ok) {
+    const statusCode : any = errorCodes
+    throw new Error(`${statusCode[data.status]}`);
+  }
+  return (data).json();
 }
 
