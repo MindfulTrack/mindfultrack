@@ -4,7 +4,6 @@ import mockResources from '../mock-resources.json';
 import { Box, Tabs, Tab } from "@mui/material";
 import ResourceDetails from "./resource-details";
 import MyContext from "../../../../MyContext";
-import { Mystery_Quest } from "next/font/google";
 
 
 interface ResourceSubPageProps {
