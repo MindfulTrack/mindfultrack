@@ -31,7 +31,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = () => {
         const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
         setProgress(positionPercentage);
       } catch (error : any) {
-        console.log(error)
         return (<Alert variant="outlined" severity="error">
           {error}
         </Alert>)
