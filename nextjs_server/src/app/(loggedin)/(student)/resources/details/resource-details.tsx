@@ -1,28 +1,39 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import Bookmark from '@mui/icons-material/Bookmark';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import mockResources from './mock-resource-details.json';
 import { useState } from 'react';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import customFetch from '../../../../api/fetchInterceptor';
+import { ResourceDetailsViewModel } from '../../../../../ts/types';
+import { useEffect } from 'react';
 
 interface ResourceDetailsProps {
   resourceId: number
 };
 
-const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
+const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) => {
+
+  const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([])
+  
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const resourceDetails = await customFetch('base/resourceDetails');
+        setResourceDetails(resourceDetails);
+        console.log(resourceDetails)
+      } catch (error) {
+        console.error(error)
+      }
+    };
+
+    fetchResources();
+  }, []);
 
   const [mockData, setMockData] = useState(mockResources);
   const handleAddRemoveSaved = (id: number) => {
@@ -65,9 +76,9 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
       </>
     ) : (
       <>
-        {mockData.resourceDetails
-          .filter((item) => item.resourceCategoryId === resourceId)
-          .map((item) => (
+        {resourceDetails
+          .filter((item: any) => item.resourceCategoryId === resourceId)
+          .map((item: any) => (
             <Card sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader
                 title={item.name}

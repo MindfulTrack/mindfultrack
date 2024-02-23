@@ -12,7 +12,7 @@ interface WaitlistPageProps {
 
 };
 
-const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
+const WaitlistPage: React.FC<WaitlistPageProps> = () => {
   const [progress, setProgress] = useState(0);
   const [spotInLine, setSpotInLine] = useState(2);
   const [loading, setLoading] = useState(true);
