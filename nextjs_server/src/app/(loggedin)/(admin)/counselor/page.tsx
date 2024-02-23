@@ -23,7 +23,7 @@ const CounselorPage: React.FC<CounselorPageProps> = async () => {
     return (
       <Alert variant="outlined" severity="error">
       {statusCode[response.status]}
-    </Alert>)
+      </Alert>)
   }
   else{
     return (
