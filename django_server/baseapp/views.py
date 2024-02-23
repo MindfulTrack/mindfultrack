@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, Resource, University, Person, AvailableTimeSlot
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer
+from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer, ResourceCategorySerializer, ResourceSerializer
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -88,18 +88,16 @@ class StudentAvailabilityView(viewsets.ModelViewSet):
 #         serializer = StudentAvailabilitySerializer(timeSlots, many=True)
 #         return Response(serializer.data)
 
-# Resources
+# RESOURCES
 @permission_classes([IsAuthenticated])
-class ResourceDetailsView(APIView):
-    def get(self, request, resource_id):
-        resources = Resource.objects.get(resource_id=resource_id)
-        return Response(resources)
+class ResourceDetailsView(viewsets.ModelViewSet):
+  queryset = Resource.objects.all()
+  serializer_class = ResourceSerializer
 
 @permission_classes([IsAuthenticated])
-class ResourceCategoryView(APIView):
-    def get(self, request):
-        categories = ResourceCategory.objects.all()
-        return Response(categories)
+class ResourceCategoryView(viewsets.ModelViewSet):
+    queryset = ResourceCategory.objects.all()
+    serializer_class = ResourceCategorySerializer
 
 
 #Student Queue
@@ -119,7 +117,7 @@ class StudentQueueView(viewsets.ModelViewSet):
 
 
 # Details API
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class StudentQueueDetailsView(APIView):
     # PUT - save changes to a student - including adding reason why the student left the queue
     def put (self, request, id):
@@ -140,7 +138,7 @@ class StudentQueueDetailsView(APIView):
 
 
 #Person
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class PersonView(viewsets.ModelViewSet):   
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
@@ -153,7 +151,7 @@ class PersonView(viewsets.ModelViewSet):
 #         return Response(serializer.data)
 
 #University
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class UniversitiesView(viewsets.ModelViewSet):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer

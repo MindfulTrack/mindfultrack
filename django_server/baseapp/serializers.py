@@ -129,3 +129,13 @@ class StudentAvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = AvailableTimeSlot
         fields = '__all__'
+
+class ResourceCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResourceCategory
+        fields = '__all__'
+
+class ResourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = '__all__'
