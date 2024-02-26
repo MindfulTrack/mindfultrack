@@ -6,13 +6,16 @@ import { Paper, Button, CircularProgress, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
 import customFetch from '../../../api/fetchInterceptor';
 import Alert from '@mui/material/Alert';
-import CircularProgressWithLabel from '@mui/material/CircularProgress'
+import {useSession} from "next-auth/react";
+
+
 
 interface WaitlistPageProps {
 
 };
 
 const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
+  const {data: session, status} : any = useSession({required: true});
   const [progress, setProgress] = useState(0);
   const [spotInLine, setSpotInLine] = useState(2);
   const [loading, setLoading] = useState(true);
@@ -22,6 +25,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     const fetchQueue = async () => {
       try {
         const queueResponse = await customFetch('base/studentQueue');
+        const spotInLineRespone = await customFetch('queuePosition/'+session.id)
+        console.log(spotInLineRespone)
+        setSpotInLine(spotInLineRespone)
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
         setProgress(positionPercentage);
