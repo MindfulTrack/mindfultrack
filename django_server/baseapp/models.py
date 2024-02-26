@@ -60,7 +60,7 @@ class Person(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
-    permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
+    # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
 
 
     def __str__(self):

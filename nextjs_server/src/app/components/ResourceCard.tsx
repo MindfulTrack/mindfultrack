@@ -11,7 +11,7 @@ import { CardActionArea, CardMedia } from '@mui/material';
 interface ResourceCardProps {
   name: string,
   id: number,
-  image: string
+  image?: string
 }
 
 const ResourceCard: React.FC<ResourceCardProps> = ({ name, id, image }) => {

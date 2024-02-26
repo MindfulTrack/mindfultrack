@@ -1,10 +1,7 @@
 'use client'
-import { Container, Grid, CardMedia, Typography, SvgIcon } from "@mui/material";
+import { Container, Grid, CardMedia, Typography, Button } from "@mui/material";
 import phoneImg from "../../assets/image-hero-landscape@2x.png";
-// import { ReactComponent as Curve } from "../../assets/pattern-curved-line-1.svg";
-import ButtonPrimary from "../buttons/button-primary.component";
 import "./hero.styles.css";
-import heroImage from "../../assets/image-hero-portrait@2x.png";
 import React from "react";
 import Image from "next/legacy/image";
 import pic from '/public/static/images/indexMainHeading1.jpg'
@@ -38,7 +35,9 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
 
           <div className="hero-p" style={{ display: 'flex', width: '100%' }}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
-            <ButtonPrimary />
+
+            <Button variant="contained" sx={{width: '80%'}} color="secondary">Sign Up</Button>
+
             <Typography variant="body1" sx={{paddingRight: '5rem'}}>
               MindfulTrack will help you find and use
               resources while we do the rest.
