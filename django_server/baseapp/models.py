@@ -2,14 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Test(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    student = models.CharField(blank=True, null=True, max_length=255)
-    appointment = models.CharField(blank=True, null=True, max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'test'
 
 class PermissionLevel(models.Model):
     name = models.CharField(max_length=255)
@@ -27,12 +19,14 @@ class University(models.Model):
 
     def __str__(self):
         return self.name
+
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
-class Resource(models.Model):
+
+class ResourceDetail(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(blank=True, null=True, max_length=255)
     url = models.CharField(blank=True, null=True, max_length=255)
@@ -42,6 +36,14 @@ class Resource(models.Model):
 
     def __str__(self):
         return self.name
+
+class FavoriteResource(models.Model):
+    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    resourceId = models.ForeignKey(ResourceDetail, on_delete=models.SET_NULL, null=True)
+    favorite = models.BooleanField()
+
+    def __str__(self):
+      return self.favorite
 
 class TimeSlot(models.Model):
     startTime = models.TimeField()
@@ -61,7 +63,6 @@ class Person(models.Model):
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
-
 
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
@@ -91,6 +92,21 @@ class AvailableTimeSlot(models.Model):
 
     def __str__(self):
         return str(self.person) + " - " + str(self.timeSlot.startTime)
+
+class CalendarEvent(models.Model):
+    title = models.CharField(max_length=255)
+    eventLocation = models.CharField(max_length=255)
+    backgroundColor = models.CharField(max_length=255)
+    allDay = models.BooleanField()
+    editable = models.BooleanField()
+    oneDayEvent = models.BooleanField()
+    start = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
+    organizerId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=False)
+
+class eventAttendee(models.Model):
+    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=False)
+    eventId = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=False)
     
 
 
