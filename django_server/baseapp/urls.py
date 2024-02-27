@@ -1,9 +1,7 @@
 from django.urls import path, include
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
-
-from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
 from .views import UniversitiesView, PersonView
-from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView
+from .views import ResourceDetailView, ResourceCategoryView, StudentQueueView, UniversitiesView
 from .views import StudentQueueDetailsView, StudentAvailabilityView
 from rest_framework.routers import DefaultRouter
 
@@ -14,7 +12,7 @@ router.register(r'universities', UniversitiesView, basename='universities')
 router.register(r'studentQueue', StudentQueueView, basename='studentQueue')
 router.register(r'studentAvailability', StudentAvailabilityView, basename='studentAvailability')
 router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCategory')
-router.register(r'resourceDetails', ResourceDetailsView, basename='resourceDetails')
+router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 
 urlpatterns = [
     path('', include(router.urls)),
