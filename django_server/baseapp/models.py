@@ -42,7 +42,7 @@ class DayOfWeek(models.Model):
         return self.dayOfWeek
 
 class Person(models.Model):
-    person = models.OneToOneField(User, on_delete=models.CASCADE)
+    personId = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     universityId = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)

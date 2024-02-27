@@ -7,7 +7,9 @@ import ResourceCard from '../../../components/ResourceCard';
 import { Container, Paper, Button, Link } from '@mui/material';
 import timeSlots from '../../../mockData/timeSlots.json';
 import dayOfWeek from '../../../mockData/dayOfWeek.json';
-import eventSlots from '../../../mockData/availableTimeSlots.json';
+// import eventSlots from '../../../mockData/availableTimeSlots.json';
+import customFetch from '../../../api/fetchInterceptor';
+import { AvailableTimeSlotViewModel } from '../../../../ts/types';
 import { useState, useEffect } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Save, Done } from '@mui/icons-material';
@@ -31,11 +33,26 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [reset, setReset] = useState(false);
   const [saving, setSaving] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [eventSlots, setEventSlots] = useState<AvailableTimeSlotViewModel[]>([])
 
-  const personId = 105;
+  const personId = 8;
 
   useEffect(() => {
 
+    const fetchEventSlots = async () => {
+      try {
+        const eventSlots = await customFetch('base/studentAvailability');
+        setEventSlots(eventSlots);
+      } catch (error) {
+        console.error(error)
+      }
+    };
+
+    //Filter eventSlots by personID
+
+    //Change static file to isSelected = True where slotID == slotID in eventSlots
+
+    //Combine Availability
     const joinedArray = eventSlots
       .filter(person => person.personID === personId)
       .map(item1 => ({
@@ -43,6 +60,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
         ...timeSlots.find(item2 => item2.timeSlotID === item1.timeSlotID)
       }));
 
+    //Display Availability
     const InitializeSlots = () => {
       if (!reset) {
         if (joinedArray.length > 0) {
@@ -66,6 +84,11 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       }
     };
 
+    //Call CustomFetch to delete all Availability by PersonID
+
+    //Call CustomFetch to post Availability for each selected time slot
+
+    fetchEventSlots();
     InitializeSlots();
   }, [reset]);
 

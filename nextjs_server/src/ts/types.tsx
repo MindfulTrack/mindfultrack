@@ -26,6 +26,14 @@ export interface ResourceDetailsViewModel {
   university_id: number;
 }
 
+export interface AvailableTimeSlotViewModel {
+  id: number;
+  notes: String; 
+  personID: number;
+  timeSlotID: number;
+  dayOfWeekID: number;
+}
+
 export const eventColorPalette = [
   {id: 1, name: "Navy", value: "#002e5d" },
   {id: 2, name: "Emerald", value: "#2ecc71" },
