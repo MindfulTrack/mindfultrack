@@ -1,6 +1,6 @@
 from rest_framework import serializers
 # from dj_rest_auth.serializers import UserDetailsSerializer
-from .models import Test, DayOfWeek, StudentQueue, Person, University, Resource, ResourceCategory, AvailableTimeSlot
+from .models import Test, DayOfWeek, StudentQueue, Person, University, ResourceDetail, ResourceCategory, AvailableTimeSlot
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -135,7 +135,7 @@ class ResourceCategorySerializer(serializers.ModelSerializer):
         model = ResourceCategory
         fields = '__all__'
 
-class ResourceSerializer(serializers.ModelSerializer):
+class ResourceDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Resource
+        model = ResourceDetail
         fields = '__all__'

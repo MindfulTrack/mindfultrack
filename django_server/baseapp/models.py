@@ -23,22 +23,7 @@ class University(models.Model):
     addressLineTwo = models.CharField(blank=True, null=True, max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=2)
-    zip = models.CharField(max_length=5)
-
-    def __str__(self):
-        return self.name
-class ResourceCategory(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
-class Resource(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.CharField(blank=True, null=True, max_length=255)
-    url = models.CharField(blank=True, null=True, max_length=255)
-    image = models.CharField(blank=True, null=True, max_length=255)
-    category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    zipCode = models.CharField(max_length=5)
 
     def __str__(self):
         return self.name
@@ -59,7 +44,7 @@ class DayOfWeek(models.Model):
 class Person(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
-    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    universityId = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
 
 
@@ -84,13 +69,55 @@ class StudentQueue(models.Model):
         return self.person.last_name + " " + str(self.startTime)
     
 class AvailableTimeSlot(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
+    personId = models.ForeignKey(Person, on_delete=models.CASCADE)
+    timeSlotId = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     notes = models.CharField(blank=True, null=True, max_length=255)
-    dayOfWeek = models.ForeignKey(DayOfWeek, on_delete=models.CASCADE)
+    dayOfWeekId = models.ForeignKey(DayOfWeek, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.person) + " - " + str(self.timeSlot.startTime)
+
+
+class ResourceCategory(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.CharField(max_length=255, default='https://picsum.photos/id/147/2000/1700')
+
+    def __str__(self):
+        return self.name
+
+class ResourceDetail(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(blank=True, null=True, max_length=255)
+    url = models.CharField(blank=True, null=True, max_length=255)
+    image = models.CharField(blank=True, null=True, max_length=255)
+    category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class FavoriteResource(models.Model):
+    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    resourceId = models.ForeignKey(ResourceDetail, on_delete=models.SET_NULL, null=True)
+    favorite = models.BooleanField()
+
+    def __str__(self):
+      return self.favorite
+
+class CalendarEvent(models.Model):
+    title = models.CharField(max_length=255)
+    eventLocation = models.CharField(max_length=255)
+    backgroundColor = models.CharField(max_length=255)
+    allDay = models.BooleanField()
+    editable = models.BooleanField()
+    oneDayEvent = models.BooleanField()
+    start = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
+    organizerId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+
+class eventAttendee(models.Model):
+    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    eventId = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
     
 
 
