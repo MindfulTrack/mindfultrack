@@ -4,22 +4,52 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Paper, Button, CircularProgress, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
+import customFetch from '../../../api/fetchInterceptor';
+import Alert from '@mui/material/Alert';
+import {useSession} from "next-auth/react";
+
+
 
 interface WaitlistPageProps {
 
 };
 
-const WaitlistPage: React.FC<WaitlistPageProps> = () => {
+const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
+  const {data: session, status} : any = useSession({required: true});
   const [progress, setProgress] = useState(0);
-  const queueLength = 200;
-  const [spotInLine, setSpotInLine] = useState(120);
+  const [spotInLine, setSpotInLine] = useState(2);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const positionPercentage = Math.round((queueLength - spotInLine) / queueLength * 100);
-    setProgress(positionPercentage);
-  });
+    const fetchQueue = async () => {
+      try {
+        const queueResponse = await customFetch('base/studentQueue');
+        const spotInLineRespone = await customFetch('queuePosition/'+session.id)
+        console.log(spotInLineRespone)
+        setSpotInLine(spotInLineRespone)
+        setLoading(false);
+        const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
+        setProgress(positionPercentage);
+      } catch (error : any) {
+        setError(error.message);
+      }
+    };
 
+    fetchQueue();
+    
+  }, []);
+  if (error) {
+    return <Alert variant="outlined" severity="error">{error}</Alert>;
+  }
+  else if (loading) {
 
+    return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <CircularProgress /> <div>Loading...</div>
+      </Box>
+  }
+  else{
+    
   return (
     <Box>
       {/* Heading */}
@@ -107,6 +137,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = () => {
     </Box>
 
   );
+  }
 };
 
 export default WaitlistPage;

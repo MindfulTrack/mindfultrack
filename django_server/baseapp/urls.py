@@ -1,10 +1,8 @@
 from django.urls import path, include
 from .views import TestView, QueuePositionView, healthcheck, TestAuthView
-
-from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView
-from .views import UniversitiesView, PersonView, PersonPermissionView, PersonAvailabilityView
-from .views import ResourceDetailsView, ResourceCategoryView, StudentQueueView, UniversitiesView
-from .views import StudentQueueDetailsView, StudentAvailabilityView, DayAvailabilityView, TimeAvailabilityView, DayTimeAvailabilityView
+from .views import UniversitiesView, PersonView
+from .views import ResourceDetailView, ResourceCategoryView, StudentQueueView, UniversitiesView
+from .views import StudentQueueDetailsView, StudentAvailabilityView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
@@ -13,8 +11,11 @@ router.register(r'person', PersonView, basename='person')
 router.register(r'universities', UniversitiesView, basename='universities')
 router.register(r'studentQueue', StudentQueueView, basename='studentQueue')
 router.register(r'studentAvailability', StudentAvailabilityView, basename='studentAvailability')
+router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCategory')
+router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('healthcheck/', healthcheck, name='healthcheck'),
     
     #Tests
@@ -29,9 +30,7 @@ urlpatterns = [
     # path('daytimeAvailability/<int:day_id>/<int:time_id>/', DayTimeAvailabilityView.as_view(), name='daytimeAvailability'),
 
     #Resources
-    path('resourceDetails/<int:resource_id>', ResourceDetailsView.as_view(), name='resourceDetails'),
-    path('resourceCategory/', ResourceCategoryView.as_view(), name='resourceCategory'),
-
+    
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
 
@@ -40,5 +39,4 @@ urlpatterns = [
     # path('personPermission/<int:person_id>/', PersonPermissionView.as_view(), name='personPermissions'),
 
     #University
-    path('', include(router.urls)),
 ]
