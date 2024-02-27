@@ -68,7 +68,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 </Button>
                   </>
                 )
-                : (<Button color="inherit" onClick={() => signIn('credentials', { callbackUrl: "/profile" })}> Login</Button>)}
+                : (<Button color="inherit" href='/signin'> Login</Button>)}
 
                 <Button href='https://caps.byu.edu/for-students-in-crisis' target='_blank' variant='contained' sx={{ cursor: "pointer", marginLeft: "1rem" }} color='secondary'>In a crisis?</Button>
               </div>
