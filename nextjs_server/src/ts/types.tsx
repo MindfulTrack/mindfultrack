@@ -13,7 +13,7 @@ export interface Event {
 export interface ResourceViewModel {
   id: number;
   name: string;
-  image?: string;
+  image: string;
 };
 
 export interface ResourceDetailsViewModel {
