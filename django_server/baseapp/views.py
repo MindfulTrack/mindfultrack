@@ -37,14 +37,14 @@ class TestView(APIView):
         serializer = TestSerializer(tests, many=True)
         return Response(serializer.data)
 
-@permission_classes([IsAuthenticated])
-class StudentQueueView(APIView):
-    def get (self, request, person_id, format=None):
-        student_entry = get_object_or_404(StudentQueue, person_id = person_id)
-        student_position = StudentQueue.objects.filter(
-            startTime__lt = student_entry.startTime
-        ).count() + 1
-        return Response(student_position)
+# @permission_classes([IsAuthenticated])
+# class StudentQueueView(APIView):
+#     def get (self, request, person_id, format=None):
+#         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
+#         student_position = StudentQueue.objects.filter(
+#             startTime__lt = student_entry.startTime
+#         ).count() + 1
+#         return Response(student_position)
     
 @permission_classes([IsAuthenticated, StaffPermission])
 class TestAuthView(APIView):
@@ -86,6 +86,13 @@ class QueuePositionView(APIView):
 class StudentQueueView(viewsets.ModelViewSet):
     queryset = StudentQueue.objects.all()
     serializer_class = StudentQueueSerializer
+
+    def get (self, request, person_id, format=None):
+        student_entry = get_object_or_404(StudentQueue, person_id = person_id)
+        student_position = StudentQueue.objects.filter(
+            startTime__lt = student_entry.startTime
+        ).count() + 1
+        return Response(student_position)
 
 
 # Details API
