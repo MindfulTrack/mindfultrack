@@ -8,10 +8,12 @@ interface MyProviderProps {
 }
 
 const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
+
   const {data: session} : any = useSession();
-  const userID = session.user?.pk
+  const userID = session === null ? 0 : session.user?.pk 
   const [selectedResourceId, setSelectedResourceId] = useState<number>(0);
   const [userId, setUserId] = useState<number>(userID);
+  console.log(userId)
 
   const updateSelectedResourceId = (newValue: number) => {
     setSelectedResourceId(newValue);
