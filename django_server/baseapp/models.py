@@ -31,6 +31,7 @@ class University(models.Model):
 class TimeSlot(models.Model):
     startTime = models.TimeField()
     endTime = models.TimeField()
+    dayOfWeek = models.CharField(max_length=255)
 
     def __str__(self):
         return str(self.startTime) + " to " + str(self.endTime)
@@ -44,7 +45,7 @@ class DayOfWeek(models.Model):
 class Person(models.Model):
     personId = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
-    universityId = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
 
 
@@ -69,10 +70,9 @@ class StudentQueue(models.Model):
         return self.person.last_name + " " + str(self.startTime)
     
 class AvailableTimeSlot(models.Model):
-    personId = models.ForeignKey(Person, on_delete=models.CASCADE)
-    timeSlotId = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
-    notes = models.CharField(blank=True, null=True, max_length=255)
-    dayOfWeekId = models.ForeignKey(DayOfWeek, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
+    dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
         return str(self.person) + " - " + str(self.timeSlot.startTime)
@@ -80,7 +80,7 @@ class AvailableTimeSlot(models.Model):
 
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
-    image = models.CharField(max_length=255, default='https://picsum.photos/id/147/2000/1700')
+    image = models.CharField(max_length=500, default='https://picsum.photos/id/147/2000/1700')
 
     def __str__(self):
         return self.name
@@ -88,8 +88,8 @@ class ResourceCategory(models.Model):
 class ResourceDetail(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(blank=True, null=True, max_length=255)
-    url = models.CharField(blank=True, null=True, max_length=255)
-    image = models.CharField(blank=True, null=True, max_length=255)
+    url = models.CharField(blank=True, null=True, max_length=500)
+    image = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
@@ -97,8 +97,8 @@ class ResourceDetail(models.Model):
         return self.name
 
 class FavoriteResource(models.Model):
-    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    resourceId = models.ForeignKey(ResourceDetail, on_delete=models.SET_NULL, null=True)
+    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    resourceDetail = models.ForeignKey(ResourceDetail, on_delete=models.SET_NULL, null=True)
     favorite = models.BooleanField()
 
     def __str__(self):
@@ -113,11 +113,11 @@ class CalendarEvent(models.Model):
     oneDayEvent = models.BooleanField()
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
-    organizerId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    organizer = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
 
 class eventAttendee(models.Model):
-    personId = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    eventId = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
+    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    event = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
     
 
 

@@ -28,7 +28,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ name, id, image }) => {
       <CardActionArea>
         <CardMedia
           component={'img'}
-          alt='random'
+          alt='resource picture'
           image={image}
           object-fit='contain'
           height={150}
