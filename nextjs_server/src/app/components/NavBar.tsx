@@ -8,8 +8,6 @@ import BYU_White from '/public/static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 import { Home } from '@mui/icons-material';
-import MyContext from '../MyContext';
-import { useContext, useEffect } from 'react';
 
 interface NavBarProps {
 
@@ -18,9 +16,6 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = () => {
 
   const {data: session} : any = useSession();
-  const { userId } = useContext(MyContext)!;
-
-  console.log("ID: ", userId);
 
   const router = useRouter();
   const handleGoHome = () => {
