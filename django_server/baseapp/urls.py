@@ -23,7 +23,7 @@ urlpatterns = [
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
 
     #Student Availability
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     # path('personAvailability/<int:person_id>/', PersonAvailabilityView.as_view(), name='personAvailability'),
     # path('dayAvailability/<int:day_id>/', DayAvailabilityView.as_view(), name='dayAvailability'),
     # path('timeAvailability/<int:time_id>/', TimeAvailabilityView.as_view(), name='timeAvailability'),
@@ -35,7 +35,7 @@ urlpatterns = [
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
 
     #Person
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     # path('personPermission/<int:person_id>/', PersonPermissionView.as_view(), name='personPermissions'),
 
     #University
