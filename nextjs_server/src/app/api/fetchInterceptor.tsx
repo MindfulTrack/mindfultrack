@@ -15,12 +15,13 @@ export default async function customFetch(url : any, methodType : any = 'GET', b
     method: methodType, // *GET, POST, PUT, DELETE, etc.
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
 
   if(body){
-    customOptions['body'] =JSON.stringify(body)
+    customOptions['body'] = JSON.stringify(body);
   }
   const data = await fetch(baseUrl + url, customOptions);
 

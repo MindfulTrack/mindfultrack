@@ -56,13 +56,16 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbacks: { async redirect({ url, baseUrl }) { return baseUrl }, },
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
           response_type: "code"
-        }
-      }
+        },
+        
+      },
+      checks: ['none']
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -151,12 +154,5 @@ export const authOptions = {
     async session({token}) {
       return token;
     },
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    }
   }
 };

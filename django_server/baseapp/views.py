@@ -1,8 +1,9 @@
+import json
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, ResourceDetail, University, Person, AvailableTimeSlot
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer, ResourceCategorySerializer, ResourceDetailSerializer
+from .models import *
+from .serializers import *
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -12,7 +13,6 @@ from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status, generics, viewsets
-
 from rest_framework.generics import RetrieveAPIView
 
 class AdminPermission(permissions.BasePermission):
@@ -53,6 +53,28 @@ class TestAuthView(APIView):
         serializer = TestAuthSerializer(days, many=True)
         print(days)
         return Response(serializer.data)
+
+@permission_classes([IsAuthenticated, StudentPermission])
+class LeaveQueue(viewsets.ModelViewSet):
+    def create(self, request, *args, **kwargs):
+        data = json.loads(request.data)
+        try:
+            print(data)
+            print(data['reasonLeavingId'])
+            print(data['reasonLeavingText'])
+        except Exception as e:
+            print(e)
+        
+        try:
+            studentQueue = StudentQueue.objects.get(person=request.user)
+            studentQueue.endTime = datetime.now()
+            studentQueue.leaveReason_id = int(data['reasonLeavingId'])
+            studentQueue.notes = data['reasonLeavingText'] + (studentQueue.notes if studentQueue.notes else "")
+            studentQueue.save()
+        except Exception as e:
+            print(e)
+
+        return Response({'message':'Waitlist Exited'})
 
 #Student Availability    
 @permission_classes([IsAuthenticated])
@@ -136,7 +158,8 @@ class UniversitiesView(viewsets.ModelViewSet):
     serializer_class = UniversitySerializer
     # permission_classes = [IsAuthenticated]
 
-
-
-### LOGIC FOR SCHEDULING ###
-    ## DISPLAY
+#University
+@permission_classes([IsAuthenticated])
+class QueueLeaveReason(viewsets.ReadOnlyModelViewSet):
+    queryset = QueueLeaveReason.objects.all()
+    serializer_class = QueueLeaveReasonSerializer

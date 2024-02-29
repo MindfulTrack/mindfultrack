@@ -7,8 +7,7 @@ import { useState, useEffect } from 'react';
 import customFetch from '../../../api/fetchInterceptor';
 import Alert from '@mui/material/Alert';
 import {useSession} from "next-auth/react";
-import { useRouter } from 'next/navigation';
-
+import Link from 'next/link';
 
 
 interface WaitlistPageProps {
@@ -16,7 +15,6 @@ interface WaitlistPageProps {
 };
 
 const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
-  const router = useRouter();
   const {data: session, status} : any = useSession({required: true});
   const [progress, setProgress] = useState(0);
   const [spotInLine, setSpotInLine] = useState(2);
@@ -41,18 +39,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     
   }, []);
   
-  const handleClick = async () => {
-    if (window.confirm('Are you sure you want to exit the queue?')) {
-      try{
-        const removeFromQueue = await customFetch('base/studentQueue/'+session.user.pk, 'DELETE');
-        router.push('/');
-
-      }
-      catch (error : any) {
-        setError(error.message);
-      }
-    }
-  }
 
   if (error) {
     return <Alert variant="outlined" severity="error">{error}</Alert>;
@@ -139,18 +125,13 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
               <Typography variant='body1' textAlign='left' sx={{fontSize: '24px'}} paragraph>Please click the button below if you would like to remove yourself from the waitlist.</Typography>
 
               <Box textAlign='center'>
-                <Button variant='contained' sx={{width: '250px'}} color='info' onClick={handleClick}>Exit Queue</Button>
+                <Link href="waitlist/exit_waitlist"><Button variant='contained' sx={{width: '250px'}} color='info'>Exit Queue</Button></Link>
               </Box>
             </Box>
           </Paper>
         </Box>
       </Box>
-
-
-
-
     </Box>
-
   );
   }
 };

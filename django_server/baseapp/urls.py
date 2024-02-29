@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import TestView, QueuePositionView, healthcheck, TestAuthView
+from .views import TestView, QueuePositionView, healthcheck, TestAuthView, LeaveQueue, QueueLeaveReason
 from .views import UniversitiesView, PersonView
 from .views import ResourceDetailView, ResourceCategoryView, StudentQueueView, UniversitiesView
 from .views import StudentQueueDetailsView, StudentAvailabilityView
@@ -13,6 +13,8 @@ router.register(r'studentQueue', StudentQueueView, basename='studentQueue')
 router.register(r'studentAvailability', StudentAvailabilityView, basename='studentAvailability')
 router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCategory')
 router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
+router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
+router.register(r'queueLeaveReason', QueueLeaveReason, basename='queueLeaveReason')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -21,6 +23,7 @@ urlpatterns = [
     #Tests
     path('test/', TestView.as_view(), name='test'),
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
+    
 
     #Student Availability
     # path('', include(router.urls)),
