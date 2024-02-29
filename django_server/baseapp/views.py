@@ -58,14 +58,13 @@ class TestAuthView(APIView):
 class LeaveQueue(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = json.loads(request.data)        
-        try:
-            studentQueue = StudentQueue.objects.get(person=request.user)
-            studentQueue.endTime = datetime.now()
-            studentQueue.leaveReason_id = int(data['reasonLeavingId'])
-            studentQueue.notes = data['reasonLeavingText'] + (studentQueue.notes if studentQueue.notes else "")
-            studentQueue.save()
-        except Exception as e:
-            print(e)
+        
+        studentQueue = StudentQueue.objects.get(person=request.user)
+        studentQueue.endTime = datetime.now()
+        studentQueue.leaveReason_id = int(data['reasonLeavingId'])
+        studentQueue.notes = data['reasonLeavingText'] + (studentQueue.notes if studentQueue.notes else "")
+        studentQueue.save()
+       
 
         return Response({'message':'Waitlist Exited'})
 
