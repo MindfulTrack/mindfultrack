@@ -102,6 +102,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
                     select
                     label="Reason for leaving"
                     fullWidth
+                    required
                   >
                     {leaveOptions.map((option : any) => (
                       <MenuItem key={option.id} value={option.id}>
