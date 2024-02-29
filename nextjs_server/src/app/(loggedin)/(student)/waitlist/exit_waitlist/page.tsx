@@ -90,7 +90,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
               Reason for leaving?
             </Typography>
 
-            <Box sx={{paddingTop: 1, marginTop: '3%', paddingLeft: '2rem'}}>
+            <Box sx={{paddingTop: 1, marginTop: '3%'}}>
               <Box
                 component="form"
                 autoComplete="off"
