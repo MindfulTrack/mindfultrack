@@ -6,7 +6,6 @@ import { Paper, Button, CircularProgress, Grid } from '@mui/material';
 import { useState, FormEvent, useEffect } from 'react';
 import customFetch from '../../../../api/fetchInterceptor';
 import Alert from '@mui/material/Alert';
-import { useRouter } from 'next/navigation';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -14,30 +13,11 @@ interface WaitlistPageProps {
 
 };
 
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
 const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
-  const router = useRouter();
   const [leaveOptions, setLeaveOptions] : any = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] : any = useState(null);
+  const [success, setSuccess] : any = useState(null);
   
   useEffect(() => {
     const fetchLeaveReason = async () => {
@@ -66,8 +46,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
         const plainFormData = Object.fromEntries(formData.entries());
 	      const formDataJsonString = JSON.stringify(plainFormData);
         const removeFromQueue = await customFetch('base/leaveQueue/', 'POST', formDataJsonString);
-        console.log(removeFromQueue)
-        // router.push('/');
+        setSuccess('Waitlist Exited')
 
       } catch (error : any) {
         setError(error.message);
@@ -79,6 +58,9 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
   
   if (error) {
     return <Alert variant="outlined" severity="error">{error}</Alert>;
+  }
+  else if(success) {
+    return <Alert variant="outlined" severity="success">{success}</Alert>;
   }
   else if (loading) {
 
