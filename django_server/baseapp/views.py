@@ -57,14 +57,7 @@ class TestAuthView(APIView):
 @permission_classes([IsAuthenticated, StudentPermission])
 class LeaveQueue(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
-        data = json.loads(request.data)
-        try:
-            print(data)
-            print(data['reasonLeavingId'])
-            print(data['reasonLeavingText'])
-        except Exception as e:
-            print(e)
-        
+        data = json.loads(request.data)        
         try:
             studentQueue = StudentQueue.objects.get(person=request.user)
             studentQueue.endTime = datetime.now()
