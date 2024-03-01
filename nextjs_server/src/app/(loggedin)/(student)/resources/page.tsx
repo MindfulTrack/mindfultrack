@@ -22,8 +22,8 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
     const fetchResources = async () => {
       try {
         const resources = await customFetch('base/resourceCategory');
-        setResources(resources);
-        console.log(resources)
+        const sortedResources = resources.sort((a: any, b: any) => a.id - b.id);
+        setResources(sortedResources);
       } catch (error) {
         console.error(error)
       }

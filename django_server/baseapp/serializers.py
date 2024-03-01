@@ -1,9 +1,9 @@
 from rest_framework import serializers
 # from dj_rest_auth.serializers import UserDetailsSerializer
-from .models import Test, DayOfWeek, StudentQueue, Person, University, ResourceDetail, ResourceCategory, AvailableTimeSlot
-
+from .models import Test, DayOfWeek, StudentQueue, Person
+from .models import University, ResourceDetail, ResourceCategory, AvailableTimeSlot
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 UserModel = get_user_model()
 
 class TestSerializer(serializers.ModelSerializer):
@@ -74,34 +74,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ('pk', *extra_fields) + ('groups',)
         read_only_fields = ('email',)
-
-# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-# from rest_framework_simplejwt.views import TokenObtainPairView
-
-# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     @classmethod
-#     def get_token(cls, user):
-#         token = super().get_token(user)
-#         print("HERE")
-#         print(token)
-#         # Add custom claims
-#         token['username'] = user.username
-#         token['email'] = "test"
-#         token['first_name'] = 'NEW FIRST NAME'
-#         # token['groups'] = [group.name for group in user.groups.all()]
-#         # token['user'] = {
-#         #     pk: 7,
-#         #     username: 'jdonaldson1719@gmail.com',
-#         #     email: 'jdonaldson1719@gmail.com',
-#         #     first_name: '',
-#         #     last_name: ''
-#         # }
-        
-#         # token['access_token']
-#         return token
-
-# class CustomTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = CustomTokenObtainPairSerializer
         
 
 # Student Queue
@@ -139,3 +111,16 @@ class ResourceDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResourceDetail
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+class FavoriteResourcesSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True, read_only=True)
+    resources = ResourceDetail
+
+    class Meta:
+        model = ResourceDetail
+        fields = ('id','users', 'name', 'description')

@@ -2,7 +2,13 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, ResourceDetail, University, Person, AvailableTimeSlot
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer, ResourceCategorySerializer, ResourceDetailSerializer
+from django.contrib.auth.models import User
+
+from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer
+from .serializers import UniversitySerializer, PersonSerializer, FavoriteResourcesSerializer
+from .serializers import PersonPermissionSerializer, StudentAvailabilitySerializer
+from .serializers import ResourceCategorySerializer, ResourceDetailSerializer
+
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -70,6 +76,11 @@ class ResourceDetailView(viewsets.ModelViewSet):
 class ResourceCategoryView(viewsets.ModelViewSet):
     queryset = ResourceCategory.objects.all()
     serializer_class = ResourceCategorySerializer
+
+@permission_classes([IsAuthenticated])
+class FavoriteResourcesView(viewsets.ModelViewSet):
+    queryset = ResourceDetail.objects.all()
+    serializer_class = FavoriteResourcesSerializer
 
 
 #Student Queue

@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -7,26 +8,39 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Bookmark from '@mui/icons-material/Bookmark';
 import mockResources from './mock-resource-details.json';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import customFetch from '../../../../api/fetchInterceptor';
 import { ResourceDetailsViewModel } from '../../../../../ts/types';
-import { useEffect } from 'react';
+import MyContext from '../../../../MyContext';
 
 interface ResourceDetailsProps {
   resourceId: number
 };
 
-const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) => {
+const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
+  const { userId } = useContext(MyContext)!;
 
-  const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([])
-  
+  // Fetch all resources
+  const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
+  const [favoriteResources, setFavoriteResources] = useState([]);
   useEffect(() => {
     const fetchResources = async () => {
       try {
         const resourceDetails = await customFetch('base/resourceDetails');
         setResourceDetails(resourceDetails);
-        console.log(resourceDetails)
+
+        const fetchedFavorites = await customFetch('base/favoriteResources');
+        // const filteredFavorites = fetchedFavorites.filter((row: any) => row.person === userId);
+
+        // const finalFavorites = filteredFavorites
+        // .filter((row: any) => row.resourceDetail === resourceDetails.id)
+        // .map(item1 => ({
+        //   ...item1,
+        //   ...timeSlots.find(item2 => item2.timeSlotID === item1.timeSlotID)
+        // }));
+        console.log(fetchedFavorites);
+        // setFavoriteResources(finalFavorites);
       } catch (error) {
         console.error(error)
       }
@@ -35,6 +49,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) =
     fetchResources();
   }, []);
 
+  // Adding & Removing from favorites
   const [mockData, setMockData] = useState(mockResources);
   const handleAddRemoveSaved = (id: number) => {
     const updateSaved = mockData.resourceDetails.map((resource) => ({
@@ -48,10 +63,9 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) =
   return (
     resourceId === 0 ? (
       <>
-        {mockData.resourceDetails
-          .filter((item) => item.favorite === true)
-          .map((item) => (
-            <Card sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
+        {favoriteResources
+          .map((item: any) => (
+            <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader
                 title={item.name}
               // subheader="September 14, 2016"
@@ -65,9 +79,9 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) =
 
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" onClick={() => handleAddRemoveSaved(item.id)}>
-                  <Bookmark sx={{ fontSize: '35px', color: item.favorite ? '#006141' : '' }} />
+                  <Bookmark sx={{ fontSize: '35px', color:'#006141' }} />
                 </IconButton>
-                <IconButton aria-label="share" href={item.URL} target='_blank'>
+                <IconButton aria-label="share" href={item.url} target='_blank'>
                   <OpenInNewIcon sx={{ color: '#666666', fontSize: '18px' }} />
                 </IconButton>
               </CardActions>
@@ -77,12 +91,11 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) =
     ) : (
       <>
         {resourceDetails
-          .filter((item: any) => item.resourceCategoryId === resourceId)
+          .filter((item: any) => item.category === resourceId)
           .map((item: any) => (
-            <Card sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
+            <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader
                 title={item.name}
-              // subheader="September 14, 2016"
               />
 
               <CardContent>
@@ -95,7 +108,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = async ({ resourceId }) =
                 <IconButton aria-label="add to favorites" onClick={() => handleAddRemoveSaved(item.id)}>
                   <Bookmark sx={{ fontSize: '35px', color: item.favorite ? '#006141' : '' }} />
                 </IconButton>
-                <IconButton aria-label="share" href={item.URL} target='_blank'>
+                <IconButton aria-label="share" href={item.url} target='_blank'>
                   <OpenInNewIcon sx={{ color: '#666666', fontSize: '18px' }} />
                 </IconButton>
               </CardActions>

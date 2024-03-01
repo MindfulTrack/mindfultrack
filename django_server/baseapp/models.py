@@ -92,17 +92,10 @@ class ResourceDetail(models.Model):
     image = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
+    favoritedBy = models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
-
-class FavoriteResource(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    resourceDetail = models.ForeignKey(ResourceDetail, on_delete=models.SET_NULL, null=True)
-    favorite = models.BooleanField()
-
-    def __str__(self):
-      return self.favorite
 
 class CalendarEvent(models.Model):
     title = models.CharField(max_length=255)

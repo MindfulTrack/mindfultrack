@@ -1,31 +1,28 @@
 'use client'
-import React, { useContext } from "react";
-import mockResources from '../mock-resources.json';
-import { Box, Tabs, Tab } from "@mui/material";
+import React, { useContext, useState, useEffect } from "react";
+import { Box, Tabs, Tab, Typography } from "@mui/material";
 import ResourceDetails from "./resource-details";
 import MyContext from "../../../../MyContext";
+import { ResourceViewModel } from "../../../../../ts/types";
+import customFetch from "../../../../api/fetchInterceptor";
 
+interface ResourceSubPageProps {}
 
-interface ResourceSubPageProps {
-
-};
-
-interface TabPanelProps {
+interface PanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+function Panel(props: PanelProps) {
+  const { children, value, index } = props;
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
+      id={`panel-${index}`}
+      aria-labelledby={`tab-${index}`}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
@@ -36,45 +33,58 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 };
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-};
-
 const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
-  const mockData = mockResources;
   const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
+  const [resources, setResources] = useState<ResourceViewModel[]>([]);
+  const [value, setValue] = useState(selectedResourceId || 0);
 
-  const [value, setValue] = React.useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const resources = await customFetch("base/resourceCategory");
+        // Sort resources by id
+        const sortedResources = resources.sort((a: any, b: any) => a.id - b.id);
+        setResources(sortedResources);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchResources();
+  }, []);
+
+  const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
+    updateSelectedResourceId(newValue);
   };
-
-  const handleTabClick = (id: number) => {
-    updateSelectedResourceId(id);
-    console.log(selectedResourceId)
-  }
-
 
   return (
     <>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={selectedResourceId} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" scrollButtons="auto" indicatorColor="secondary" textColor="secondary">
-            <Tab label="Favorites" {...a11yProps(0)} onClick={() => handleTabClick(0)} />
-            {mockData.resources.map((resource) => (
-              <Tab label={resource.name} {...a11yProps(resource.id)} onClick={() => handleTabClick(resource.id)} />
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            indicatorColor="secondary"
+            textColor="secondary"
+          >
+            <Tab key={0} label="Favorites" />
+            {resources.map((resource) => (
+              <Tab
+                key={resource.id}
+                label={resource.name}
+              />
             ))}
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={value}>
+        <Panel value={value} index={value}>
           <ResourceDetails resourceId={selectedResourceId} />
-        </CustomTabPanel>
+        </Panel>
       </Box>
     </>
-  )
+  );
 };
 
 export default ResourceSubPage;
