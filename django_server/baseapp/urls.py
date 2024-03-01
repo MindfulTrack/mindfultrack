@@ -30,7 +30,7 @@ urlpatterns = [
     #Student Availability
 
     #Resources
-    # path('favoriteResources', FavoriteResourcesView.as_view(), name='favoriteResources'),
+    path('favoriteResources', FavoriteResourcesView.as_view(), name='favoriteResources'),
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
 

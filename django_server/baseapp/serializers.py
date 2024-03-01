@@ -111,6 +111,7 @@ class ResourceDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResourceDetail
         fields = '__all__'
+
 class QueueLeaveReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = QueueLeaveReason
@@ -123,8 +124,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class FavoriteResourcesSerializer(serializers.ModelSerializer):
     users = UserSerializer(many=True, read_only=True)
-    resources = ResourceDetail
 
     class Meta:
         model = ResourceDetail
-        fields = ('id','users', 'name', 'description')
+        fields = ('id','users')
