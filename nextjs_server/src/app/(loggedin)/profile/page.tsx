@@ -3,6 +3,7 @@ import {useState} from "react";
 import {signOut, useSession} from "next-auth/react";
 // import {Box, Button, Code, HStack, Spinner, Typography, VStack} from "@chakra-ui/react";
 import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -36,20 +37,18 @@ export default function Profile() {
 
   if (session) {
     return (
+    <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%' }}>
       <Box m={8}>
-          <Typography>PK: {session.user.pk}</Typography>
+          <Typography>User ID: {session.user.pk}</Typography>
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
           <Typography>Permissions: {session.user.groups || "Not provided"}</Typography>
-          <Typography variant="body1">
-            {response}
-          </Typography>
-          <Button onClick={() => getUserDetails(true)}>
+          {/* <Button onClick={() => getUserDetails(true)}>
             User details (with token)
           </Button>
           <Button onClick={() => getUserDetails(false)}>
             User details (without token)
-          </Button>
+          </Button> */}
           <Button onClick={() => signOut({callbackUrl: "/"})}>
             Sign out
           </Button>
@@ -57,6 +56,7 @@ export default function Profile() {
               Reset password
           </Button>
       </Box>
+    </Paper>
     );
   }
 

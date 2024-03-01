@@ -1,11 +1,8 @@
 from django.contrib import admin
-from baseapp.models import Test, PermissionLevel, University, ResourceCategory, ResourceDetail
-from baseapp.models import TimeSlot, DayOfWeek, Person, StudentQueue, AvailableTimeSlot
-from baseapp.models import QueueLeaveReason
+from baseapp.models import *
 
 # Register your models here.
 admin.site.register(Test)
-admin.site.register(PermissionLevel)
 admin.site.register(University)
 admin.site.register(ResourceCategory)
 admin.site.register(ResourceDetail)
