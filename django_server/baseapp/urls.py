@@ -1,8 +1,5 @@
+from .views import *
 from django.urls import path, include
-from .views import TestView, QueuePositionView, healthcheck, TestAuthView, LeaveQueue, QueueLeaveReason
-from .views import UniversitiesView, PersonView
-from .views import ResourceDetailView, ResourceCategoryView, StudentQueueView, UniversitiesView
-from .views import StudentQueueDetailsView, StudentAvailabilityView
 from .views import FavoriteResourcesView
 from rest_framework.routers import DefaultRouter
 
@@ -26,15 +23,6 @@ urlpatterns = [
     path('test/', TestView.as_view(), name='test'),
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
     
-
-    #Student Availability
-
-    #Resources
-    path('favoriteResources', FavoriteResourcesView.as_view(), name='favoriteResources'),
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
-
-    #Person
-
-    #University
 ]

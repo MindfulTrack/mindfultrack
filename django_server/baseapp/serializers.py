@@ -1,7 +1,5 @@
 from rest_framework import serializers
-# from dj_rest_auth.serializers import UserDetailsSerializer
-from .models import Test, DayOfWeek, StudentQueue, Person
-from .models import University, ResourceDetail, ResourceCategory, AvailableTimeSlot, QueueLeaveReason
+from .models import *
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 UserModel = get_user_model()
@@ -15,7 +13,6 @@ class TestAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = DayOfWeek
         fields = '__all__' 
-
         
 class JWTSerializer(serializers.Serializer):
     """
@@ -75,7 +72,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         fields = ('pk', *extra_fields) + ('groups',)
         read_only_fields = ('email',)
         
-
 # Student Queue
 class StudentQueueSerializer(serializers.ModelSerializer):
     class Meta:
