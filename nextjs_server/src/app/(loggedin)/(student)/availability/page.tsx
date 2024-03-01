@@ -112,16 +112,6 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
     }, 3000);
   }
 
-  const handleExitClick = () => {
-    let confirmExit = confirm("Are you SURE you want to exit the queue? If you do, you will have to restart the process if you change your mind.")
-
-    if (confirmExit) {
-      alert("You have exited the waitlist successfully.")
-    } else {
-      alert("Action cancelled.")
-    }
-  }
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -176,7 +166,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
           <Typography variant='body1' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>Remember, while you are waiting we have a great list of <Link href='/resources' color={'text.primary'}>resources</Link> for you. Please check them out!</Typography>
           <Typography variant='body1' fontStyle='italic' color="text.main" sx={{ textAlign: "left", p: '1rem' }}>If, while you are waiting for services, you no longer feel the need to meet with a counselor, please click the following link to exit the queue.</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2 }}>
-            <Button variant='contained' color='warning' onClick={handleExitClick} sx={{mb: '2rem'}}>EXIT WAITLIST</Button>
+            <Link href="waitlist/exit_waitlist"><Button variant='contained' sx={{width: '250px'}} color='info'>Exit Queue</Button></Link>
           </Box>
         </Paper>
 
