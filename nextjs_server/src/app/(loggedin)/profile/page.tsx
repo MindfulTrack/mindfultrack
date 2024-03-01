@@ -43,7 +43,8 @@ export default function Profile() {
           <Typography>Username: {session.user.username}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
           <Typography>Permissions: {session.user.groups || "Not provided"}</Typography>
-          {/* <Button onClick={() => getUserDetails(true)}>
+          {/* {response}
+          <Button onClick={() => getUserDetails(true)}>
             User details (with token)
           </Button>
           <Button onClick={() => getUserDetails(false)}>
