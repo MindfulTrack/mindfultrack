@@ -5,7 +5,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import ResourceCard from '../../../components/ResourceCard';
 import { Paper } from '@mui/material';
-import mockResources from './mock-resources.json';
 import customFetch from '../../../api/fetchInterceptor';
 import { ResourceViewModel } from '../../../../ts/types';
 import { useState, useEffect } from 'react';
@@ -17,7 +16,6 @@ interface ResourcesMainPageProps {
 
 const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
 
-  const mockData = mockResources;
   const [resources, setResources] = useState<ResourceViewModel[]>([])
   
   useEffect(() => {
@@ -25,6 +23,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
       try {
         const resources = await customFetch('base/resourceCategory');
         setResources(resources);
+        console.log(resources)
       } catch (error) {
         console.error(error)
       }
@@ -52,7 +51,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
                 <ResourceCard
                   name={item.name}
                   id={item.id}
-                  image={"https://picsum.photos/id/147/2000/1700"}
+                  image={item.image}
                 />
               </Grid>
             )

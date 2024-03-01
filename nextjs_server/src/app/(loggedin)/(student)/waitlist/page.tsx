@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import customFetch from '../../../api/fetchInterceptor';
 import Alert from '@mui/material/Alert';
 import {useSession} from "next-auth/react";
-
+import Link from 'next/link';
 
 
 interface WaitlistPageProps {
@@ -25,8 +25,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     const fetchQueue = async () => {
       try {
         const queueResponse = await customFetch('base/studentQueue');
-        const spotInLineRespone = await customFetch('queuePosition/'+session.id)
-        console.log(spotInLineRespone)
+        const spotInLineRespone = await customFetch('base/queuePosition/'+session.user.pk)
         setSpotInLine(spotInLineRespone)
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
@@ -39,6 +38,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     fetchQueue();
     
   }, []);
+  
+
   if (error) {
     return <Alert variant="outlined" severity="error">{error}</Alert>;
   }
@@ -74,7 +75,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
 
                 <Box sx={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', verticalAlign: 'middle' }}>
                   <CircularProgress
-                    size={350}
+                    size={250}
                     thickness={10}
                     variant='determinate'
                     color='success'
@@ -101,10 +102,10 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
                 </Box>
               </Grid>
               <Grid item lg={6} sx={{ marginTop: '7%' }}>
-                <Typography variant='h2'>Estimated Time Remaining:</Typography>
+                <Typography variant='h3'>Estimated Time Remaining:</Typography>
                 <Typography sx={{ fontSize: '40px' }}>2 weeks</Typography>
 
-                <Typography variant='h2' sx={{ paddingTop: '2rem' }}>Number of people in front of you:</Typography>
+                <Typography variant='h3' sx={{ paddingTop: '2rem' }}>Number of people in front of you:</Typography>
                 <Typography sx={{ fontSize: '40px' }}>{spotInLine}</Typography>
               </Grid>
             </Grid>
@@ -124,18 +125,13 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
               <Typography variant='body1' textAlign='left' sx={{fontSize: '24px'}} paragraph>Please click the button below if you would like to remove yourself from the waitlist.</Typography>
 
               <Box textAlign='center'>
-                <Button variant='contained' sx={{width: '250px'}} color='info'>Exit Queue</Button>
+                <Link href="waitlist/exit_waitlist"><Button variant='contained' sx={{width: '250px'}} color='info'>Exit Queue</Button></Link>
               </Box>
             </Box>
           </Paper>
         </Box>
       </Box>
-
-
-
-
     </Box>
-
   );
   }
 };

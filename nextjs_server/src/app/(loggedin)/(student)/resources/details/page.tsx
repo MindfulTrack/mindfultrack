@@ -54,6 +54,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
 
   const handleTabClick = (id: number) => {
     updateSelectedResourceId(id);
+    console.log(selectedResourceId)
   }
 
 

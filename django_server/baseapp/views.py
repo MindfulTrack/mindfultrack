@@ -1,8 +1,9 @@
+import json
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Test, StudentQueue, DayOfWeek, ResourceCategory, ResourceDetail, University, Person, AvailableTimeSlot
-from .serializers import TestSerializer, TestAuthSerializer, StudentQueueSerializer, UniversitySerializer, PersonSerializer, PersonPermissionSerializer, StudentAvailabilitySerializer, ResourceCategorySerializer, ResourceDetailSerializer
+from .models import *
+from .serializers import *
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from django.http import HttpResponse
@@ -12,7 +13,6 @@ from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from rest_framework import status, generics, viewsets
-
 from rest_framework.generics import RetrieveAPIView
 
 class AdminPermission(permissions.BasePermission):
@@ -37,14 +37,14 @@ class TestView(APIView):
         serializer = TestSerializer(tests, many=True)
         return Response(serializer.data)
 
-@permission_classes([IsAuthenticated])
-class StudentQueueView(APIView):
-    def get (self, request, person_id, format=None):
-        student_entry = get_object_or_404(StudentQueue, person_id = person_id)
-        student_position = StudentQueue.objects.filter(
-            startTime__lt = student_entry.startTime
-        ).count() + 1
-        return Response(student_position)
+# @permission_classes([IsAuthenticated])
+# class StudentQueueView(APIView):
+#     def get (self, request, person_id, format=None):
+#         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
+#         student_position = StudentQueue.objects.filter(
+#             startTime__lt = student_entry.startTime
+#         ).count() + 1
+#         return Response(student_position)
     
 @permission_classes([IsAuthenticated, StaffPermission])
 class TestAuthView(APIView):
@@ -53,6 +53,20 @@ class TestAuthView(APIView):
         serializer = TestAuthSerializer(days, many=True)
         print(days)
         return Response(serializer.data)
+
+@permission_classes([IsAuthenticated, StudentPermission])
+class LeaveQueue(viewsets.ModelViewSet):
+    def create(self, request, *args, **kwargs):
+        data = json.loads(request.data)        
+        
+        studentQueue = StudentQueue.objects.get(person=request.user)
+        studentQueue.endTime = datetime.now()
+        studentQueue.leaveReason_id = int(data['reasonLeavingId'])
+        studentQueue.notes = data['reasonLeavingText'] + (studentQueue.notes if studentQueue.notes else "")
+        studentQueue.save()
+       
+
+        return Response({'message':'Waitlist Exited'})
 
 #Student Availability    
 @permission_classes([IsAuthenticated])
@@ -86,6 +100,13 @@ class QueuePositionView(APIView):
 class StudentQueueView(viewsets.ModelViewSet):
     queryset = StudentQueue.objects.all()
     serializer_class = StudentQueueSerializer
+
+    def get (self, request, person_id, format=None):
+        student_entry = get_object_or_404(StudentQueue, person_id = person_id)
+        student_position = StudentQueue.objects.filter(
+            startTime__lt = student_entry.startTime
+        ).count() + 1
+        return Response(student_position)
 
 
 # Details API
@@ -129,7 +150,8 @@ class UniversitiesView(viewsets.ModelViewSet):
     serializer_class = UniversitySerializer
     # permission_classes = [IsAuthenticated]
 
-
-
-### LOGIC FOR SCHEDULING ###
-    ## DISPLAY
+#University
+@permission_classes([IsAuthenticated])
+class QueueLeaveReason(viewsets.ReadOnlyModelViewSet):
+    queryset = QueueLeaveReason.objects.all()
+    serializer_class = QueueLeaveReasonSerializer
