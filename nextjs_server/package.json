@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
@@ -23,6 +23,7 @@
     "@mui/lab": "^5.0.0-alpha.163",
     "@mui/material": "^5.15.4",
     "@mui/material-nextjs": "^5.15.4",
+    "@mui/system": "^5.15.11",
     "@mui/x-date-pickers": "^6.19.3",
     "axios": "^1.6.5",
     "dayjs": "^1.11.10",
@@ -31,12 +32,15 @@
     "nodemailer": "^6.9.8",
     "react": "^18",
     "react-dom": "^18",
+    "sass": "^1.71.1",
     "sharp": "^0.33.2",
     "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "20.11.5",
     "@types/react": "^18.2.48",
+    "postcss": "^8.4.35",
+    "postcss-loader": "^8.1.1",
     "typescript": "5.3.3"
   }
 }
