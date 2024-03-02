@@ -15,41 +15,14 @@ import { ResourceDetailsViewModel } from '../../../../../ts/types';
 import MyContext from '../../../../MyContext';
 
 interface ResourceDetailsProps {
-  resourceId: number
+  resourceId: number;
+  allResources: ResourceDetailsViewModel[];
+  favoritedResources: ResourceDetailsViewModel[];
 };
 
-const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
-  const { userId } = useContext(MyContext)!;
+const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId, allResources, favoritedResources }) => {
 
-  // Fetch all resources
-  const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
-  const [favoriteResources, setFavoriteResources] = useState([]);
-  useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const resourceDetails = await customFetch('base/resourceDetails');
-        setResourceDetails(resourceDetails);
-
-        const fetchedFavorites = await customFetch('base/favoriteResources');
-        // const filteredFavorites = fetchedFavorites.filter((row: any) => row.person === userId);
-
-        // const finalFavorites = filteredFavorites
-        // .filter((row: any) => row.resourceDetail === resourceDetails.id)
-        // .map(item1 => ({
-        //   ...item1,
-        //   ...timeSlots.find(item2 => item2.timeSlotID === item1.timeSlotID)
-        // }));
-        console.log(fetchedFavorites);
-        // setFavoriteResources(finalFavorites);
-      } catch (error) {
-        console.error(error)
-      }
-    };
-
-    fetchResources();
-  }, []);
-
-  // Adding & Removing from favorites
+  // Adding & Removing from favorites ||| Moving this to main resourceDetail page
   const [mockData, setMockData] = useState(mockResources);
   const handleAddRemoveSaved = (id: number) => {
     const updateSaved = mockData.resourceDetails.map((resource) => ({
@@ -63,7 +36,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
   return (
     resourceId === 0 ? (
       <>
-        {favoriteResources
+        {favoritedResources
           .map((item: any) => (
             <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader
@@ -90,7 +63,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
       </>
     ) : (
       <>
-        {resourceDetails
+        {allResources
           .filter((item: any) => item.category === resourceId)
           .map((item: any) => (
             <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
@@ -106,7 +79,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId }) => {
 
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" onClick={() => handleAddRemoveSaved(item.id)}>
-                  <Bookmark sx={{ fontSize: '35px', color: item.favorite ? '#006141' : '' }} />
+                  <Bookmark sx={{ fontSize: '35px', color: favoritedResources.includes(item.id) ? '#006141' : '' }} />
                 </IconButton>
                 <IconButton aria-label="share" href={item.url} target='_blank'>
                   <OpenInNewIcon sx={{ color: '#666666', fontSize: '18px' }} />

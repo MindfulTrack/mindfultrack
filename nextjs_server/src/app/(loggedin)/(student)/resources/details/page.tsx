@@ -3,41 +3,25 @@ import React, { useContext, useState, useEffect } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import ResourceDetails from "./resource-details";
 import MyContext from "../../../../MyContext";
-import { ResourceViewModel } from "../../../../../ts/types";
+import { ResourceViewModel, ResourceDetailsViewModel } from "../../../../../ts/types";
 import customFetch from "../../../../api/fetchInterceptor";
 
 interface ResourceSubPageProps {}
 
 interface PanelProps {
   index: number;
-  value: number;
+  tabNum: number;
 }
 
 
 
 const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
-  const [resources, setResources] = useState<ResourceViewModel[]>([]);
+  const [resourceCategories, setResourceCategories] = useState<ResourceViewModel[]>([]);
+  const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
+  const [favoriteResources, setFavoriteResources] = useState<ResourceDetailsViewModel[]>([]);
+  // const [favoriteIdsList, setFavoriteIdsList] = useState<number[]>([]);
   const [value, setValue] = useState(selectedResourceId || 0);
-
-  function Panel(props: PanelProps) {
-    const { value, index } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`panel-${index}`}
-        aria-labelledby={`tab-${index}`}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <ResourceDetails resourceId={selectedResourceId} />
-          </Box>
-        )}
-      </div>
-    );
-  };
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -45,14 +29,58 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
         const resources = await customFetch("base/resourceCategory");
         // Sort resources by id
         const sortedResources = resources.sort((a: any, b: any) => a.id - b.id);
-        setResources(sortedResources);
+        setResourceCategories(sortedResources);
+
+        const resourceDetails = await customFetch('base/resourceDetails');
+        setResourceDetails(resourceDetails);
+
+        const fetchedFavorites = await customFetch('base/favoriteResources');
+        setFavoriteResources(fetchedFavorites);
+
+        const favoriteIDs: number[] = [];
+        favoriteResources.map((resource: any) => {
+          favoriteIDs.push(resource.id)
+        });
+        // setFavoriteIdsList(favoriteIDs);
+        // console.log(favoriteIdsList)
       } catch (error) {
         console.error(error);
       }
     };
 
+    // const getFavoriteIdList = () => {
+
+    // };
+
+    // getFavoriteIdList();
     fetchResources();
   }, []);
+
+  function Panel(props: PanelProps) {
+    const { tabNum, index } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={tabNum !== index}
+        id={`panel-${index}`}
+        aria-labelledby={`tab-${index}`}
+      >
+        {tabNum === index && (
+          <Box sx={{ p: 3 }}>
+            <ResourceDetails 
+              resourceId={selectedResourceId} 
+              allResources={resourceDetails} 
+              favoritedResources={favoriteResources} 
+              // favoriteIdList={favoriteIdsList}
+            />
+          </Box>
+        )}
+      </div>
+    );
+  };
+
+
 
   const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
@@ -72,7 +100,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
             textColor="secondary"
           >
             <Tab key={0} label="Favorites" />
-            {resources.map((resource) => (
+            {resourceCategories.map((resource) => (
               <Tab
                 key={resource.id}
                 label={resource.name}
@@ -80,7 +108,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
             ))}
           </Tabs>
         </Box>
-        <Panel value={value} index={value} />
+        <Panel tabNum={value} index={value} />
       </Box>
     </>
   );

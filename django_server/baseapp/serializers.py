@@ -127,7 +127,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FavoriteResourcesSerializer(serializers.ModelSerializer):
-    # resources = ResourceDetailSerializer(many=True)
 
     class Meta:
         model = ResourceDetail
