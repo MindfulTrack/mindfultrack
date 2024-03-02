@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Avatar from '@mui/material/Avatar';
 
 import axios from "axios";
 
@@ -14,6 +15,7 @@ export default function Profile() {
 
   const {data: session, status} : any = useSession({required: true});
   const [response, setResponse] = useState("{}");
+  const profileUrl = session?.picture;
 
   const getUserDetails = async (useToken : any) => {
     try {
@@ -39,9 +41,12 @@ export default function Profile() {
     return (
     <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%' }}>
       <Box m={8}>
+          <Avatar sx={{ width: 56, height: 56 }} alt={session.last_name} src={profileUrl} />
           <Typography>User ID: {session.user.pk}</Typography>
-          <Typography>Username: {session.user.username}</Typography>
+          <Typography>Name: {session.user.first_name} {session.user.last_name}</Typography>
           <Typography>Email: {session.user.email || "Not provided"}</Typography>
+          <Typography>Username: {session.user.username}</Typography>
+          <Typography>In Queue: {String(session.user.inQueue)}</Typography>
           <Typography>Permissions: {session.user.groups || "Not provided"}</Typography>
           {/* {response}
           <Button onClick={() => getUserDetails(true)}>
