@@ -86,6 +86,17 @@ class ResourceCategoryView(viewsets.ModelViewSet):
     queryset = ResourceCategory.objects.all()
     serializer_class = ResourceCategorySerializer
 
+# @permission_classes([IsAuthenticated])
+class FavoriteResourcesView(APIView):
+
+    def get(self, request, format=None):
+      filtered_resources = ResourceDetail.objects.filter(favoritedBy__id = request.user.id)
+      arrFavoriteResources = []
+      for obj in filtered_resources:
+        serializer = FavoriteResourcesSerializer(obj)
+        arrFavoriteResources.append(serializer.data)
+      return Response(arrFavoriteResources)
+
 
 #Student Queue
 @permission_classes([IsAuthenticated, StudentPermission])

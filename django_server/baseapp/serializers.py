@@ -115,7 +115,19 @@ class ResourceDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResourceDetail
         fields = '__all__'
+
 class QueueLeaveReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = QueueLeaveReason
+        fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+class FavoriteResourcesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ResourceDetail
         fields = '__all__'

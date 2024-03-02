@@ -24,7 +24,10 @@ export interface ResourceDetailsViewModel {
   image: string;
   category_id: number;
   university_id: number;
-}
+  favoritedBy?: [];
+};
+
+
 
 export const eventColorPalette = [
   {id: 1, name: "Navy", value: "#002e5d" },
