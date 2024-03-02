@@ -24,6 +24,8 @@
     "@mui/material": "^5.15.4",
     "@mui/material-nextjs": "^5.15.4",
     "@mui/system": "^5.15.11",
+    "@mui/x-data-grid": "^6.19.6",
+    "@mui/x-data-grid-generator": "^6.19.6",
     "@mui/x-date-pickers": "^6.19.3",
     "axios": "^1.6.5",
     "chart.js": "^4.4.2",

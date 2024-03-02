@@ -52,14 +52,22 @@ class QueueLeaveReason(models.Model):
         return self.leaveReason
     
 class StudentQueue(models.Model):
-    person = models.OneToOneField(User, on_delete=models.CASCADE)
+    person = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name="student_queue")
     startTime = models.DateTimeField()
     endTime = models.DateTimeField(blank=True, null=True)
     leaveReason = models.ForeignKey(QueueLeaveReason, on_delete=models.SET_NULL, null=True, blank=True)
     notes = models.CharField(max_length=1048, blank=True, null=True)
-
+   
     def __str__(self):
         return self.person.last_name + " " + str(self.startTime)
+
+    def inQueue(self):
+        if self.startTime:
+            if self.endTime is None:
+                return True
+            
+        return False
+
     
 class AvailableTimeSlot(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)

@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@mui/x-data-grid": "^6.19.5",
-    "@mui/x-data-grid-generator": "^6.19.5",
-    "chart.js": "^4.4.2"
-  }
-}
