@@ -119,8 +119,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FavoriteResourcesSerializer(serializers.ModelSerializer):
-    users = UserSerializer(many=True, read_only=True)
+    # resources = ResourceDetailSerializer(many=True)
 
     class Meta:
         model = ResourceDetail
-        fields = ('id','users')
+        fields = '__all__'

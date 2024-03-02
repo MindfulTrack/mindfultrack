@@ -9,34 +9,35 @@ import customFetch from "../../../../api/fetchInterceptor";
 interface ResourceSubPageProps {}
 
 interface PanelProps {
-  children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-function Panel(props: PanelProps) {
-  const { children, value, index } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`panel-${index}`}
-      aria-labelledby={`tab-${index}`}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-};
 
 const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const { selectedResourceId, updateSelectedResourceId } = useContext(MyContext)!;
   const [resources, setResources] = useState<ResourceViewModel[]>([]);
   const [value, setValue] = useState(selectedResourceId || 0);
+
+  function Panel(props: PanelProps) {
+    const { value, index } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`panel-${index}`}
+        aria-labelledby={`tab-${index}`}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <ResourceDetails resourceId={selectedResourceId} />
+          </Box>
+        )}
+      </div>
+    );
+  };
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -79,9 +80,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
             ))}
           </Tabs>
         </Box>
-        <Panel value={value} index={value}>
-          <ResourceDetails resourceId={selectedResourceId} />
-        </Panel>
+        <Panel value={value} index={value} />
       </Box>
     </>
   );

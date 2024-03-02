@@ -13,11 +13,13 @@ router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCat
 router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
 router.register(r'queueLeaveReason', QueueLeaveReason, basename='queueLeaveReason')
-router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
+# router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('healthcheck/', healthcheck, name='healthcheck'),
+
+    path('favoriteResources/', FavoriteResourcesView.as_view(), name='favoriteResources'),
     
     #Tests
     path('test/', TestView.as_view(), name='test'),
