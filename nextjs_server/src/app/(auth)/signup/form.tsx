@@ -93,7 +93,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
 
   const handleLoginWithGoogle = () => {
     console.log("GOOGLE AUTH")
-    signIn('google', {callbackUrl: "/profile",})
+    signIn('google', {callbackUrl: "/resources",})
   };
 
   return (
@@ -158,6 +158,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
                 label="Password"
                 type="password"
                 id="password"
+                inputProps={{ minLength: 8 }}
                 autoComplete="new-password"
               />
             </Grid>
@@ -169,6 +170,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
                 label="Confirm Password"
                 type="password"
                 id="password2"
+                inputProps={{ minLength: 8 }}
                 autoComplete="new-password"
               />
             </Grid>
@@ -198,7 +200,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
           <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link onClick={() => signIn(undefined, {callbackUrl: "/profile"})} variant="body2">
+              <Link onClick={() => signIn(undefined, {callbackUrl: "/resources"})} variant="body2">
               <div className="" style={{cursor: 'pointer'}}>
                 Already have an account? Sign in
                </div>

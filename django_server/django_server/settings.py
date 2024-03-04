@@ -40,17 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'corsheaders',
     'baseapp.apps.BaseappConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'dj_rest_auth',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'dj_rest_auth',
     'dj_rest_auth.registration',
-    'corsheaders',
+    'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'drf_spectacular',
 ]
@@ -248,6 +248,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 # SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+ACCOUNT_SIGNUP_REDIRECT_URL=os.environ.get("CALLBACK_URL")
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
