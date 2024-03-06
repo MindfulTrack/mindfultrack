@@ -11,12 +11,6 @@ class Test(models.Model):
         managed = False
         db_table = 'test'
 
-class PermissionLevel(models.Model):
-    name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
-
 class University(models.Model):
     name = models.CharField(max_length=255)
     addressLineOne = models.CharField(max_length=255)
@@ -46,8 +40,6 @@ class Person(models.Model):
     personId = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
-    # permissionLevel = models.ForeignKey(PermissionLevel, on_delete=models.CASCADE, blank=True, null=True)
-
 
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
