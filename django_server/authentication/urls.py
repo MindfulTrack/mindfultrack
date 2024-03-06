@@ -2,9 +2,7 @@
 
 from django.urls import path
 from . import views
-# from dj_rest_auth.registration.views import (
-    
-# )
+
 from dj_rest_auth.views import (
     PasswordResetConfirmView,
     PasswordResetView,

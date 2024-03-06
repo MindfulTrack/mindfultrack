@@ -201,7 +201,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
         id: 1,
         icon: SettingsIcon,
         title: "Settings",
-        link: "/profile",
+        link: "/settings",
         isSelected: false
       },
       {

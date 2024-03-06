@@ -1,6 +1,7 @@
 'use client'
 import { Container, Grid, CardMedia, Typography, Button } from "@mui/material";
 import phoneImg from "../../assets/image-hero-landscape@2x.png";
+import Link from '@mui/material/Link';
 import "./hero.styles.css";
 import React from "react";
 import Image from "next/legacy/image";
@@ -36,7 +37,7 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
           <div className="hero-p" style={{ display: 'flex', width: '100%' }}>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
 
-            <Button variant="contained" sx={{width: '80%'}} color="secondary">Sign Up</Button>
+            <Link href="/signup"><Button variant="contained" sx={{width: '80%'}} color="secondary">Sign Up</Button></Link>
 
             <Typography variant="body1" sx={{paddingRight: '5rem'}}>
               MindfulTrack will help you find and use

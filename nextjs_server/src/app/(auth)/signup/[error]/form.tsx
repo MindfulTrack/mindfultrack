@@ -29,7 +29,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
   let error = String(decodeURIComponent(params.error))
   // let passwordError = "PASSWORDS DO NOT MATCH";
   const [open, setOpen] = React.useState(true);
-  const [openVerify, setOpenVerify] = React.useState(true);
+  const [openVerify, setOpenVerify] = React.useState(false);
 
   // const handleClose = (event: any, reason: string) => {
   //   if (reason === 'clickaway') {
@@ -52,7 +52,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
     const data = new FormData(event.currentTarget);
 
     if(data.get('password') === data.get('password2')){
-      const response = await fetch("api/auth/signup", {
+      const response = await fetch("../api/auth/signup", {
         method: 'POST',
         body: JSON.stringify({
           email: data.get('email'),
@@ -104,7 +104,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
 
   const handleLoginWithGoogle = () => {
     console.log("GOOGLE AUTH")
-    signIn('google', {callbackUrl: "/profile",})
+    signIn('google', {callbackUrl: "/resources",})
   };
 
   return (
@@ -171,6 +171,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
                 label="Password"
                 type="password"
                 id="password"
+                inputProps={{ minLength: 8 }}
                 autoComplete="new-password"
               />
             </Grid>
@@ -182,6 +183,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
                 label="Confirm Password"
                 type="password"
                 id="password2"
+                inputProps={{ minLength: 8 }}
                 autoComplete="new-password"
               />
             </Grid>
@@ -209,7 +211,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({params}) => {
           <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLoginWithGoogle}>Log in with Google</Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link onClick={() => signIn(undefined, {callbackUrl: "/profile"})} variant="body2">
+              <Link onClick={() => signIn(undefined, {callbackUrl: "/resources"})} variant="body2">
                 <div className="" style={{cursor: 'pointer'}}>
                 Already have an account? Sign in
                 </div>

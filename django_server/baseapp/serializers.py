@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 UserModel = get_user_model()
 
 class TestSerializer(serializers.ModelSerializer):
@@ -37,10 +37,18 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     """
     groups = serializers.SlugRelatedField(
         many=True,
-        # read_only=True,
         slug_field='name',
         queryset=Group.objects.all()
     )
+    inQueue = serializers.SerializerMethodField('get_student_queue_start_time')
+
+    def get_student_queue_start_time(self, obj):
+        try:
+            inQueue = obj.student_queue.inQueue()
+        except Exception as e:
+            print(e)
+            inQueue = False
+        return inQueue
 
     @staticmethod
     def validate_username(username):
@@ -59,18 +67,18 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         # UserModel.XYZ causing attribute error while importing other
         # classes from `serializers.py`. So, we need to check whether the auth model has
         # the attribute or not
-        if hasattr(UserModel, 'USERNAME_FIELD'):
-            extra_fields.append(UserModel.USERNAME_FIELD)
-        if hasattr(UserModel, 'EMAIL_FIELD'):
-            extra_fields.append(UserModel.EMAIL_FIELD)
-        if hasattr(UserModel, 'first_name'):
+        if hasattr(User, 'USERNAME_FIELD'):
+            extra_fields.append(User.USERNAME_FIELD)
+        if hasattr(User, 'EMAIL_FIELD'):
+            extra_fields.append(User.EMAIL_FIELD)
+        if hasattr(User, 'first_name'):
             extra_fields.append('first_name')
-        if hasattr(UserModel, 'last_name'):
+        if hasattr(User, 'last_name'):
             extra_fields.append('last_name')
-        
-        model = UserModel
-        fields = ('pk', *extra_fields) + ('groups',)
-        read_only_fields = ('email',)
+  
+        model = User
+        fields = ('pk', *extra_fields) + ('groups', 'inQueue',)
+        read_only_fields = ('email', 'inQueue',)
         
 # Student Queue
 class StudentQueueSerializer(serializers.ModelSerializer):
@@ -107,7 +115,19 @@ class ResourceDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResourceDetail
         fields = '__all__'
+
 class QueueLeaveReasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = QueueLeaveReason
+        fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+class FavoriteResourcesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ResourceDetail
         fields = '__all__'

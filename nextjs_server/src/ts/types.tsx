@@ -24,7 +24,10 @@ export interface ResourceDetailsViewModel {
   image: string;
   category_id: number;
   university_id: number;
-}
+  favoritedBy?: [];
+};
+
+
 
 export interface AvailableTimeSlotViewModel {
   id: number;
