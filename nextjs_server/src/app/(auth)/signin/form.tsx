@@ -36,7 +36,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
         console.log(result.error);
         router.push("/signin/" + result.error)
       }
-    }); // callbackUrl: "/profile"
+    }); // callbackUrl: ""
     console.log(response);
   };
 
