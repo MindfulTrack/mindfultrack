@@ -91,7 +91,7 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User)
+    favoritedBy = models.ManyToManyField(User, null=True)
 
     def __str__(self):
         return self.name
