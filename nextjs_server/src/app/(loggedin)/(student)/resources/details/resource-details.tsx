@@ -37,6 +37,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId, allResour
     resourceId === 0 ? (
       <>
         {favoritedResources
+          .sort((a: any, b: any) => a.id - b.id)
           .map((item: any) => (
             <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader
@@ -52,7 +53,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId, allResour
 
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" onClick={() => handleAddRemoveSaved(item.id)}>
-                  <Bookmark sx={{ fontSize: '35px', color:'#006141' }} />
+                  <Bookmark sx={{ fontSize: '35px', color: '#006141' }} />
                 </IconButton>
                 <IconButton aria-label="share" href={item.url} target='_blank'>
                   <OpenInNewIcon sx={{ color: '#666666', fontSize: '18px' }} />
@@ -65,6 +66,7 @@ const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId, allResour
       <>
         {allResources
           .filter((item: any) => item.category === resourceId)
+          .sort((a: any, b: any) => a.id - b.id)
           .map((item: any) => (
             <Card key={item.id} sx={{ maxWidth: "100%", marginBottom: 2, backgroundColor: '#fafcff' }}>
               <CardHeader

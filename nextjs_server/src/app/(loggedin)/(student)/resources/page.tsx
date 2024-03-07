@@ -52,7 +52,9 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
       </Box>
 
         <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row">
-          {resources.map((item) => {
+          {resources
+          .sort((a: any, b: any) => a.id - b.id)
+          .map((item) => {
             return (
               <Grid xs={3} key={item.id}>
                 <ResourceCard

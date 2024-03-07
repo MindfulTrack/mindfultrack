@@ -16,6 +16,7 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = () => {
 
   const {data: session} : any = useSession();
+  console.log(session)
 
   const router = useRouter();
   const handleGoHome = () => {

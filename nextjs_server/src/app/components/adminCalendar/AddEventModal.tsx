@@ -20,7 +20,7 @@ import { DesktopDatePicker, DateTimePicker, DesktopDateTimePicker } from "@mui/x
 import dayjs, { Dayjs } from "dayjs";
 import { Event } from "../../../ts/types";
 import { Delete, Circle } from "@mui/icons-material";
-import { eventColorPalette } from "../../../ts/types";
+import { eventColorPalette } from "../../../ts/constants";
 
 interface AddEventModalProps {
   open: boolean;
