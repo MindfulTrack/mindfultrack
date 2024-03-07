@@ -37,7 +37,7 @@ class DayOfWeek(models.Model):
         return self.dayOfWeek
 
 class Person(models.Model):
-    personId = models.OneToOneField(User, on_delete=models.CASCADE)
+    person = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
