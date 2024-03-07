@@ -29,8 +29,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
         setSpotInLine(spotInLineResponse)
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLineResponse) / queueResponse.length * 100);
-        console.log(positionPercentage)
-        console.log(queueResponse.length)
         setProgress(positionPercentage);
       } catch (error : any) {
         setError(error.message);
