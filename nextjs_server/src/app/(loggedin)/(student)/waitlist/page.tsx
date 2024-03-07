@@ -17,7 +17,7 @@ interface WaitlistPageProps {
 const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
   const {data: session, status} : any = useSession({required: true});
   const [progress, setProgress] = useState(0);
-  const [spotInLine, setSpotInLine] = useState(2);
+  const [spotInLine, setSpotInLine] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,10 +25,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
     const fetchQueue = async () => {
       try {
         const queueResponse = await customFetch('base/studentQueue');
-        const spotInLineRespone = await customFetch('base/queuePosition/'+session.user.pk)
-        setSpotInLine(spotInLineRespone)
+        const spotInLineResponse = await customFetch('base/queuePosition/'+session.user.pk)
+        setSpotInLine(spotInLineResponse)
         setLoading(false);
-        const positionPercentage = Math.round((queueResponse.length - spotInLine) / queueResponse.length * 100);
+        const positionPercentage = Math.round((queueResponse.length - spotInLineResponse) / queueResponse.length * 100);
+        console.log(positionPercentage)
+        console.log(queueResponse.length)
         setProgress(positionPercentage);
       } catch (error : any) {
         setError(error.message);
