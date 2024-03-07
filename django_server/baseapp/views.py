@@ -105,7 +105,7 @@ class QueuePositionView(APIView):
         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
         student_position = StudentQueue.objects.filter(
             startTime__lt = student_entry.startTime
-        ).count() + 1
+        ).count() #+ 1
         return Response(student_position)
 
 @permission_classes([IsAuthenticated, StaffPermission])
