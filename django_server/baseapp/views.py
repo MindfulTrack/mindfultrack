@@ -70,7 +70,7 @@ class LeaveQueue(viewsets.ModelViewSet):
         return Response({'message':'Waitlist Exited'})
 
 #Student Availability    
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class StudentAvailabilityView(viewsets.ModelViewSet):   
     queryset = AvailableTimeSlot.objects.all()
     serializer_class = StudentAvailabilitySerializer
