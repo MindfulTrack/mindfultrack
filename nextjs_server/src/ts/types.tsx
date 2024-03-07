@@ -29,6 +29,13 @@ export interface ResourceDetailsViewModel {
 
 
 
+export interface AvailableTimeSlotViewModel {
+  id: number;
+  dayOfWeek: string;
+  person: number;
+  timeSlot: number;
+}
+
 export const eventColorPalette = [
   {id: 1, name: "Navy", value: "#002e5d" },
   {id: 2, name: "Emerald", value: "#2ecc71" },
