@@ -1,6 +1,6 @@
 from faker import Faker
 from .models import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 fake = Faker()
 
@@ -14,7 +14,29 @@ for _ in range(10):
         zipCode = fake.postcode(),
         )
 
+counselorObjects=[]
+# Staff
+for _ in range(30):
+    user = User.objects.create_user(
+        first_name = fake.first_name(),
+        last_name = fake.last_name(),
+        email=fake.email(),
+        password=fake.password(),
+        username=fake.username(),
+    )
+    my_group = Group.objects.get(name='Staff')
+
+    # Add the user to the group
+    my_group.user_set.add(user) 
+
+    Person.object.create(
+        person=user,
+        university_id=fake.random_int(min=1, max=10)
+    )
+    counselorObjects.append(user)
+
 ## Create Students
+count = 1
 ## 1000 in queue, 500, left, 50 signed up but never joined queue
 for _ in range(1550):
     user = User.objects.create_user(
@@ -24,10 +46,57 @@ for _ in range(1550):
         password=fake.password(),
         username=fake.username(),
     )
+    my_group = Group.objects.get(name='Student')
+
+    # Add the user to the group
+    my_group.user_set.add(user) 
+
     Person.object.create(
         person=user,
         university_id=fake.random_int(min=1, max=10)
     )
+
+    if count <= 500:
+        StudentQueue.objects.create(
+        person=user,
+        startTime=fake.date_time_this_month(before_today = True, after_today= False, tzinfo="MST"),
+        endTime=fake.date_time_this_month(before_today = False, after_today= True, tzinfo="MST"),
+        leaveReason_id=fake.random_int(min=1, max=4),
+        notes=fake.text()
+        )
+
+        ### ADD IN CALENDAR EVENT
+        calendar = CalendarEvent.objects.create(
+            title=faker.text(),
+            eventLocatin=faker.address(),
+            allDay=faker.pybool(),
+            oneDayEvent = faker.pybool(),
+            editable = faker.pybool()
+        )
+
+        calendar.persons.add(user)
+        calendar.persons.add(random.choice(counselorObjects))
+        calendar.organizer=random.choice(counselorObjects)
+        calendar.save()
+    
+    elif count > 500 and count <= 1500:
+
+        StudentQueue.objects.create(
+        person=user,
+        startTime=fake.date_time_this_month(before_today = True, after_today= True, tzinfo="MST"),
+        notes=fake.text()
+        )
+
+        for _ in range(20):
+            AvailableTimeSlot.objects.create(
+                person=user,
+                timeSlot_id=fake.random_int(min=1, max=24),
+                dayOfWeek=random.choice(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'])
+            )
+
+    count +=1
+
+
     
     for _ in range(fake.random_int(min=1, max=5)):
         FavoriteResource.objects.create(
@@ -35,25 +104,4 @@ for _ in range(1550):
             resourceDetail_id = fake.random_int(min=1, max=21),
             favorite = True
         )
-
-
-# Create Queue Entries Current
-for _ in range(1000):
-    StudentQueue.objects.create(
-     person_id=fake.random_int(min=1, max=1000),
-     startTime=fake.date_time_this_month(before_today = True, after_today= True, tzinfo="MST"),
-     notes=fake.text()
-     )
-
-# Have Left Queue
-for _ in range(500):
-    StudentQueue.objects.create(
-     person_id=fake.random_int(min=1001, max=1500),
-     startTime=fake.date_time_this_month(before_today = True, after_today= False, tzinfo="MST"),
-     endTime=fake.date_time_this_month(before_today = False, after_today= True, tzinfo="MST"),
-     leaveReason_id=fake.random_int(min=1, max=4),
-     notes=fake.text()
-     )
-
-
 

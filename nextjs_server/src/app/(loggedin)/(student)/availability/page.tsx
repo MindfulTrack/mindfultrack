@@ -7,10 +7,14 @@ import ResourceCard from '../../../components/ResourceCard';
 import { Container, Paper, Button, Link } from '@mui/material';
 import timeSlots from '../../../mockData/timeSlots.json';
 import dayOfWeek from '../../../mockData/dayOfWeek.json';
-import eventSlots from '../../../mockData/availableTimeSlots.json';
+// import eventSlots from '../../../mockData/availableTimeSlots.json';
+import customFetch from '../../../api/fetchInterceptor';
+import { AvailableTimeSlotViewModel } from '../../../../ts/types';
 import { useState, useEffect } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Save, Done } from '@mui/icons-material';
+import MyContext from '../../../MyContext';
+
 
 interface StudentAvailabilityPageProps {
 
@@ -26,23 +30,67 @@ type TimeSlots = {
 
 
 const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState<TimeSlots[]>(timeSlots as TimeSlots[]);
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<TimeSlots[]>([]);
   const [originalSelection, setOriginalSelection] = useState<TimeSlots[]>([]);
   const [reset, setReset] = useState(false);
   const [saving, setSaving] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [eventSlots, setEventSlots] = useState<AvailableTimeSlotViewModel[]>([]);
+  const [filteredSlots, setfilteredSlots] = useState<AvailableTimeSlotViewModel[]>([]);
+  const { userId } = React.useContext(MyContext)!;
+  const personId = 4;
 
-  const personId = 105;
 
   useEffect(() => {
 
-    const joinedArray = eventSlots
-      .filter(person => person.personID === personId)
+    const fetchEventSlots = async () => {
+      try {
+        const eventSlots = await customFetch('base/studentAvailability');
+        console.log('eventSlots');
+        console.log(eventSlots);
+
+        //Filter eventSlots by personID
+        const filteredSlots = eventSlots
+        .filter((slot: { person: number; }) => slot.person === personId);
+
+        setEventSlots(eventSlots);
+        setfilteredSlots(filteredSlots);
+        console.log('userId');
+        console.log(userId);
+
+        console.log('filteredSlots');
+        console.log(filteredSlots);
+
+        //Change static file to isSelected = True where slotID == slotID in eventSlots
+        if (filteredSlots.length > 0) {
+          timeSlots.forEach(slot => {
+            for (let i = 0; i < filteredSlots.length; i++) {
+              if (slot.timeSlotID === filteredSlots[i].timeSlot) {
+                slot.isSelected = true;
+              }
+            }
+          });
+        }
+  
+        setSelectedTimeSlots(timeSlots);
+        console.log('timeSlots');
+        console.log(timeSlots);
+
+        InitializeSlots();
+
+      } catch (error) {
+        console.error(error)
+      }
+    };
+
+    //Combine Availability
+    const joinedArray = filteredSlots
       .map(item1 => ({
         ...item1,
-        ...timeSlots.find(item2 => item2.timeSlotID === item1.timeSlotID)
+        ...timeSlots.find(item2 => item2.timeSlotID === item1.timeSlot)
       }));
 
+    //Display Availability
     const InitializeSlots = () => {
       if (!reset) {
         if (joinedArray.length > 0) {
@@ -61,12 +109,13 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
         }
       } else {
         setSelectedTimeSlots(originalSelection);
-        console.log(selectedTimeSlots);
         setReset(false);
       }
     };
 
-    InitializeSlots();
+    //Call CustomFetch to post Availability for each selected time slot
+    fetchEventSlots();
+    
   }, [reset]);
 
   const handleTimeSelect = (timeSlotId: number, dayOfWeek: string) => {
