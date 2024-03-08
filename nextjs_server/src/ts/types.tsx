@@ -21,9 +21,8 @@ export interface ResourceDetailsViewModel {
   name: string;
   description: string;
   url: string;
-  image: string;
-  category_id: number;
-  university_id: number;
+  category: number;
+  university: number;
   favoritedBy?: [];
 };
 

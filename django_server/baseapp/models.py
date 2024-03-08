@@ -39,6 +39,7 @@ class DayOfWeek(models.Model):
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
+    events = models.ManyToManyField("CalendarEvent")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
@@ -52,7 +53,8 @@ class QueueLeaveReason(models.Model):
         return self.leaveReason
     
 class StudentQueue(models.Model):
-    person = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE, related_name="student_queue")
+    id = models.AutoField(primary_key=True)
+    person = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_queue")
     startTime = models.DateTimeField()
     endTime = models.DateTimeField(blank=True, null=True)
     leaveReason = models.ForeignKey(QueueLeaveReason, on_delete=models.SET_NULL, null=True, blank=True)
@@ -91,7 +93,7 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User)
+    favoritedBy = models.ManyToManyField(User, null=True)
 
     def __str__(self):
         return self.name
@@ -107,9 +109,9 @@ class CalendarEvent(models.Model):
     end = models.DateTimeField(blank=True, null=True)
     organizer = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
 
-class eventAttendee(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    event = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
+# class eventAttendee(models.Model):
+#     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+#     event = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
     
 
 

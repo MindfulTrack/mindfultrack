@@ -251,7 +251,8 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           height: 'auto',
           bottom: 0,
           backgroundColor: 'primary.main',
-          paddingTop: '1rem'
+          paddingTop: '1rem',
+          scrollbarWidth: 'none'
         },
       }}
       variant="permanent"
@@ -271,7 +272,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                     modifiers: [{
                       name: 'offset',
                       options: {
-                        offset: [60, -50]
+                        offset: item.title === 'Resource Management' ? [80, -50] : [50, -50]
                       }
                     }]
                   }
@@ -283,11 +284,11 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                       <item.icon
                         sx={{
                           color: item.isSelected ? '#bfdfff' : 'text.tertiary',
-                          fontSize: '35px',
+                          fontSize: '30px'
                         }}
                       />)}
                   </Grid>
-                  {item.isSelected && (
+                  {/* {item.isSelected && (
                     <Grid item>
                       <ListItemText
                         primary={item.title}
@@ -299,7 +300,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                         }}
                       />
                     </Grid>
-                  )}
+                  )} */}
                 </Grid>
               </Tooltip>
             </ListItemButton>
@@ -325,7 +326,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                     modifiers: [{
                       name: 'offset',
                       options: {
-                        offset: [60, -50]
+                        offset: [50, -50]
                       }
                     }]
                   }
@@ -337,11 +338,11 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                       <item.icon
                         sx={{
                           color: item.isSelected ? '#bfdfff' : 'text.tertiary',
-                          fontSize: '35px',
+                          fontSize: '30px',
                         }}
                       />)}
                   </Grid>
-                  {item.isSelected && (
+                  {/* {item.isSelected && (
                     <Grid item>
                       <ListItemText
                         primary={item.title}
@@ -353,7 +354,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
                         }}
                       />
                     </Grid>
-                  )}
+                  )} */}
                 </Grid>
               </Tooltip>
             </ListItemButton>

@@ -85,6 +85,9 @@ export const theme = createTheme({
       color: "#49566D",
       textTransform: "uppercase",
     },
+    body3: {
+      fontSize: 14,
+    },
     subtitle1: {
       fontSize: 20,
       lineHeight: 1.75,
