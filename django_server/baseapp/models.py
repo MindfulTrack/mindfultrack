@@ -37,12 +37,12 @@ class DayOfWeek(models.Model):
         return self.dayOfWeek
 
 class Person(models.Model):
-    person = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.person.first_name + " " + self.person.last_name
+        return self.user.first_name + " " + self.user.last_name
 
 
 class QueueLeaveReason(models.Model):
@@ -75,7 +75,7 @@ class AvailableTimeSlot(models.Model):
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
-        return str(self.person) + " - " + str(self.timeSlot.startTime)
+        return str(self.person.user) + " - " + str(self.timeSlot.startTime)
 
 
 class ResourceCategory(models.Model):
