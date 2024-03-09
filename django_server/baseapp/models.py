@@ -96,7 +96,7 @@ class AvailableTimeSlot(models.Model):
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
-        return str(self.person) + " - " + str(self.timeSlot.startTime)
+        return str(self.person.id) + " - " + str(self.timeSlot.startTime)
 
 
 class ResourceCategory(models.Model):
