@@ -1,9 +1,15 @@
 'use client'
 import React from "react";
 import scss from "./DataRibbon.module.scss"
-import {Grid} from "@mui/material";
+import {Grid, CircularProgress, Typography} from "@mui/material";
 import DataCard from "../Dashboard/DataCard/DataCard";
 import TransactionsPerDay from "../Dashboard/TransactionsPerDay/TransactionsPerDay";
+import customFetch from "../../api/fetchInterceptor";
+import { useSession } from "next-auth/react";
+import {useState, useEffect} from 'react';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+
 
 
 interface DataRibbonProps {
@@ -11,49 +17,82 @@ interface DataRibbonProps {
 }
 
 const DataRibbon: React.FC<DataRibbonProps> = () => {
-    return (
-        <Grid container gap={2} className={scss.dataRibbon}>
-            <Grid>
-                <DataCard  
-                    title={"Current Waitlist Size"}
-                    value={"115"}
-                    description={
-                        "The totals of all blah blah blah"
-                    }
-                />
-            </Grid>
+    const [currentQueue, setCurrentQueue] = useState(0);
+    const [monthExits, setMonthExits] = useState(0);
+    const [monthServices, setMonthServices] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-            <Grid>
-                <DataCard  
-                    title={"Exits this Month"}
-                    value={"17"}
-                    description={
-                        "The totals of all blah blah blah"
-                    }
-                />
-            </Grid>
+    useEffect(() => {
+        const fetchQueue = async () => {
+            try {
+                const dashboardResponse = await customFetch('base/dashboardData');
+                setCurrentQueue(dashboardResponse.currentQueue);
+                setMonthExits(dashboardResponse.monthExits);
+                setMonthServices(dashboardResponse.monthServices);
+                setLoading(false);
+            } catch (error : any) {
+                setError(error.message);
+            }
+        };
 
-            <Grid>
-                <DataCard  
-                    title={"Receiving Services this Month"}
-                    value={"26"}
-                    description={
-                        "The totals of all blah blah blah"
-                    }
-                />
+        fetchQueue();
+    }, []);
+    if (error) {
+        return <Alert variant="outlined" severity="error">{error}</Alert>;
+    }
+    else if (loading) {
+        return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <CircularProgress /> <div>Loading...</div>
+            </Box>
+    }
+    else {
+        return (
+            
+            <Grid container gap={2} className={scss.dataRibbon}>
+                <Grid>
+                    <DataCard  
+                        title={"Current Waitlist Size"}
+                        value={currentQueue.toString()}
+                        description={
+                            "The number of students currently waiting to receive services"
+                        }
+                    />
+                </Grid>
+    
+                <Grid>
+                    <DataCard  
+                        title={"Exits this Month"}
+                        value={monthExits.toString()}
+                        description={
+                            "Total number of students who left the queue this month without receiving services from the university"
+                        }
+                    />
+                </Grid>
+    
+                <Grid>
+                    <DataCard  
+                        title={"Receiving Services this Month"}
+                        value={monthServices.toString()}
+                        description={
+                            "Total number of students who exited the waitlist and met with a counselor from the university this month"
+                        }
+                    />
+                </Grid>
+    
+                <Grid>
+                    <DataCard  
+                        title={"No Response Students"}
+                        value={"15"}
+                        description={
+                            "The totals of all blah blah blah"
+                        }
+                    />
+                </Grid>
             </Grid>
-
-            <Grid>
-                <DataCard  
-                    title={"No Response Students"}
-                    value={"15"}
-                    description={
-                        "The totals of all blah blah blah"
-                    }
-                />
-            </Grid>
-        </Grid>
-    )
+        )
+    }
+    
 }
 
 export default DataRibbon;

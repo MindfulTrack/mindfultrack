@@ -5,7 +5,10 @@ import {Grid, Card, Paper} from "@mui/material";
 import Typography from '@mui/material/Typography';
 import { useTheme } from "@mui/system";
 import DataChart from "../../DataChart/DataChart";
-import { lineChartData } from '../../mockData';
+//import { lineChartData } from '../../mockData';
+import { months } from "../../../../helper/Util";
+import customFetch from '../../../api/fetchInterceptor';
+import {useState, useEffect} from 'react';
 
 // interface TransactionsPerDayProps {
 
@@ -32,13 +35,45 @@ export type TransactionsPerDayProps = {
 const TransactionsPerDay = (props: TransactionsPerDayProps) => {
     // const {data} = props;
     const theme = useTheme();
+    const [lineChartData, setLineChartData] = useState([]);
+
+
+    useEffect(() => {
+        const fetchQueue = async () => {
+            try {
+                const monthDataResponse = await customFetch('base/lineChartData');
+                setLineChartData(monthDataResponse);
+            } catch (error : any) {
+                console.log(error);
+            }
+        };
+
+        fetchQueue();
+    }, []);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const lineChartOptions ={
+        labels: months({ count: currentMonth }),
+            datasets: [
+                {
+                    label: "New Students in Queue",
+                    data: lineChartData,
+                    fill: false,
+                    borderColor: "rgb(75, 192, 192)",
+                    tension: 0.1,
+                },
+            ],
+    }
+    const numTotalStudents = lineChartData.reduce((a,b) => a + b, 0);
+    const increase = lineChartData[11] - lineChartData[10]
+    const percentChange = increase / lineChartData[10] * 100
 
     return (
         <Grid container gap={2} className={scss.wrapper}>
             <Paper className={scss.transactions}>
                 <div className={scss.chart}>
-                    <Typography>Number of Students on Waitlist</Typography>
-                    <DataChart type={"line"} data={lineChartData} />
+                    <Typography>Number of New Students on Waitlist</Typography>
+                    <DataChart type={"line"} data={lineChartOptions} />
                 </div>
                 <div className={scss.cardWrapper}>
                     <Card className={scss.card} variant={"outlined"}>
@@ -46,7 +81,7 @@ const TransactionsPerDay = (props: TransactionsPerDayProps) => {
                             <Typography>Total Students</Typography>
                         </div>
                         <div className={scss.cardValue}>
-                            <Typography>327</Typography>
+                            <Typography>{ numTotalStudents }</Typography>
                             {/* <Typography color={theme.palette.success.main} fontSize={14}>
                                 428.7%
                             </Typography> */}
@@ -54,10 +89,10 @@ const TransactionsPerDay = (props: TransactionsPerDayProps) => {
                      </Card>
                     <Card className={scss.card} variant={"outlined"}>
                         <div className={scss.cardTitle}>
-                            <Typography>% Increase</Typography>
+                            <Typography>% Change</Typography>
                         </div>
                         <div className={scss.cardValue}>
-                            <Typography>4.40%</Typography>
+                            <Typography>{ percentChange }%</Typography>
                             {/* <Typography color={theme.palette.success.main} fontSize={14}>
                                 899.4%
                             </Typography> */}
