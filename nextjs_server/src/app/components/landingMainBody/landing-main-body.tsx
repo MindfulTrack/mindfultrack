@@ -14,7 +14,7 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
   return (
     <>
       <Container maxWidth="lg">
-        <Card>
+        <Card sx={{backgroundColor: 'primary.main'}}>
           <Grid
             // container
             justifyContent="center"

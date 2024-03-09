@@ -33,7 +33,7 @@ const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
   
   // const router = useRouter();
   const handleLoginWithGoogle = () => {
-    signIn('google', {callbackUrl: "/profile",}) // Replace 'google' with the ID of your provider
+    signIn('google', {callbackUrl: "/resources",}) // Replace 'google' with the ID of your provider
   }
   
   const handleSubmit = async (event: any) => {
@@ -44,7 +44,7 @@ const SignInErrorForm: React.FC<SignInErrorFormProps> = ({params}) => {
         // Handle the error
         console.log(result.error);
       }
-    }); // callbackUrl: "/profile"
+    }); // callbackUrl: "/resources"
   };
   
   return (

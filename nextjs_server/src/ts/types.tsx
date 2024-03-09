@@ -21,13 +21,19 @@ export interface ResourceDetailsViewModel {
   name: string;
   description: string;
   url: string;
-  image: string;
-  category_id: number;
-  university_id: number;
+  category: number;
+  university: number;
   favoritedBy?: [];
 };
 
 
+
+export interface AvailableTimeSlotViewModel {
+  id: number;
+  dayOfWeek: string;
+  person: number;
+  timeSlot: number;
+}
 
 export const eventColorPalette = [
   {id: 1, name: "Navy", value: "#002e5d" },
