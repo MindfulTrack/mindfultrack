@@ -38,7 +38,7 @@ class DayOfWeek(models.Model):
 
 class Person(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
-    timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
+    # timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     events = models.ManyToManyField("CalendarEvent")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -73,7 +73,7 @@ class StudentQueue(models.Model):
 
     
 class AvailableTimeSlot(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
@@ -109,10 +109,6 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     organizer = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-
-# class eventAttendee(models.Model):
-#     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-#     event = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
     
 
 
