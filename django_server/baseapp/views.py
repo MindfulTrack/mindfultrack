@@ -1,10 +1,12 @@
 import json
 from .models import *
 from .serializers import *
-from datetime import datetime
+from datetime import datetime, time
+import dateutil.relativedelta
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.db.models import Count
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -164,6 +166,103 @@ class UniversitiesView(viewsets.ModelViewSet):
 
 #University
 @permission_classes([IsAuthenticated])
-class QueueLeaveReason(viewsets.ReadOnlyModelViewSet):
+class QueueLeaveReasonView(viewsets.ReadOnlyModelViewSet):
     queryset = QueueLeaveReason.objects.all()
     serializer_class = QueueLeaveReasonSerializer
+
+# Dashboard API's
+@permission_classes([IsAuthenticated, AdminPermission])
+class DashboardDataView(APIView):
+    def get(self, format=None):
+        currentQueue = StudentQueue.objects.filter(endTime__isnull=True).count()
+        monthExits = StudentQueue.objects.filter(
+            endTime__gt = datetime.today().replace(day=1)
+        ).exclude(
+            leaveReason = 3
+        ).count()
+        monthServices = StudentQueue.objects.filter(
+            endTime__gt = datetime.today().replace(day=1),
+            leaveReason = 3
+        ).count()
+        # averageWaitTime = StudentQueue.objects.exclude(endtime__isnull = True)   
+        dashboardData = {
+            "currentQueue" : currentQueue,
+            "monthExits" : monthExits,
+            "monthServices" : monthServices,
+        }
+
+        return Response(dashboardData)
+    
+# @permission_classes([IsAuthenticated, AdminPermission])
+class PieChartsView(APIView):
+    def get(self, format=None):
+        leaveReasons = (StudentQueue.objects
+            .exclude(leaveReason__isnull=True)
+            # .select_related('leaveReason')
+            .values('leaveReason')
+            .annotate(count=Count('leaveReason'))
+            .order_by()
+        )
+        returnReasons = []
+        returnCounts = []
+        for x in leaveReasons:
+            if x['leaveReason'] != "None":
+                x['leaveReason'] = QueueLeaveReason.objects.get(id = x['leaveReason'])
+                serializer = QueueLeaveReasonSerializer(x['leaveReason'])
+                x['leaveReason'] = serializer.data
+                returnReasons.append(x['leaveReason']['leaveReason'])
+                returnCounts.append(x['count'])
+
+        returnData = {
+            "reasons" : returnReasons,
+            "counts" : returnCounts,
+        }
+        return Response(returnData)
+    
+# # @permission_classes([IsAuthenticated, AdminPermission])
+# class CurrentQueueView(APIView):
+#     def get(self, request, format=None):
+#         currentQueue = StudentQueue.objects.filter(endTime__isnull=True).count()
+#         return Response(currentQueue)
+    
+# class CurrentMonthExitsView(APIView):
+#     def get(self, format=None):
+#         monthExits = StudentQueue.objects.filter(
+#             endTime__gt = datetime.today().replace(day=1)
+#         ).exclude(
+#             leaveReason = 3
+#         ).count()
+#         return Response(monthExits)
+    
+# class CurrentMonthReceiveServicesView(APIView):
+#     def get(self, format=None):
+#         monthServices = StudentQueue.objects.filter(
+#             endTime__gt = datetime.today().replace(day=1),
+#             leaveReason = 3
+#         ).count()
+#         return Response(monthServices)
+    
+class LineChartDataView(APIView):
+    def get(self, format=None):
+        chartData = []
+        monthStart = datetime.today().replace(day=1)
+        monthStart = datetime.combine(monthStart, time.min)
+        for x in range(12):
+            monthData = StudentQueue.objects.filter(
+                startTime__gte = monthStart + dateutil.relativedelta.relativedelta(months=-x),
+                startTime__lt = monthStart + dateutil.relativedelta.relativedelta(months=-(x-1))
+            ).count()
+            chartData.insert(0, monthData)
+            print("Month Number: " + str(monthData))
+            print(chartData)
+        
+        return Response(chartData)
+
+
+    # class QueuePositionView(APIView):
+    # def get (self, request, person_id, format=None):
+    #     student_entry = get_object_or_404(StudentQueue, person_id = person_id)
+    #     student_position = StudentQueue.objects.filter(
+    #         startTime__lt = student_entry.startTime
+    #     ).count() + 1
+    #     return Response(student_position)

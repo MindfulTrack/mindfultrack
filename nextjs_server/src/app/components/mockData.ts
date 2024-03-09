@@ -1,5 +1,21 @@
 import { months } from "../../helper/Util";
+import customFetch from "../api/fetchInterceptor";
+import {useState, useEffect} from 'react';
 
+// const [chartData, setChartData] = useState([]);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const monthDataResponse = await customFetch('base/lineChartData');
+//       setChartData(monthDataResponse);
+//     } catch (error : any) {
+//       console.log(error)
+//     }
+//   }
+
+//   fetchData();
+// })
 export const lineChartData = {
   labels: months({ count: 12 }),
   datasets: [

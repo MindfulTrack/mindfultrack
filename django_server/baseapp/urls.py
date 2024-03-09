@@ -12,7 +12,7 @@ router.register(r'studentAvailability', StudentAvailabilityView, basename='stude
 router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCategory')
 router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
-router.register(r'queueLeaveReason', QueueLeaveReason, basename='queueLeaveReason')
+router.register(r'queueLeaveReason', QueueLeaveReasonView, basename='queueLeaveReason')
 # router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
 
 urlpatterns = [
@@ -27,4 +27,13 @@ urlpatterns = [
     
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
+
+    #Dashboard
+    # path('currentQueue/', CurrentQueueView.as_view(), name='currentQueue'),
+    # path('currentMonthExits/', CurrentMonthExitsView.as_view(), name='currentMonthExits'),
+    # path('currentMonthReceivedServices/', CurrentMonthReceiveServicesView.as_view(), name='currentMonthReceivedServices'),
+    path('lineChartData/', LineChartDataView.as_view(), name='lineChartData'),
+    path('dashboardData/', DashboardDataView.as_view(), name='dashboardData'),
+    path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
+    
 ]
