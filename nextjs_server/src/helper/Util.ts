@@ -20,7 +20,7 @@ const MONTHS = [
     const values = [];
     let i, value;
   
-    for (i = 0; i < count; ++i) {
+    for (i = count; i < count + 12; ++i) {
       value = MONTHS[Math.ceil(i) % 12];
       values.push(value.substring(0, section));
     }
