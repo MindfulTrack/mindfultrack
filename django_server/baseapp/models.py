@@ -38,7 +38,7 @@ class DayOfWeek(models.Model):
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
+    # timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
     events = models.ManyToManyField("CalendarEvent")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -72,12 +72,12 @@ class StudentQueue(models.Model):
 
     
 class AvailableTimeSlot(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE, related_name="available_time_slot")
     timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
-        return str(self.person.user) + " - " + str(self.timeSlot.startTime)
+        return str(self.person.id) + " - " + str(self.timeSlot.startTime)
 
 
 class ResourceCategory(models.Model):
@@ -93,7 +93,7 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User, null=True)
+    favoritedBy = models.ManyToManyField(User)
 
     def __str__(self):
         return self.name

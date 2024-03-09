@@ -38,7 +38,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [eventSlots, setEventSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const [filteredSlots, setfilteredSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const { userId } = React.useContext(MyContext)!;
-  const personId = 4;
+  const personId = 8;
 
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
 
         //Filter eventSlots by personID
         const filteredSlots = eventSlots
-        .filter((slot: { person: number; }) => slot.person === personId);
+        .filter((slot: { person: number; }) => slot.person === userId);
 
         setEventSlots(eventSlots);
         setfilteredSlots(filteredSlots);
