@@ -19,6 +19,9 @@ class University(models.Model):
     state = models.CharField(max_length=2)
     zipCode = models.CharField(max_length=5)
 
+    class Meta:
+        managed = False
+        db_table = 'baseapp_university'
     def __str__(self):
         return self.name
 
@@ -26,24 +29,34 @@ class TimeSlot(models.Model):
     startTime = models.TimeField()
     endTime = models.TimeField()
     dayOfWeek = models.CharField(max_length=255)
-
+    class Meta:
+        managed = False
+        db_table = 'baseapp_timeslot'
     def __str__(self):
         return str(self.startTime) + " to " + str(self.endTime)
     
 class DayOfWeek(models.Model):
     dayOfWeek = models.CharField(max_length=255)
 
+    class Meta:
+        managed = False
+        db_table = 'baseapp_dayofweek'
+
     def __str__(self):
         return self.dayOfWeek
 
 class Person(models.Model):
-    person = models.OneToOneField(User, on_delete=models.CASCADE)
-    timeSlots = models.ManyToManyField(TimeSlot, through="AvailableTimeSlot")
+    id = models.BigAutoField(primary_key=True)
+    person = models.OneToOneField(User, db_column="user_id", on_delete=models.CASCADE)
     events = models.ManyToManyField("CalendarEvent")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
 
+    # class Meta:
+    #     managed = False
+    #     db_table = 'baseapp_person'
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
+    
 
 
 class QueueLeaveReason(models.Model):
@@ -51,10 +64,14 @@ class QueueLeaveReason(models.Model):
 
     def __str__(self):
         return self.leaveReason
+
+    class Meta:
+        managed = False
+        db_table = 'baseapp_queueleavereason'
     
 class StudentQueue(models.Model):
     id = models.AutoField(primary_key=True)
-    person = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student_queue")
+    person = models.OneToOneField(User, db_column="user_id", on_delete=models.CASCADE, related_name="student_queue")
     startTime = models.DateTimeField()
     endTime = models.DateTimeField(blank=True, null=True)
     queueTime = models.BigIntegerField(blank=True, null=True)
@@ -73,7 +90,8 @@ class StudentQueue(models.Model):
 
     
 class AvailableTimeSlot(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    person = models.ForeignKey(User, db_column="user_id", on_delete=models.CASCADE)
     timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
@@ -85,6 +103,10 @@ class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
     image = models.CharField(max_length=500, default='https://picsum.photos/id/147/2000/1700')
 
+    class Meta:
+            managed = False
+            db_table = 'baseapp_resourcecategory'
+
     def __str__(self):
         return self.name
 
@@ -94,8 +116,11 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User, null=True)
+    favoritedBy = models.ManyToManyField(User)
 
+    class Meta:
+        managed = False
+        db_table = 'baseapp_resourcedetail'
     def __str__(self):
         return self.name
 
@@ -109,10 +134,6 @@ class CalendarEvent(models.Model):
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
     organizer = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-
-# class eventAttendee(models.Model):
-#     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-#     event = models.ForeignKey(CalendarEvent, on_delete=models.SET_NULL, null=True)
     
 
 
