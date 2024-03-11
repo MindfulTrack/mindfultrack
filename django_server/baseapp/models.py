@@ -50,10 +50,12 @@ class Person(models.Model):
     person = models.OneToOneField(User, db_column="user_id", on_delete=models.CASCADE)
     events = models.ManyToManyField("CalendarEvent")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    gender = models.CharField(blank=True, null=True, max_length=1)
+    age = models.IntegerField(blank=True, null=True)
+    year_in_school = models.IntegerField(blank=True, null=True)
+    college = models.CharField(blank=True, null=True)
+    major = models.CharField(blank=True, null=True)
 
-    # class Meta:
-    #     managed = False
-    #     db_table = 'baseapp_person'
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
     

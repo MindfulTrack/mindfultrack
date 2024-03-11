@@ -79,6 +79,10 @@
                 {
                     "name": "CALLBACK_URL",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/callback_url"
+                },
+                {
+                    "name": "DJANGO_ADMIN_FRONTEND_URL",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/django_admin_frontend_url"
                 }
             ],
             "mountPoints": [],
@@ -124,6 +128,10 @@
                 {
                     "name": "NEXT_PUBLIC_BACKEND_URL",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_backend_url"
+                },
+                {
+                    "name": "NEXT_PUBLIC_BACKEND_URL_BASE",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_backend_url_base"
                 },
                 {
                     "name": "NEXT_PUBLIC_BASE_URL_PROD",
