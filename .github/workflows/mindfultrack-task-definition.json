@@ -126,6 +126,10 @@
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_backend_url"
                 },
                 {
+                    "name": "NEXT_PUBLIC_BACKEND_URL_BASE",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_backend_url_base"
+                },
+                {
                     "name": "NEXT_PUBLIC_BASE_URL_PROD",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_base_url_prod"
                 },

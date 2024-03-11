@@ -8,7 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AppRegistration, Today } from '@mui/icons-material';
+import { PeopleAlt, Support, CalendarMonth, CrisisAlert, BarChart, AccountCircle, AppRegistration, Today, AdminPanelSettings } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Zoom, Grid } from '@mui/material';
@@ -29,7 +29,7 @@ interface SideNavBarProps {
 
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
-  // console.log(userRole)
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_BASE
   const router = useRouter();
   const pathname = usePathname();
 
@@ -108,6 +108,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           icon: AppRegistration,
           title: "Resource Management",
           link: "/editResources",
+          isSelected: false
+        },
+        {
+          id: 9,
+          icon: AdminPanelSettings,
+          title: "Admin Management",
+          link: backendUrl+"admin",
           isSelected: false
         },
         {
