@@ -145,10 +145,10 @@ USE_TZ = True
 
 ALLOWED_HOSTS = ['*', '.mindfultrack.org', 'mindfultrack.org']
 
-CSP_DEFAULT_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "https://mindfultrack.org", "http://127.0.0.1", "http://127.0.0.1:8000"]
-CSP_SCRIPT_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "'unsafe-eval'", "https://mindfultrack.org", "http://127.0.0.1", "http://127.0.0.1:8000"]
-CSP_STYLE_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "'sha256-d7rFBVhb3n/Drrf+EpNWYdITkos3kQRFpB0oSOycXg4='", "'sha256-ZMuIk+mw017g2MNHZaX2qDRg/cyU3xy+4XHUMcfPhWU='", "https://mindfultrack.org", "http://127.0.0.1", "http://127.0.0.1:8000"]
-CSP_FRAME_ANCESTORS = ["*", "'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "https://mindfultrack.org", "http://127.0.0.1", "http://127.0.0.1:8000"]
+CSP_DEFAULT_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "https://mindfultrack.org"]
+CSP_SCRIPT_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "'unsafe-eval'", "https://mindfultrack.org"]
+CSP_STYLE_SRC = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "'sha256-d7rFBVhb3n/Drrf+EpNWYdITkos3kQRFpB0oSOycXg4='", "'sha256-ZMuIk+mw017g2MNHZaX2qDRg/cyU3xy+4XHUMcfPhWU='", "https://mindfultrack.org"]
+CSP_FRAME_ANCESTORS = ["'self'", os.environ.get("DJANGO_ADMIN_FRONTEND_URL"), "localhost", "https://mindfultrack.org", "http://127.0.0.1:3000"]
 
 
 
