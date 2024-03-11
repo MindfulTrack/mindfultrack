@@ -48,19 +48,19 @@ class Command(BaseCommand):
         with transaction.atomic():
             fake = Faker()
 
-            # Create Universities
-            for _ in range(10):
-                University.objects.create(
-                    name="University of " + fake.name(),
-                    addressLineOne=fake.street_address(),
-                    city=fake.city(),
-                    state=fake.state_abbr(),
-                    zipCode=fake.postcode(),
-                )
+            # # Create Universities
+            # for _ in range(10):
+            #     University.objects.create(
+            #         name="University of " + fake.name(),
+            #         addressLineOne=fake.street_address(),
+            #         city=fake.city(),
+            #         state=fake.state_abbr(),
+            #         zipCode=fake.postcode(),
+            #     )
 
             # Staff
             counselorObjects = []
-            for _ in range(30):
+            for _ in range(10):
                 user = User.objects.create_user(
                     first_name=fake.first_name(),
                     last_name=fake.last_name(),
@@ -79,7 +79,7 @@ class Command(BaseCommand):
             ## Create Students
             count = 1
             ## 1000 in queue, 500, left, 50 signed up but never joined queue
-            for _ in range(1550):
+            for _ in range(500):
                 user = User.objects.create_user(
                     first_name=fake.first_name(),
                     last_name=fake.last_name(),
@@ -101,11 +101,12 @@ class Command(BaseCommand):
                     university_id=fake.random_int(min=1, max=10),
                     college=random_college,
                     major=random_major,
-                    gender = random.choice(['M', 'F'])
+                    gender = random.choice(['M', 'F']),
+                    year_in_school = fake.random_int(min=1,max=5)
                     )
                 
                 ## ADD AVAILBILITY
-                for _ in range(20):
+                for _ in range(10):
                     AvailableTimeSlot.objects.create(
                             person=user,
                             timeSlot_id=fake.random_int(min=1, max=24),
@@ -122,7 +123,7 @@ class Command(BaseCommand):
                             ),
                         )
 
-                if count <= 500:
+                if count <= 100:
                     time1 = fake.date_time_this_month(
                             before_now=True, after_now=False
                         )
@@ -153,7 +154,7 @@ class Command(BaseCommand):
                     calendar.organizer = random.choice(counselorObjects)
                     calendar.save()
 
-                elif count > 500 and count <= 1500:
+                elif count > 100 and count <= 1500:
 
                     StudentQueue.objects.create(
                         person=user,
