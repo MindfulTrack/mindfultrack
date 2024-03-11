@@ -29,7 +29,6 @@ interface SideNavBarProps {
 
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_BASE
   const router = useRouter();
   const pathname = usePathname();
 
@@ -114,7 +113,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           id: 9,
           icon: AdminPanelSettings,
           title: "Admin Management",
-          link: backendUrl+"admin",
+          link: "djangoAdmin",
           isSelected: false
         },
         {

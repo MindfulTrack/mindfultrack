@@ -143,7 +143,7 @@ USE_I18N = True
 USE_TZ = True
 
 ALLOWED_HOSTS = ['*', '.mindfultrack.org', 'mindfultrack.org']
-
+X_FRAME_OPTIONS = 'ALLOW-FROM ' + os.environ.get("DJANGO_ADMIN_FRONTEND_URL")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
