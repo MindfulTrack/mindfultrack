@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'csp.middleware.CSPMiddleware',
     
 ]
 
@@ -144,6 +145,13 @@ USE_TZ = True
 
 ALLOWED_HOSTS = ['*', '.mindfultrack.org', 'mindfultrack.org']
 
+CSP_DEFAULT_SRC = ["'self'", "https://mindfultrack.org"]
+CSP_SCRIPT_SRC = ["'self'", "'unsafe-eval'", "https://mindfultrack.org"]
+CSP_STYLE_SRC = ["'self'", "'sha256-d7rFBVhb3n/Drrf+EpNWYdITkos3kQRFpB0oSOycXg4='", "'sha256-ZMuIk+mw017g2MNHZaX2qDRg/cyU3xy+4XHUMcfPhWU='", "https://mindfultrack.org"]
+CSP_FRAME_ANCESTORS = ["'self'", "https://mindfultrack.org", "http://127.0.0.1:3000"]
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -218,8 +226,6 @@ SPECTACULAR_SETTINGS = {
 }
 
 SITE_ID = 1
-
-
 
 REST_AUTH = {
     "USE_JWT": True,
