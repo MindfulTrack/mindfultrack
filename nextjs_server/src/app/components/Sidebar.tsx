@@ -68,13 +68,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           link: "/resources",
           isSelected: true
         },
-        {
-          id: 2,
-          icon: CalendarMonth,
-          title: "Availability",
-          link: "/availability",
-          isSelected: false
-        },
+        // {
+        //   id: 2,
+        //   icon: CalendarMonth,
+        //   title: "Availability",
+        //   link: "/availability",
+        //   isSelected: false
+        // },
         {
           id: 3,
           icon: PeopleAlt,
@@ -82,13 +82,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           link: "/waitlist",
           isSelected: false
         },
-        {
-          id: 5,
-          icon: AccountCircle,
-          title: "Profile",
-          link: "/counselor",
-          isSelected: false
-        },
+        // {
+        //   id: 5,
+        //   icon: AccountCircle,
+        //   title: "Profile",
+        //   link: "/counselor",
+        //   isSelected: false
+        // },
         {
           id: 6,
           icon: BarChart,
@@ -127,13 +127,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           link: "/resources",
           isSelected: true
         },
-        {
-          id: 5,
-          icon: AccountCircle,
-          title: "Profile",
-          link: "/counselor",
-          isSelected: false
-        },
+        // {
+        //   id: 5,
+        //   icon: AccountCircle,
+        //   title: "Profile",
+        //   link: "/counselor",
+        //   isSelected: false
+        // },
         {
           id: 6,
           icon: BarChart,

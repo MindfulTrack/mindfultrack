@@ -19,9 +19,9 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   const {data: session, status} : any = useSession({required: true});
   const router = useRouter();
 
-  // if(!session.user.inQueue){
-  //   router.push("/availability")
-  // }
+  if(!session.user.inQueue && session.user.groups[0] === 'Student'){
+    router.push("/availability")
+  }
 
   const [resources, setResources] = useState<ResourceViewModel[]>([])
   
