@@ -146,9 +146,19 @@ USE_TZ = True
 ALLOWED_HOSTS = ['*', '.mindfultrack.org', 'mindfultrack.org']
 
 CSP_DEFAULT_SRC = ["'self'", "https://mindfultrack.org"]
-CSP_SCRIPT_SRC = ["'self'", "'unsafe-eval'", "https://mindfultrack.org"]
-CSP_STYLE_SRC = ["'self'", "'sha256-d7rFBVhb3n/Drrf+EpNWYdITkos3kQRFpB0oSOycXg4='", "'sha256-ZMuIk+mw017g2MNHZaX2qDRg/cyU3xy+4XHUMcfPhWU='", "https://mindfultrack.org"]
+CSP_SCRIPT_SRC = ["'self'", "'unsafe-eval'", "https://mindfultrack.org", 
+# "'sha256-4Ls4jqUAI1ib2WvCF42OlaEmrYTB6/vwSOg3AYRYTsY='",
+#  "'sha256-qizI9yGRDALUGPR9dMP/hGtDkh5uZT6rv8+wh5K/mpI='",
+  "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/swagger-ui-standalone-preset.js",
+   "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/swagger-ui-bundle.js",
+   "'unsafe-inline'"]
+CSP_STYLE_SRC = ["'self'", "'sha256-d7rFBVhb3n/Drrf+EpNWYdITkos3kQRFpB0oSOycXg4='",
+ "'sha256-ZMuIk+mw017g2MNHZaX2qDRg/cyU3xy+4XHUMcfPhWU='", 
+ "https://mindfultrack.org", 
+ "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/swagger-ui.css",
+ "'sha256-MMpT0iDxyjALd9PdfepImGX3DBfJPXZ4IlDWdPAgtn0='"]
 CSP_FRAME_ANCESTORS = ["'self'", "https://mindfultrack.org", "http://127.0.0.1:3000"]
+CSP_IMG_SRC = ["'self'", "https://cdn.jsdelivr.net/npm/swagger-ui-dist@latest/favicon-32x32.png", "data:"]
 
 
 

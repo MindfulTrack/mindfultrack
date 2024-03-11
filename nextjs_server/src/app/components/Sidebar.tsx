@@ -74,13 +74,13 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
         //   link: "/availability",
         //   isSelected: false
         // },
-        {
-          id: 3,
-          icon: PeopleAlt,
-          title: "Waitlist",
-          link: "/waitlist",
-          isSelected: false
-        },
+        // {
+        //   id: 3,
+        //   icon: PeopleAlt,
+        //   title: "Waitlist",
+        //   link: "/waitlist",
+        //   isSelected: false
+        // },
         // {
         //   id: 5,
         //   icon: AccountCircle,

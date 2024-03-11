@@ -110,7 +110,7 @@ class QueuePositionView(APIView):
         ).count() #+ 1
         return Response(student_position)
 
-@permission_classes([IsAuthenticated, StaffPermission])
+@permission_classes([IsAuthenticated, StudentPermission])
 class StudentQueueView(viewsets.ModelViewSet):
     queryset = StudentQueue.objects.all()
     serializer_class = StudentQueueSerializer
