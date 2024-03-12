@@ -24,7 +24,7 @@ urlpatterns = [
     #Tests
     path('test/', TestView.as_view(), name='test'),
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
-    
+
     #Queue
     path('queuePosition/<int:person_id>/', QueuePositionView.as_view(), name='queuePosition'),
 

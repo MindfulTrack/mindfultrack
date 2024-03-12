@@ -38,7 +38,6 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [eventSlots, setEventSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const [filteredSlots, setfilteredSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const { userId } = React.useContext(MyContext)!;
-  const personId = 8;
 
 
   useEffect(() => {
@@ -126,8 +125,8 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       return slot;
     });
 
+    
     setSelectedTimeSlots(updatedSlots);
-
   }
 
   const dayTimeSlots = timeSlots;
@@ -150,6 +149,33 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   }
 
   const handleClick = () => {
+    //delete all timeslots where userID = personID
+    let filteredTimeSlots = selectedTimeSlots.filter(slot => slot.isSelected === true);
+    console.log(filteredSlots); //Orignal slots that need to be deleted
+    console.log(filteredTimeSlots); //New slots that need to be added
+
+    filteredTimeSlots.forEach(async (slot) => {
+      const response = await customFetch(
+          'base/studentAvailability/',
+          'POST',
+          {
+            dayOfWeek: slot.dayOfWeek,
+            person: userId,
+            timeSlot: slot.timeSlotID,
+          },
+
+      );
+    });
+
+    if (filteredSlots.length > 0) {
+      filteredSlots.forEach(async (slot) => {
+        const response = await customFetch(
+          'base/studentAvailability/' + slot.id,
+          'DELETE',
+        );
+      }); 
+    }
+
     setSaving(true);
     setOriginalSelection(selectedTimeSlots);
     setTimeout(() => {
@@ -157,7 +183,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       setSuccessful(true);
       setTimeout(() => {
         setSuccessful(false);
-      }, 2000);
+      }, 3000);
     }, 3000);
   }
 
