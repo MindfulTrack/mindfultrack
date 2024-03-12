@@ -60,7 +60,6 @@ class Person(models.Model):
         return self.person.first_name + " " + self.person.last_name
     
 
-
 class QueueLeaveReason(models.Model):
     leaveReason = models.CharField(max_length=255)
 
