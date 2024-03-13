@@ -50,6 +50,35 @@ class UserDetailsSerializer(serializers.ModelSerializer):
             print(e)
             inQueue = False
         return inQueue
+    
+    personObject = serializers.SerializerMethodField('get_person_extension')
+
+    def get_person_extension(self, obj):
+        try:
+            person = {
+                'university': obj.person.university_id,
+                'college': obj.person.college,
+                'major': obj.person.major,
+                'year_in_school': obj.person.year_in_school,
+                'age': obj.person.age,
+                'gender': obj.person.gender,
+            }
+        except Exception as e:
+            print(e)
+            person = None
+        return person
+
+    availbility_set = serializers.SerializerMethodField('if_availbility_set')
+
+    def if_availbility_set(self, obj):
+        try:
+            avail_set = obj.availblity
+            if avail_set:
+                avail_set=True
+        except Exception as e:
+            print(e)
+            avail_set = None
+        return avail_set
 
     @staticmethod
     def validate_username(username):
@@ -78,8 +107,8 @@ class UserDetailsSerializer(serializers.ModelSerializer):
             extra_fields.append('last_name')
   
         model = User
-        fields = ('pk', *extra_fields) + ('groups', 'inQueue',)
-        read_only_fields = ('email', 'inQueue',)
+        fields = ('pk', *extra_fields) + ('groups', 'inQueue', 'personObject', 'availbility_set')
+        read_only_fields = ('email', 'inQueue', 'personObject', 'availbility_set')
         
 # Student Queue
 class StudentQueueSerializer(serializers.ModelSerializer):
