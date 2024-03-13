@@ -22,6 +22,7 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const [favoriteResources, setFavoriteResources] = useState<ResourceDetailsViewModel[]>([]);
   const [favoriteIdsList, setFavoriteIdsList] = useState<number[]>([]);
   const [value, setValue] = useState(selectedResourceId || 0);
+  const [resetData, setResetData] = useState(false);
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -43,25 +44,20 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
         const fetchedFavorites = await customFetch('base/favoriteResources');
         setFavoriteResources(fetchedFavorites);
 
-        let IdArray: any = [];
-        IdArray = fetchedFavorites.forEach((element: any) => {
-          // IdArray = [...IdArray, element.id]
-          // setFavoriteIdsList(IdArray);
-          console.log(element.id)
-        });
+        const IdArray = fetchedFavorites.map((element: any) =>  element.id);
+        setFavoriteIdsList(IdArray);
 
       } catch (error) {
         console.error(error);
       }
     };
 
-    // const getFavoriteIdList = () => {
-
-    // };
-
-    // getFavoriteIdList();
     fetchResources();
-  }, []);
+  }, [resetData]);
+
+  const handleReset = () => {
+    setResetData(!resetData);
+  }
 
   function Panel(props: PanelProps) {
     const { tabIndex, index } = props;
@@ -79,7 +75,8 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
               resourceId={selectedResourceId}
               allResources={resourceDetails}
               favoritedResources={favoriteResources}
-            // favoriteIdList={favoriteIdsList}
+              favoriteIdsList={favoriteIdsList}
+              handleReset={handleReset}
             />
           </Box>
         )}
