@@ -22,15 +22,50 @@ interface ResourceDetailsProps {
 
 const ResourceDetails: React.FC<ResourceDetailsProps> = ({ resourceId, allResources, favoritedResources }) => {
 
-  // Adding & Removing from favorites ||| Moving this to main resourceDetail page
-  const [mockData, setMockData] = useState(mockResources);
-  const handleAddRemoveSaved = (id: number) => {
-    const updateSaved = mockData.resourceDetails.map((resource) => ({
-      ...resource,
-      favorite: resource.id === id ? !resource.favorite : resource.favorite
-    }));
+  const { userId } = useContext(MyContext)!;
 
-    setMockData({ ...mockData, resourceDetails: updateSaved });
+  const handleAddRemoveSaved = async (id: number) => {
+    const clickedResource = allResources.filter((item) => item.id === id);
+    const favoritedByArray = clickedResource[0].favoritedBy;
+
+    const testArray = favoritedByArray.filter(num => num === userId)
+    if (testArray.length === 1) {
+      const updatedFavorites = favoritedByArray.filter(num => num !== userId);
+      try {
+        const body = {
+          "name": clickedResource[0].name,
+          "description": clickedResource[0].description,
+          "url": clickedResource[0].url,
+          "category": clickedResource[0].category,
+          "university": clickedResource[0].university,
+          "favoritedBy": updatedFavorites
+        };
+        const request = await customFetch(`base/resourceDetails/${id}/`, 'PUT', body);
+        console.log(request);
+      } catch (error) {
+        console.log(error);
+      };
+    } else {
+      const updatedFavorites = [...favoritedByArray, userId]
+      try {
+        const body = {
+          "name": clickedResource[0].name,
+          "description": clickedResource[0].description,
+          "url": clickedResource[0].url,
+          "category": clickedResource[0].category,
+          "university": clickedResource[0].university,
+          "favoritedBy": updatedFavorites
+        };
+        const request = await customFetch(`base/resourceDetails/${id}/`, 'PUT', body);
+        console.log(request);
+      } catch (error) {
+        console.log(error);
+      };
+    }
+
+
+    // handleReset();
+    // handleClose();
   };
 
   return (
