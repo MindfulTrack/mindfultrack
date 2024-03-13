@@ -15,7 +15,7 @@ interface ResourceManagementProps {
 
 const ResourceManagement: React.FC<ResourceManagementProps> = () => {
   const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
-  const [selectedResource, setSelectedResource] = useState<ResourceDetailsViewModel>();
+  const [selectedResource, setSelectedResource] = useState<any>(null);
   const [resourceCategories, setResourceCategories] = useState<ResourceViewModel[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categoryName, setCategoryName] = useState('');
@@ -71,7 +71,8 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
         "description": '',
         "url": '',
         "category": parseInt(selectedCategory),
-        "university": 1
+        "university": 1,
+        "favoritedBy": []
       };
       setSelectedResource(data)
     }

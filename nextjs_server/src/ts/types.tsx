@@ -23,7 +23,7 @@ export interface ResourceDetailsViewModel {
   url: string;
   category: number;
   university: number;
-  favoritedBy?: [];
+  favoritedBy: [];
 };
 
 
