@@ -16,7 +16,7 @@ class University(models.Model):
     addressLineOne = models.CharField(max_length=255)
     addressLineTwo = models.CharField(blank=True, null=True, max_length=255)
     city = models.CharField(max_length=255)
-    state = models.CharField(max_length=2)
+    state = models.CharField(max_length=2) 
     zipCode = models.CharField(max_length=5)
 
     class Meta:
@@ -58,6 +58,7 @@ class Person(models.Model):
 
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
+
     
 
 class QueueLeaveReason(models.Model):
@@ -89,7 +90,6 @@ class StudentQueue(models.Model):
             
         return False
 
-    
 class AvailableTimeSlot(models.Model):
     id = models.AutoField(primary_key=True)
     person = models.ForeignKey(User, db_column="user_id", on_delete=models.CASCADE)
@@ -98,7 +98,6 @@ class AvailableTimeSlot(models.Model):
 
     def __str__(self):
         return str(self.person.id) + " - " + str(self.timeSlot.startTime)
-
 
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
