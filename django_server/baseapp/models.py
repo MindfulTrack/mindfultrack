@@ -92,7 +92,7 @@ class StudentQueue(models.Model):
 
 class AvailableTimeSlot(models.Model):
     id = models.AutoField(primary_key=True)
-    person = models.ForeignKey(User, db_column="user_id", on_delete=models.CASCADE)
+    person = models.ForeignKey(User, db_column="user_id", related_name="availblity", on_delete=models.CASCADE)
     timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 

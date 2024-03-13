@@ -99,6 +99,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
                 <TextField
                     id="leave-waitlist-select"
                     name="reasonLeavingId"
+                    autoFocus
                     select
                     label="Reason for leaving"
                     fullWidth
