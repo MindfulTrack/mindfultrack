@@ -38,7 +38,6 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [eventSlots, setEventSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const [filteredSlots, setfilteredSlots] = useState<AvailableTimeSlotViewModel[]>([]);
   const { userId } = React.useContext(MyContext)!;
-  const personId = 8;
 
 
   useEffect(() => {
@@ -126,8 +125,8 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       return slot;
     });
 
+    
     setSelectedTimeSlots(updatedSlots);
-
   }
 
   const dayTimeSlots = timeSlots;
@@ -150,6 +149,51 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   }
 
   const handleClick = () => {
+    let filteredTimeSlots = selectedTimeSlots.filter(slot => slot.isSelected === true);
+
+    console.log('filteredTimeSlots');
+    console.log(filteredTimeSlots);
+
+    console.log('filteredSlots');
+    console.log(filteredSlots);
+  
+    // Slots in filteredTimeSlots but not in filteredSlots
+    let slotsToAdd = filteredTimeSlots.filter(slot => 
+      !filteredSlots.some(filteredSlot => filteredSlot.timeSlot === slot.timeSlotID)
+    );
+
+    console.log('slotsToAdd');
+    console.log(slotsToAdd);
+  
+    // Slots in filteredSlots but not in filteredTimeSlots
+    let slotsToDelete = filteredSlots.filter(slot => 
+      !filteredTimeSlots.some(filteredSlot => filteredSlot.timeSlotID === slot.timeSlot)
+    );
+
+    console.log('slotsToDelete');
+    console.log(slotsToDelete);
+  
+    // Add new slots
+    slotsToAdd.forEach(async (slot) => {
+      const response = await customFetch(
+        'base/studentAvailability/',
+        'POST',
+        {
+          dayOfWeek: slot.dayOfWeek,
+          person: userId,
+          timeSlot: slot.timeSlotID,
+        },
+      );
+    });
+  
+    // Delete old slots
+    slotsToDelete.forEach(async (slot) => {
+      const response = await customFetch(
+        'base/studentAvailability/' + slot.id + '/',
+        'DELETE',
+      );
+    });
+
     setSaving(true);
     setOriginalSelection(selectedTimeSlots);
     setTimeout(() => {
