@@ -57,6 +57,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] : any = useState(null);
   const [success, setSuccess] : any = useState(null);
+  const [addAvailbility, setAddAvailbility] : any = useState(null);
   const [successQueue, setSuccessQueue] : any = useState(null);
   const [univerisityOptions, setUniverisityOptions] : any = useState([]);
   const [selectedUniversity, setSelectedUniversity] = useState('');
@@ -99,7 +100,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       setOpenOnboarding(true);
     }
     else if(!session.user.inQueue && session.user.groups[0] === 'Student'){
-      setSuccess('Please add your availbility')
+      setAddAvailbility('Please add your availbility')
 
     }
   }, [session.user.inQueue, session.user.groups]);
@@ -245,7 +246,8 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
     setReset(true);
   }
 
-  const handleClick = () => {
+  const handleClick = (event : any) => {
+    event.preventDefault();
     let filteredTimeSlots = selectedTimeSlots.filter(slot => slot.isSelected === true);
 
     console.log('filteredTimeSlots');
@@ -300,20 +302,33 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
         setSuccessful(false);
         if(!session.user.inQueue){
           if(confirm("Availability set! Join the Queue?")){
+              // Update the inner value
+              // session.user.set_availbility = true;
+              // session.user.inQueue = true;
+  
+              setAddAvailbility(false)
+              setSuccessQueue('Success! You have joined the Queue! Refreshing page...')
+              console.log("HERE END OF SESSION")
+              console.log(session.user)
+
               const response = customFetch(
                 'base/studentQueue/',
                 'POST',
               );
-               // Update the inner value
-              session.user.set_availbility = true;
-              session.user.inQueue = true;
 
-              // Call the update method to refresh the session
-              update(session.user);
+              const updateSessions = async () => {
+  
+                // Call the update method to refresh the session
+                await update();
+              };
+              setTimeout(() => {
+                setLoading(true)
+                // Call the update method to refresh the session
+                updateSessions();
+
+              }, 3000)
               
-              setSuccessQueue('Success! You have joined the Queue!')
-              console.log("HERE END OF SESSION")
-              console.log(session.user)
+              
           }
         }
       }, 2000);
@@ -339,6 +354,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
 
         {/* Top of page */}
         {success ? <Alert variant="outlined" severity="success">{success}</Alert> : ''}
+        {addAvailbility ? <Alert variant="outlined" severity="warning">{addAvailbility}</Alert> : ''}
         {successQueue ? <Alert variant="filled" severity="success">{successQueue}</Alert> : ''}
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', height: 'fit-content' }}>
           <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, margin: 2, flex: '100%', mr: 7 }}>
