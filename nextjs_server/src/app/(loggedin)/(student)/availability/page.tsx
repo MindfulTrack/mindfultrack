@@ -149,32 +149,50 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   }
 
   const handleClick = () => {
-    //delete all timeslots where userID = personID
     let filteredTimeSlots = selectedTimeSlots.filter(slot => slot.isSelected === true);
-    console.log(filteredSlots); //Orignal slots that need to be deleted
-    console.log(filteredTimeSlots); //New slots that need to be added
 
-    filteredTimeSlots.forEach(async (slot) => {
+    console.log('filteredTimeSlots');
+    console.log(filteredTimeSlots);
+
+    console.log('filteredSlots');
+    console.log(filteredSlots);
+  
+    // Slots in filteredTimeSlots but not in filteredSlots
+    let slotsToAdd = filteredTimeSlots.filter(slot => 
+      !filteredSlots.some(filteredSlot => filteredSlot.timeSlot === slot.timeSlotID)
+    );
+
+    console.log('slotsToAdd');
+    console.log(slotsToAdd);
+  
+    // Slots in filteredSlots but not in filteredTimeSlots
+    let slotsToDelete = filteredSlots.filter(slot => 
+      !filteredTimeSlots.some(filteredSlot => filteredSlot.timeSlotID === slot.timeSlot)
+    );
+
+    console.log('slotsToDelete');
+    console.log(slotsToDelete);
+  
+    // Add new slots
+    slotsToAdd.forEach(async (slot) => {
       const response = await customFetch(
-          'base/studentAvailability/',
-          'POST',
-          {
-            dayOfWeek: slot.dayOfWeek,
-            person: userId,
-            timeSlot: slot.timeSlotID,
-          },
-
+        'base/studentAvailability/',
+        'POST',
+        {
+          dayOfWeek: slot.dayOfWeek,
+          person: userId,
+          timeSlot: slot.timeSlotID,
+        },
       );
     });
-
-    if (filteredSlots.length > 0) {
-      filteredSlots.forEach(async (slot) => {
-        const response = await customFetch(
-          'base/studentAvailability/' + slot.id,
-          'DELETE',
-        );
-      }); 
-    }
+  
+    // Delete old slots
+    slotsToDelete.forEach(async (slot) => {
+      const response = await customFetch(
+        'base/studentAvailability/' + slot.id + '/',
+        'DELETE',
+      );
+    });
 
     setSaving(true);
     setOriginalSelection(selectedTimeSlots);
@@ -183,7 +201,7 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
       setSuccessful(true);
       setTimeout(() => {
         setSuccessful(false);
-      }, 3000);
+      }, 2000);
     }, 3000);
   }
 
