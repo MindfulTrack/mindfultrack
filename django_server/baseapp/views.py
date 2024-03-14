@@ -116,7 +116,7 @@ class QueuePositionView(APIView):
         ).count() #+ 1
         return Response(student_position)
 
-@permission_classes([IsAuthenticated, StaffPermission])
+@permission_classes([IsAuthenticated, StudentPermission])
 class StudentQueueView(viewsets.ModelViewSet):
     queryset = StudentQueue.objects.all()
     serializer_class = StudentQueueSerializer
@@ -128,6 +128,12 @@ class StudentQueueView(viewsets.ModelViewSet):
         ).count() + 1
         return Response(student_position)
 
+    def create(self, request, *args, **kwargs):        
+        queueSpot = StudentQueue()
+        queueSpot.person_id = request.user.id
+        queueSpot.startTime = datetime.now()
+        queueSpot.save()
+        return Response({'message':'Added to the Queue'})
 
 # Details API
 @permission_classes([IsAuthenticated])
@@ -155,7 +161,25 @@ class StudentQueueDetailsView(APIView):
 class PersonView(viewsets.ModelViewSet):   
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-      
+    lookup_field = 'person'
+
+    def create(self, request, *args, **kwargs):
+        data = json.loads(request.data)        
+        
+        person = Person()
+        person.person_id = request.user.id
+        person.university_id = data['university']
+        person.college = data['college']
+        person.major = data['major']
+        person.year_in_school = int(data['year_in_school'])
+        person.age = int(data['age'])
+        person.gender = data['gender']
+        person.save()
+        
+
+        return Response({'message':'Person Saved'})
+
+
 # class PersonPermissionView(RetrieveAPIView):
 #     # GET person Permissions
 #     def retrieve(self, request, person_id):

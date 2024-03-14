@@ -24,7 +24,7 @@ const SignInForm: React.FC<SignInFormProps> = () => {
   const router : any = useRouter();
 
   const handleLoginWithGoogle = () => {
-    signIn('google', { callbackUrl: "/", }) 
+    signIn('google', { callbackUrl: "/resources", }) 
   }
 
   const handleSubmit = async (event: any) => {

@@ -16,7 +16,7 @@ class University(models.Model):
     addressLineOne = models.CharField(max_length=255)
     addressLineTwo = models.CharField(blank=True, null=True, max_length=255)
     city = models.CharField(max_length=255)
-    state = models.CharField(max_length=2)
+    state = models.CharField(max_length=2) 
     zipCode = models.CharField(max_length=5)
 
     class Meta:
@@ -58,13 +58,8 @@ class Person(models.Model):
 
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
+
     
-    def inQueue(self):
-        if StudentQueue.startTime:
-            if StudentQueue.endTime is None:
-                return True
-        
-        return False
 
 class QueueLeaveReason(models.Model):
     leaveReason = models.CharField(max_length=255)
@@ -95,16 +90,14 @@ class StudentQueue(models.Model):
             
         return False
 
-    
 class AvailableTimeSlot(models.Model):
     id = models.AutoField(primary_key=True)
-    person = models.ForeignKey(User, db_column="user_id", on_delete=models.CASCADE)
+    person = models.ForeignKey(User, db_column="user_id", related_name="availblity", on_delete=models.CASCADE)
     timeSlot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True)
     dayOfWeek = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
         return str(self.person.id) + " - " + str(self.timeSlot.startTime)
-
 
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -123,7 +116,7 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User)
+    favoritedBy = models.ManyToManyField(User, blank=True, null=True)
 
     class Meta:
         managed = False

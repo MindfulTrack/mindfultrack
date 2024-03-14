@@ -121,9 +121,12 @@ export const authOptions = {
         user, account, profile, email, credentials
       );
     },
-    async jwt({user, token, account}) {
+    async jwt({user, token, trigger, account}) {
+      console.log(trigger)
       // If `user` and `account` are set that means it is a login event
-
+      if(trigger === "update"){
+        token.user.inQueue = true;
+      }
       if (user && account) {
         let backendResponse = account.provider === "credentials" ? user : account.meta;
 

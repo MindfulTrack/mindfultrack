@@ -6,11 +6,11 @@ import MyContext from "../../../../MyContext";
 import { ResourceViewModel, ResourceDetailsViewModel } from "../../../../../ts/types";
 import customFetch from "../../../../api/fetchInterceptor";
 
-interface ResourceSubPageProps {}
+interface ResourceSubPageProps { }
 
 interface PanelProps {
   index: number;
-  tabNum: number;
+  tabIndex: number;
 }
 
 
@@ -20,8 +20,9 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
   const [resourceCategories, setResourceCategories] = useState<ResourceViewModel[]>([]);
   const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
   const [favoriteResources, setFavoriteResources] = useState<ResourceDetailsViewModel[]>([]);
-  // const [favoriteIdsList, setFavoriteIdsList] = useState<number[]>([]);
+  const [favoriteIdsList, setFavoriteIdsList] = useState<number[]>([]);
   const [value, setValue] = useState(selectedResourceId || 0);
+  const [resetData, setResetData] = useState(false);
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -31,48 +32,51 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
         const sortedResources = resources.sort((a: any, b: any) => a.id - b.id);
         setResourceCategories(sortedResources);
 
+        // Set Correct Tab
+        const index = getIndexById(sortedResources, selectedResourceId);
+        setValue(index + 1);
+
+        // Get all Resources
         const resourceDetails = await customFetch('base/resourceDetails');
         setResourceDetails(resourceDetails);
 
+        // Get favorites
         const fetchedFavorites = await customFetch('base/favoriteResources');
         setFavoriteResources(fetchedFavorites);
 
-        const favoriteIDs: number[] = [];
-        favoriteResources.map((resource: any) => {
-          favoriteIDs.push(resource.id)
-        });
-        // setFavoriteIdsList(favoriteIDs);
-        // console.log(favoriteIdsList)
+        const IdArray = fetchedFavorites.map((element: any) =>  element.id);
+        setFavoriteIdsList(IdArray);
+
       } catch (error) {
         console.error(error);
       }
     };
 
-    // const getFavoriteIdList = () => {
-
-    // };
-
-    // getFavoriteIdList();
     fetchResources();
-  }, []);
+  }, [resetData]);
+
+  const handleReset = () => {
+    setResetData(!resetData);
+  }
 
   function Panel(props: PanelProps) {
-    const { tabNum, index } = props;
-  
+    const { tabIndex, index } = props;
+
     return (
       <div
         role="tabpanel"
-        hidden={tabNum !== index}
+        hidden={tabIndex !== index}
         id={`panel-${index}`}
         aria-labelledby={`tab-${index}`}
       >
-        {tabNum === index && (
+        {tabIndex === index && (
           <Box sx={{ p: 3 }}>
-            <ResourceDetails 
-              resourceId={selectedResourceId} 
-              allResources={resourceDetails} 
-              favoritedResources={favoriteResources} 
-              // favoriteIdList={favoriteIdsList}
+            <ResourceDetails
+              resourceId={selectedResourceId}
+              allResources={resourceDetails}
+              favoritedResources={favoriteResources}
+              favoriteIdsList={favoriteIdsList}
+              handleReset={handleReset}
             />
           </Box>
         )}
@@ -80,10 +84,22 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
     );
   };
 
-
+  function getIndexById(array: ResourceViewModel[], targetId: number) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].id === targetId) {
+        return i; // Found the index of the element with the target ID
+      }
+    }
+    return -1; // ID not found in the array
+  };
 
   const handleChange = (event: any, newValue: number) => {
+    console.log("hi", newValue)
     setValue(newValue);
+  };
+
+  const handleChangeCustom = (newValue: number) => {
+    // console.log(newValue);
     updateSelectedResourceId(newValue);
   };
 
@@ -99,16 +115,17 @@ const ResourceSubPage: React.FC<ResourceSubPageProps> = () => {
             indicatorColor="secondary"
             textColor="secondary"
           >
-            <Tab key={0} label="Favorites" />
+            <Tab key={0} label="Favorites" onClick={() => handleChangeCustom(0)} />
             {resourceCategories.map((resource) => (
               <Tab
                 key={resource.id}
                 label={resource.name}
+                onClick={() => handleChangeCustom(resource.id)}
               />
             ))}
           </Tabs>
         </Box>
-        <Panel tabNum={value} index={value} />
+        <Panel tabIndex={value} index={value} />
       </Box>
     </>
   );
