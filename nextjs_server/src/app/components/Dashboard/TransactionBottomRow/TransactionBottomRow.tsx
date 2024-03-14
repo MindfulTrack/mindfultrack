@@ -45,7 +45,7 @@ const TransactionBottomRow = () => {
       {
         label: "Count",
         data: exitCounts,
-        backgroundColor: ["blue", "green", "orange", "yellow", "purple"],
+        backgroundColor: ["#002E5D", "#005B89", "#00889C", "#00B494", "#81DB7D", "#F9F871"],
         hoverOffset: 4,
       },
     ],
@@ -57,7 +57,7 @@ const TransactionBottomRow = () => {
       {
         label: "Count",
         data: collegeCounts,
-        backgroundColor: ["blue", "green", "orange", "yellow", "purple", "black", "pink"],
+        backgroundColor: ["#002E5D", "#005B89", "#00889C", "#00B494", "#81DB7D", "#F9F871"],
         hoverOffset: 4,
       },
     ],
@@ -69,7 +69,7 @@ const TransactionBottomRow = () => {
       {
         label: "Count",
         data: genderCounts,
-        backgroundColor: ["blue", "pink", "orange", "yellow", "purple"],
+        backgroundColor: ["#002E5D", "#005B89", "#00889C", "#00B494", "#81DB7D", "#F9F871"],
         hoverOffset: 4,
       },
     ],
@@ -81,7 +81,7 @@ const TransactionBottomRow = () => {
       {
         label: "Count",
         data: yearCounts,
-        backgroundColor: ["blue", "pink", "orange", "yellow", "purple"],
+        backgroundColor: ["#002E5D", "#005B89", "#00889C", "#00B494", "#81DB7D", "#F9F871"],
         hoverOffset: 4,
       },
     ],
