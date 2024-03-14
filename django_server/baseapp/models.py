@@ -52,14 +52,19 @@ class Person(models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     gender = models.CharField(blank=True, null=True, max_length=1)
     age = models.IntegerField(blank=True, null=True)
-    year_in_school = models.IntegerField(blank=True, null=True)
+    year_in_school = models.CharField(blank=True, null=True)
     college = models.CharField(blank=True, null=True)
     major = models.CharField(blank=True, null=True)
 
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
     
-
+    def inQueue(self):
+        if StudentQueue.startTime:
+            if StudentQueue.endTime is None:
+                return True
+        
+        return False
 
 class QueueLeaveReason(models.Model):
     leaveReason = models.CharField(max_length=255)

@@ -7,17 +7,30 @@ import { doughnutChartData } from "../../mockData";
 import scss from "./TransactionsBottomRow.module.scss";
 import customFetch from '../../../api/fetchInterceptor';
 import {useState, useEffect} from 'react';
+import { collectGenerateParams } from "next/dist/build/utils";
 
 const TransactionBottomRow = () => {
   const [exitReasons, setExitReasons] = useState([]);
   const [exitCounts, setExitCounts] = useState([]);
+  const [colleges, setColleges] = useState([]);
+  const [collegeCounts, setCollegeCounts] = useState([]);
+  const [genders, setGenders] = useState([]);
+  const [genderCounts, setGenderCounts] = useState([]);
+  const [years, setYears] = useState([]);
+  const [yearCounts, setYearCounts] = useState([]);
 
   useEffect(() => {
     const fetchQueue = async () => {
         try {
-            const exitPieChartData = await customFetch('base/pieChartData');
-            setExitReasons(exitPieChartData.reasons);
-            setExitCounts(exitPieChartData.counts);
+            const pieChartData = await customFetch('base/pieChartData');
+            setExitReasons(pieChartData.reasons);
+            setExitCounts(pieChartData.leaveCounts);
+            setColleges(pieChartData.colleges);
+            setCollegeCounts(pieChartData.collegeCounts);
+            setGenders(pieChartData.genders);
+            setGenderCounts(pieChartData.genderCounts);
+            setYears(pieChartData.years);
+            setYearCounts(pieChartData.yearCounts);
         } catch (error : any) {
             console.log(error);
         }
@@ -32,14 +45,48 @@ const TransactionBottomRow = () => {
       {
         label: "Count",
         data: exitCounts,
-        backgroundColor: ["rgb(255,137,168)", "rgb(178,3,106)", "rgb(165,7,42)"],
+        backgroundColor: ["blue", "green", "orange", "yellow", "purple"],
         hoverOffset: 4,
       },
     ],
   };
 
-  console.log(exitReasons);
-  console.log(exitCounts);
+  const collegePieChartData = {
+    labels: colleges,
+    datasets: [
+      {
+        label: "Count",
+        data: collegeCounts,
+        backgroundColor: ["blue", "green", "orange", "yellow", "purple", "black", "pink"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const genderPieChartData = {
+    labels: genders,
+    datasets: [
+      {
+        label: "Count",
+        data: genderCounts,
+        backgroundColor: ["blue", "pink", "orange", "yellow", "purple"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const yearPieChartData = {
+    labels: years,
+    datasets: [
+      {
+        label: "Count",
+        data: yearCounts,
+        backgroundColor: ["blue", "pink", "orange", "yellow", "purple"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
   return (
     <Grid container className={scss.bottomRow}>
       <Grid>
@@ -50,20 +97,20 @@ const TransactionBottomRow = () => {
       </Grid>
       <Grid>
         <Paper className={scss.dataCard}>
-          <p>Student Demographics</p>
-          <DataChart type={"doughnut"} data={doughnutChartData} />
+          <p>College</p>
+          <DataChart type={"doughnut"} data={collegePieChartData} />
         </Paper>
       </Grid>
       <Grid>
         <Paper className={scss.dataCard}>
-          <p>Current vs Removed Students</p>
-          <DataChart type={"doughnut"} data={doughnutChartData} />
+          <p>Gender</p>
+          <DataChart type={"doughnut"} data={genderPieChartData} />
         </Paper>
       </Grid>
       <Grid>
         <Paper className={scss.dataCard}>
-          <p>Availability Times</p>
-          <DataChart type={"doughnut"} data={doughnutChartData} />
+          <p>School Year</p>
+          <DataChart type={"doughnut"} data={yearPieChartData} />
         </Paper>
       </Grid>
     </Grid>
