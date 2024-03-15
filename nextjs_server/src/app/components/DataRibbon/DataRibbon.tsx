@@ -20,6 +20,7 @@ const DataRibbon: React.FC<DataRibbonProps> = () => {
     const [currentQueue, setCurrentQueue] = useState(0);
     const [monthExits, setMonthExits] = useState(0);
     const [monthServices, setMonthServices] = useState(0);
+    const [avgWaitTime, setAvgWaitTime] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -30,6 +31,7 @@ const DataRibbon: React.FC<DataRibbonProps> = () => {
                 setCurrentQueue(dashboardResponse.currentQueue);
                 setMonthExits(dashboardResponse.monthExits);
                 setMonthServices(dashboardResponse.monthServices);
+                setAvgWaitTime(dashboardResponse.averageWaitTime);
                 setLoading(false);
             } catch (error : any) {
                 setError(error.message);
@@ -82,10 +84,10 @@ const DataRibbon: React.FC<DataRibbonProps> = () => {
     
                 <Grid>
                     <DataCard  
-                        title={"No Response Students"}
-                        value={"15"}
+                        title={"Average Wait Time (days)"}
+                        value={avgWaitTime.toString()}
                         description={
-                            "The totals of all blah blah blah"
+                            "The average number of days a student spends on the waitlist"
                         }
                     />
                 </Grid>
