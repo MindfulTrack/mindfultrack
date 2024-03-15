@@ -67,6 +67,7 @@ const TransactionsPerDay = (props: TransactionsPerDayProps) => {
     const numTotalStudents = lineChartData.reduce((a,b) => a + b, 0);
     const increase = lineChartData[11] - lineChartData[10]
     const percentChange = increase / lineChartData[10] * 100
+    const lastMonthAdds = lineChartData[11]
 
     return (
         <Grid container gap={2} className={scss.wrapper}>
@@ -100,10 +101,10 @@ const TransactionsPerDay = (props: TransactionsPerDayProps) => {
                     </Card>
                     <Card className={scss.card} variant={"outlined"}>
                         <div className={scss.cardTitle}>
-                            <Typography>% Receiving Other Services</Typography>
+                            <Typography>New Students this Month</Typography>
                         </div>
                         <div className={scss.cardValue}>
-                            <Typography>17%</Typography>
+                            <Typography>{ lastMonthAdds }</Typography>
                             {/* <Typography color={theme.palette.success.main} fontSize={14}>
                                 0
                             </Typography> */}
