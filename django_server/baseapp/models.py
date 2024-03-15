@@ -133,7 +133,7 @@ class CalendarEvent(models.Model):
     oneDayEvent = models.BooleanField()
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
-    organizer = models.ForeignKey(User, db_column="user_id", related_name="calendar", on_delete=models.CASCADE)
+    organizer = models.ForeignKey(User, db_column="organizer_id", related_name="calendar", on_delete=models.CASCADE)
     
 
 
