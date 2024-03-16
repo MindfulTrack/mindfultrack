@@ -1,6 +1,7 @@
 import json
 from .models import *
 from .serializers import *
+from .utilities import *
 from datetime import datetime, time
 import dateutil.relativedelta
 from django.http import HttpResponse
@@ -304,3 +305,36 @@ class LineChartDataView(APIView):
             print(chartData)
         
         return Response(chartData)
+
+
+## SIGNING 
+
+from django.core import signing
+def generate_signature(signValue):
+    # Replace 'your-bucket-name' with your S3 bucket name
+    signer = signing.TimestampSigner()
+    value = signer.sign_object({'value': signValue})
+    print(value)
+    return value
+
+
+def sendSignedUrl(request, signature):
+    signature = generate_signature(signature)
+    sender = MessageSender('jwdonaldson99@gmail.com')
+    sender.send_email(
+        subject="Test Signed url",
+        message="Try the action below to see if it works!",
+        presigned_url="http://localhost:8000/api/base/testVerifyUrl/"+signature,
+    )
+    return JsonResponse({})
+
+
+def testVerifyUrl(request, signature):
+    signer = signing.TimestampSigner()
+    try:
+        signatureObject = signer.unsign_object(signature)
+        print(signatureObject)
+    except signing.BadSignature:
+        print("Tampering detected!")
+    return JsonResponse({})
+    

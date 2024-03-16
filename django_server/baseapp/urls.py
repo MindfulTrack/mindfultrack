@@ -1,6 +1,6 @@
 from .views import *
+from .utilities import *
 from django.urls import path, include
-from .views import FavoriteResourcesView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
@@ -35,5 +35,9 @@ urlpatterns = [
     path('lineChartData/', LineChartDataView.as_view(), name='lineChartData'),
     path('dashboardData/', DashboardDataView.as_view(), name='dashboardData'),
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
+    path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
+    
+    path('testVerifyUrl/<str:signature>', testVerifyUrl, name='testVerifyUrl'),
+    path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),
     
 ]
