@@ -1,14 +1,8 @@
 'use client'
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { Paper, Button, CircularProgress, Grid } from '@mui/material';
-import { useState, useEffect } from 'react';
-import customFetch from '../../../api/fetchInterceptor';
-import Alert from '@mui/material/Alert';
-import {useSession} from "next-auth/react";
-import Link from 'next/link';
-
+import { useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface AdminDjangoPageProps {
 
@@ -16,12 +10,17 @@ interface AdminDjangoPageProps {
 
 const AdminDjangoPage: React.FC<AdminDjangoPageProps> = async () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_BASE;
+  const pathname = usePathname();
   useEffect(() => {
     const iframe = document.getElementById('django-admin-iframe');
 
     const handleIframeLoad = () => {
       console.log('Iframe is fully loaded');
       // You can perform additional actions here
+      if (pathname.includes('/404')) {
+        // Reload the whole page
+        window.location.reload();
+      }
     };
 
     if (iframe) {
