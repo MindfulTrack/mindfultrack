@@ -16,10 +16,30 @@ interface AdminDjangoPageProps {
 
 const AdminDjangoPage: React.FC<AdminDjangoPageProps> = async () => {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_BASE;
+  useEffect(() => {
+    const iframe = document.getElementById('django-admin-iframe');
+
+    const handleIframeLoad = () => {
+      console.log('Iframe is fully loaded');
+      // You can perform additional actions here
+    };
+
+    if (iframe) {
+      iframe.addEventListener('load', handleIframeLoad);
+    }
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      if (iframe) {
+        iframe.removeEventListener('load', handleIframeLoad);
+      }
+    };
+  }, []);
 
   return (
       <Box display="inline-block" width="100%" height="600px" overflow="hidden" borderRadius="10px" style={{marginTop: "14px", marginBottom:"50px"}}>
         <iframe
+          id="django-admin-iframe"
           src={backendUrl+"admin"}
           title="Django Admin"
           width="100%"
