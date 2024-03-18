@@ -107,13 +107,13 @@ def sendSignedUrl(request, signature):
     sender.send_message(
         subject="Test Signed url",
         message="Try the action below to see if it works!",
-        presigned_url="http://mindfultrack.org:8000/api/base/testVerifyUrl/"+signature,
+        presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
     )
     sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
     sender.send_message(
         subject="Test Signed url",
         message="Try the action below to see if it works!",
-        presigned_url="http://mindfultrak.org/api/base/testVerifyUrl/"+signature,
+        presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
     )
     return JsonResponse({})
 

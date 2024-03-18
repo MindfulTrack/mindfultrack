@@ -26,8 +26,15 @@ load_dotenv('.env.dev')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
+ENVTYPE=os.eniron.get('ENVTYPE') ## PROD OR DEV
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if ENVTYPE == 'PROD':
+    DEBUG = False
+    BASE_API_URL="https://mindfultrack.org:8000/api/"
+else:
+    DEBUG = True
+    BASE_API_URL="http://localhost:8000/api/"
 
 # Application definition
 
