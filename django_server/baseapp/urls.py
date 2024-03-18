@@ -22,7 +22,6 @@ urlpatterns = [
     path('favoriteResources/', FavoriteResourcesView.as_view(), name='favoriteResources'),
     
     #Tests
-    path('test/', TestView.as_view(), name='test'),
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
 
     #Queue

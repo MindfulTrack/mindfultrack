@@ -35,21 +35,7 @@ def healthcheck(request):
     return HttpResponse(request)
 
 #Tests
-class TestView(APIView):
-    def get(self, request):
-        tests = Test.objects.all()
-        serializer = TestSerializer(tests, many=True)
-        return Response(serializer.data)
 
-# @permission_classes([IsAuthenticated])
-# class StudentQueueView(APIView):
-#     def get (self, request, person_id, format=None):
-#         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
-#         student_position = StudentQueue.objects.filter(
-#             startTime__lt = student_entry.startTime
-#         ).count() + 1
-#         return Response(student_position)
-    
 @permission_classes([IsAuthenticated, StaffPermission])
 class TestAuthView(APIView):
     def get (self, request):
@@ -332,7 +318,8 @@ def sendSignedUrl(request, signature):
 def testVerifyUrl(request, signature):
     signer = signing.TimestampSigner()
     try:
-        signatureObject = signer.unsign_object(signature)
+        ## Signed url only valid for 24 hours
+        signatureObject = signer.unsign_object(signature, max_age=86400)
         print(signatureObject)
     except signing.BadSignature:
         print("Tampering detected!")
