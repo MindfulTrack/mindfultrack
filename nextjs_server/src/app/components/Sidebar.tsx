@@ -257,7 +257,7 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ userRole }) => {
           height: 'auto',
           bottom: 0,
           backgroundColor: 'primary.main',
-          paddingTop: '1rem',
+          paddingTop: '2.5rem',
           scrollbarWidth: 'none'
         },
       }}

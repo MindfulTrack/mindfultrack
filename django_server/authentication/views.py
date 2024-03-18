@@ -7,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
@@ -19,7 +20,7 @@ def email_confirm_redirect(request, key):
         f"{settings.EMAIL_CONFIRM_REDIRECT_BASE_URL}{key}/"
     )
 
-
+@csrf_exempt
 def password_reset_confirm_redirect(request, uidb64, token):
     return HttpResponseRedirect(
         f"{settings.PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL}{uidb64}/{token}/"

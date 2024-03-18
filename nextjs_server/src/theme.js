@@ -1,6 +1,6 @@
 'use client';
 import { Roboto } from 'next/font/google';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { Public_Sans } from 'next/font/google';
 
 const roboto = Roboto({
@@ -15,7 +15,7 @@ const publicSans = Public_Sans({
   display: 'swap',
 });
 
-export const theme = createTheme({
+let theme = createTheme({
   palette: {
     type: "light",
     primary: {
@@ -105,4 +105,5 @@ export const theme = createTheme({
   },
 });
 
+theme = responsiveFontSizes(theme);
 export default theme;
