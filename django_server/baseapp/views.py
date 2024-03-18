@@ -293,35 +293,5 @@ class LineChartDataView(APIView):
         return Response(chartData)
 
 
-## SIGNING 
 
-from django.core import signing
-def generate_signature(signValue):
-    # Replace 'your-bucket-name' with your S3 bucket name
-    signer = signing.TimestampSigner()
-    value = signer.sign_object({'value': signValue})
-    print(value)
-    return value
-
-
-def sendSignedUrl(request, signature):
-    signature = generate_signature(signature)
-    sender = MessageSender('jwdonaldson99@gmail.com')
-    sender.send_email(
-        subject="Test Signed url",
-        message="Try the action below to see if it works!",
-        presigned_url="http://localhost:8000/api/base/testVerifyUrl/"+signature,
-    )
-    return JsonResponse({})
-
-
-def testVerifyUrl(request, signature):
-    signer = signing.TimestampSigner()
-    try:
-        ## Signed url only valid for 24 hours
-        signatureObject = signer.unsign_object(signature, max_age=86400)
-        print(signatureObject)
-    except signing.BadSignature:
-        print("Tampering detected!")
-    return JsonResponse({})
     

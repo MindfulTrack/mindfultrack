@@ -32,7 +32,6 @@ const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <Suspense fallback={<Loading />}>
               <SessionProvider session={session}>
-
                 <ThemeProvider theme={theme}>
                   <MyProvider>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
@@ -43,7 +42,6 @@ const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
                     {children}
                   </MyProvider>
                 </ThemeProvider>
-
               </SessionProvider>
             </Suspense>
           </AppRouterCacheProvider>
