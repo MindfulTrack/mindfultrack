@@ -26,7 +26,7 @@ load_dotenv('.env.dev')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
-ENVTYPE=os.eniron.get('ENVTYPE') ## PROD OR DEV
+ENVTYPE=os.environ.get('ENVTYPE') ## PROD OR DEV
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if ENVTYPE == 'PROD':
