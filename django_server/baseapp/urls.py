@@ -34,7 +34,6 @@ urlpatterns = [
     path('lineChartData/', LineChartDataView.as_view(), name='lineChartData'),
     path('dashboardData/', DashboardDataView.as_view(), name='dashboardData'),
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
-    path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
     
     path('testVerifyUrl/<str:signature>', testVerifyUrl, name='testVerifyUrl'),
     path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),
