@@ -1,3 +1,4 @@
+import os
 from django.core import signing
 from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
@@ -94,12 +95,9 @@ class MessageSender:
 
 ## SIGNING 
 
-from django.core import signing
 def generate_signature(signValue):
-    # Replace 'your-bucket-name' with your S3 bucket name
     signer = signing.TimestampSigner()
     value = signer.sign_object({'value': signValue})
-    print(value)
     return value
 
 
@@ -109,13 +107,13 @@ def sendSignedUrl(request, signature):
     sender.send_message(
         subject="Test Signed url",
         message="Try the action below to see if it works!",
-        presigned_url="http://localhost:8000/api/base/testVerifyUrl/"+signature,
+        presigned_url="http://mindfultrack.org:8000/api/base/testVerifyUrl/"+signature,
     )
     sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
     sender.send_message(
         subject="Test Signed url",
         message="Try the action below to see if it works!",
-        presigned_url="http://localhost:8000/api/base/testVerifyUrl/"+signature,
+        presigned_url="http://mindfultrak.org/api/base/testVerifyUrl/"+signature,
     )
     return JsonResponse({})
 
