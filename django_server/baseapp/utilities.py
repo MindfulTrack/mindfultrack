@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
 from django.core.mail import EmailMessage
 from botocore.session import Session
+from django.conf import settings
 
 class MessageSender:
     # On creation of MessageSender Object save the send method and number/email
@@ -62,8 +63,6 @@ class MessageSender:
         client = session.create_client(
             "sns",
             region_name=settings.AWS_REGION,
-            # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         )
 
         response = client.publish(

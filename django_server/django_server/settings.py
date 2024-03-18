@@ -303,6 +303,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")    
 DEFAULT_FROM_EMAIL = "jwdonaldson99@gmail.com" 
 
+AWS_REGION="us-west-2"
 
 UNFOLD = {
     "SITE_TITLE": "Mindfultrack",
