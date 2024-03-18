@@ -64,7 +64,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
                 <Button color="inherit" sx={{ cursor: "pointer" }} onClick={redirectLink}>
-                  {session.user?.first_name} {session.user?.last_name}
+                  {session.user?.first_name}
                 </Button>
                   </>
                 )
