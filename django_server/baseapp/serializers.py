@@ -126,6 +126,11 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = '__all__'
 
+class CalendarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalendarEvent
+        fields = '__all__'
+
 class PersonPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
