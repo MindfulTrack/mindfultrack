@@ -35,6 +35,9 @@ urlpatterns = [
     path('lineChartData/', LineChartDataView.as_view(), name='lineChartData'),
     path('dashboardData/', DashboardDataView.as_view(), name='dashboardData'),
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
+
+    #Availability Match
+    path('availabilityMatch/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
     
     path('testVerifyUrl/<str:signature>', testVerifyUrl, name='testVerifyUrl'),
     path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),

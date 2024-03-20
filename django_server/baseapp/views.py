@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count, Avg, F
+from django.db import connection
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -292,5 +293,101 @@ class LineChartDataView(APIView):
         return Response(chartData)
 
 
+class AvailabilityMatchView(APIView): 
+    def get(self, format=None):
+        # Variable for the matched student
+        finalMatch = {}
+
+        # Function to run query to see if their is a match
+        def find_matches(user_id, counselor_id):
+            availMatchQuery = '''
+                WITH available_time_slots AS (
+                    SELECT ats.id AS available_time_slot_id,
+                        ts."startTime" AS available_start_time,
+                        ts."endTime" AS available_end_time
+                    FROM baseapp_availableTimeSlot ats
+                    JOIN baseapp_timeSlot ts ON ats."timeSlot_id" = ts."id"
+                    WHERE ats."user_id" = %s -- Replace with student id from top of list
+                    AND to_char('2024/03/13'::date, 'Day') = ts."dayOfWeek" -- To get day of week for specific date
+                )
+                SELECT
+                    ats1.available_start_time AS first_half_hour_start_time,
+                    ats2.available_end_time AS second_half_hour_end_time
+                FROM available_time_slots ats1
+                JOIN available_time_slots ats2 ON ats1.available_end_time = ats2.available_start_time
+                WHERE ats2.available_end_time - ats1.available_start_time >= interval '1 hour'
+                AND EXISTS (
+                    SELECT 1
+                    FROM baseapp_calendarEvent ce
+                    WHERE ce.user_id = %s -- Replace with counselor's id that has designated availability
+                    AND CAST(ce."start" AS DATE) = CAST('2024/03/13' AS DATE) -- Consider only specific date for calendar event
+                    AND (ats1."available_start_time" >= cast(ce.start as time) and (ats2."available_end_time" <= cast(ce.end as time)))
+                );
+                ''' % (user_id, counselor_id)
+            cursor.execute(availMatchQuery)
+            availMatch = cursor.fetchall()
+            return(availMatch)
+        
+        searchedStudentIdsString = "(0," # To keep track of students that have been searched
+        with connection.cursor() as cursor:
+            # Get the top 25 students in line
+            cursor.execute('''
+                select sq."id", sq."startTime", sq."endTime", sq."user_id" from baseapp_studentqueue sq 
+                where sq."endTime" is null 
+                order by sq."startTime" limit 25
+                ''')
+            topStudents = cursor.fetchall()
+            #topStudents.insert(0, [0,0,0,3766]) #adding a known match for testing
+
+            # Loop through each of the top 25 students and run the match query with their id to see if their availability matches with the counselor's
+            for student in topStudents:
+                # Build out a string with the previously searched studentIds for the "NOT IN" parameter on the sql query
+                searchedStudentIdsString = searchedStudentIdsString[:-1]
+                searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
+                availMatch = find_matches(student[3], 8)                
+                # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
+                if len(availMatch) != 0:
+                    print("there's a match!")
+                    print(availMatch)
+                    finalMatch = {
+                        "user_id" : student[3],
+                        "matchedTimes" : availMatch
+                    }
+                    break
+
+            # If no matches, find the next 25 students and re run the process. Repeat until a match is found or it reaches 100 times.            
+            for x in range(100):
+                # Find the next 25 students in the queue
+                cursor.execute('''
+                        select sq."id", sq."startTime", sq."endTime", sq."user_id" from baseapp_studentqueue sq 
+                        where sq."endTime" is null 
+                        and sq."user_id" not in %s
+                        order by sq."startTime" limit 25;
+                    ''' %searchedStudentIdsString)
+                topStudents = cursor.fetchall()
+
+                # Loop through the next 25 students and see if there is a match, if there is, exit the for loop
+                for student in topStudents:
+                    # Add student to string of searched ids
+                    searchedStudentIdsString = searchedStudentIdsString[:-1]
+                    searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
+
+                    availMatch = find_matches(student[3], 8) 
+              
+                    # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
+                    if len(availMatch) != 0:
+                        print("there's a match!")
+                        print(availMatch)
+                        finalMatch = {
+                            "user_id" : student[3],
+                            "matchedTimes" : availMatch
+                        }
+                        break
+                
+                # If finalMatch has a value assigned to it (meaning a student match has been found), exit the outer for loop
+                if finalMatch != {}:
+                    break
+
+        return Response(finalMatch)
 
     
