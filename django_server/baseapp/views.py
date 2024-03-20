@@ -167,12 +167,11 @@ class PersonView(viewsets.ModelViewSet):
         return Response({'message':'Person Saved'})
 
 
-# class PersonPermissionView(RetrieveAPIView):
-#     # GET person Permissions
-#     def retrieve(self, request, person_id):
-#         person = get_object_or_404(Person, id = person_id)
-#         serializer = PersonPermissionSerializer(person)
-#         return Response(serializer.data)
+# Counselor Calendar
+@permission_classes([IsAuthenticated])
+class CalendarView(viewsets.ModelViewSet):
+    queryset = CalendarEvent.objects.all()
+    serializer_class = CalendarSerializer
 
 #University
 @permission_classes([IsAuthenticated])

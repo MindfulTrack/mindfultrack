@@ -1,4 +1,5 @@
 'use client'
+import * as React from 'react';
 import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -16,22 +17,42 @@ import {
 } from "@mui/material";
 import AddEventModal from "./AddEventModal";
 import { EventClickArg } from "@fullcalendar/core";
-import mockEvents from '../../mockData/calendarEvent.json';
+//import mockEvents from '../../mockData/calendarEvent.json';
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
 import { Event } from "../../../ts/types";
+import { useSession } from "next-auth/react";
+import customFetch from '../../api/fetchInterceptor';
+import MyContext from '../../MyContext';
+
 
 interface AdminCalendarProps {
 
 };
 
 const AdminCalendar: React.FC<AdminCalendarProps> = () => {
-  const calendarEvents = mockEvents as Event[]
-  const [currentEvents, setCurrentEvents] = useState(calendarEvents);
+  //const mockdataEvents = mockEvents as Event[]
+  const [currentEvents, setCurrentEvents] = useState<Event[]>([]);
   const [openSlot, setOpenSlot] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [isNewEvent, setIsNewEvent] = useState(false);
+  const {data: session, update} : any = useSession({required: true});
+  const { userId } = React.useContext(MyContext)!;
+  
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const allEvents = await customFetch('base/counselorCalendar');
+        const userEvents = allEvents.filter((event: Event) => event.organizer === userId);
+        setCurrentEvents(userEvents);
+      } catch (error : any) {
+        console.log(error)
+      }
+    }   
+    fetchEvents();
+  }, []);
 
   const handleClose = () => {
     setOpenSlot(false)
@@ -45,9 +66,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       title: "",
       eventLocation: "",
       allDay: selected.allDay ? true : false,
+      editable: true, //selected.editable ? true : false,
       start: selected.dateStr,
       end: dayjs(selected.dateStr).add(1,'hour').format(),
-      organizerId: Math.random() * 1000,
+      organizer: Math.random() * 1000,
       backgroundColor: '#141414',
       oneDayEvent: selected.allDay ? true : false
     };
@@ -62,9 +84,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       title: selected.event.title,
       eventLocation: selected.event.extendedProps.eventLocation,
       allDay: selected.event.allDay,
+      editable: true,
       start: selected.event.startStr,
       end: selected.event.allDay && !selected.event.oneDayEvent ? dayjs(selected.event.end).subtract(1, 'day').format('YYYY-MM-DD'): selected.event.end,
-      organizerId: selected.event.extendedProps.organizerId,
+      organizer: selected.event.extendedProps.organizer,
       backgroundColor: selected.event.backgroundColor,
       oneDayEvent: selected.event.extendedProps.oneDayEvent
     };
@@ -76,7 +99,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const currentDate = new Date();
   const currentTime = dayjs(currentDate).format('HH:mm:ss');
 
-  const handleEventsUpdate = (updatedEvent: Event) => {
+  const handleEventsUpdate = async (updatedEvent: Event) => {
     const savedEvent: Event = {
       id: updatedEvent.id,
       title: updatedEvent.title,
@@ -84,9 +107,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       allDay: updatedEvent.allDay,
       start: updatedEvent.start,
       end: updatedEvent.allDay && !updatedEvent.oneDayEvent ? dayjs(updatedEvent.end).add(1, 'day').format('YYYY-MM-DD'): updatedEvent.end,
-      organizerId: updatedEvent.organizerId,
+      organizer: updatedEvent.organizer,
       backgroundColor: updatedEvent.backgroundColor,
-      oneDayEvent: updatedEvent.oneDayEvent
+      oneDayEvent: updatedEvent.oneDayEvent,
+      editable: true
     };
 
     const updatedEvents = currentEvents.filter(event =>
@@ -108,14 +132,42 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
           allDay: savedEvent.allDay,
           start: savedEvent.start,
           end: savedEvent.end,
-          organizerId: savedEvent.organizerId,
+          organizer: savedEvent.organizer,
           backgroundColor: savedEvent.backgroundColor,
-          oneDayEvent: savedEvent.oneDayEvent
+          oneDayEvent: savedEvent.oneDayEvent,
+          editable: true
         };
         setCurrentEvents(updatedEvents);
       }
     }
 
+    try {
+      const response = await customFetch(
+        'base/counselorCalendar/',
+        'POST',
+        {
+          title: updatedEvent.title,
+          eventLocation: updatedEvent.eventLocation,
+          backgroundColor: updatedEvent.backgroundColor,
+          allDay: updatedEvent.allDay,
+          editable: true,
+          oneDayEvent: updatedEvent.oneDayEvent,
+          start: dayjs(updatedEvent.start).format(),
+          end: dayjs(updatedEvent.end).format(),
+          organizer: userId
+        },
+      );
+  
+      // Check the response...
+      if (response.ok) {
+        console.log('Event saved successfully');
+      } else {
+        console.log('Failed to save event');
+      }
+    } catch (error) {
+      console.error('An error occurred while saving the event:', error);
+    }
+  
     setOpenSlot(false);
   };
 

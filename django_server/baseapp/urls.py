@@ -13,6 +13,7 @@ router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCat
 router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
 router.register(r'queueLeaveReason', QueueLeaveReasonView, basename='queueLeaveReason')
+router.register(r'counselorCalendar', CalendarView, basename='counselorCalendar')
 # router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
 
 urlpatterns = [
