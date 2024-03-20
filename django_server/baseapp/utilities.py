@@ -54,7 +54,7 @@ class MessageSender:
 
     def send_sms(self, message, subject, presigned_url=None):
         sms_content = (
-            f"{message}\n: {presigned_url}" if presigned_url else message
+            f"{message}<a href='https://google.com'>test</a>\n: {presigned_url}" if presigned_url else message
         )
 
         # SMS sending logic using the AWS SDK or another SMS gateway
@@ -64,6 +64,8 @@ class MessageSender:
         client = session.create_client(
             "sns",
             region_name=settings.AWS_REGION,
+            # aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
+            # aws_secret_access_key=os.environ.get('AWS_SECRET_KEY')
         )
 
         response = client.publish(
@@ -102,17 +104,21 @@ def generate_signature(signValue):
 
 
 def sendSignedUrl(request, signature):
+    ## Increment studentQueue attempts by 1
+    ## Pull calendarEvent although Tyler probably has this already
+    ## send user id dictionary with calendar id signed to user.
+
     signature = generate_signature(signature)
     sender = MessageSender('4357735942', "TEXT")
     sender.send_message(
-        subject="Test Signed url",
-        message="Try the action below to see if it works!",
+        subject="Appointment Available!",
+        message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
         presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
     )
     sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
     sender.send_message(
-        subject="Test Signed url",
-        message="Try the action below to see if it works!",
+        subject="Appointment Available!",
+        message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
         presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
     )
     return JsonResponse({})
