@@ -3,7 +3,7 @@ from django.core import signing
 from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
 from django.core.mail import EmailMessage
-from botocore.session import Session
+# from botocore.session import Session
 from django.conf import settings
 
 class MessageSender:
