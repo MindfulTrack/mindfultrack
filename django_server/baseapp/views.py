@@ -4,8 +4,7 @@ from .serializers import *
 from .utilities import *
 from datetime import datetime, time
 import dateutil.relativedelta
-from django.http import HttpResponse
-from django.http.response import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count, Avg, F
 from django.db import connection
@@ -156,6 +155,7 @@ class PersonView(viewsets.ModelViewSet):
         
         person = Person()
         person.person_id = request.user.id
+        person.contact_preference = data['contact_preference']
         person.university_id = data['university']
         person.college = data['college']
         person.major = data['major']
@@ -353,6 +353,8 @@ class AvailabilityMatchView(APIView):
                         "user_id" : student[3],
                         "matchedTimes" : availMatch
                     }
+                    sendSignedUrl(finalMatch)
+
                     break
 
             # If no matches, find the next 25 students and re run the process. Repeat until a match is found or it reaches 100 times.            
@@ -382,6 +384,7 @@ class AvailabilityMatchView(APIView):
                             "user_id" : student[3],
                             "matchedTimes" : availMatch
                         }
+                        sendSignedUrl(finalMatch)
                         break
                 
                 # If finalMatch has a value assigned to it (meaning a student match has been found), exit the outer for loop

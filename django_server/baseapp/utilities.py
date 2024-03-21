@@ -1,10 +1,12 @@
 import os
+from .models import *
 from django.core import signing
+from django.conf import settings
+from botocore.session import Session
+from django.shortcuts import redirect
+from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
-from django.core.mail import EmailMessage
-# from botocore.session import Session
-from django.conf import settings
 
 class MessageSender:
     # On creation of MessageSender Object save the send method and number/email
@@ -17,9 +19,10 @@ class MessageSender:
         self,
         message,
         subject,
-        presigned_url=None,
-        attachment=None,
-        attachment_name=None,
+        presigned_url_yes=None,
+        presigned_url_no=None,
+        # attachment=None,
+        # attachment_name=None,
     ):
         try:
             toEmail = self.sendTo
@@ -30,7 +33,8 @@ class MessageSender:
                 {
                     "header": subject,
                     "message": message,
-                    "link": presigned_url,
+                    "link1": presigned_url_yes,
+                    "link2": presigned_url_no,
                     # "customer": self,
                 },
             )
@@ -42,9 +46,9 @@ class MessageSender:
             )
             email.content_subtype = "html"
 
-            ## IF ATTACHMENT
-            if attachment and attachment_name:
-                email.attach(attachment_name, attachment, "application/pdf")
+            # ## IF ATTACHMENT
+            # if attachment and attachment_name:
+            #     email.attach(attachment_name, attachment, "application/pdf")
             email.send()
 
             return True
@@ -52,9 +56,9 @@ class MessageSender:
             print(e)
             return False
 
-    def send_sms(self, message, subject, presigned_url=None):
+    def send_sms(self, message, subject, presigned_url_yes=None, presigned_url_no=None):
         sms_content = (
-            f"{message}<a href='https://google.com'>test</a>\n: {presigned_url}" if presigned_url else message
+            f"{message}YES:\n: {presigned_url_yes} \n NO: \n {presigned_url_no}" if presigned_url else message
         )
 
         # SMS sending logic using the AWS SDK or another SMS gateway
@@ -103,33 +107,58 @@ def generate_signature(signValue):
     return value
 
 
-def sendSignedUrl(request, signature):
-    ## Increment studentQueue attempts by 1
-    ## Pull calendarEvent although Tyler probably has this already
-    ## send user id dictionary with calendar id signed to user.
+def sendSignedUrl(signature):
+    
+    ## signature format
+    # signature = {
+    #     "user_id" : student[3],
+    #     "matchedTimes" : availMatch
+    # }
+    user = Person.objects.filter(user_id=signature["user_id"]).first()
+    
+    signatureYes = signature['status'] = "ACCEPT"
+    signatureYes = generate_signature(signatureYes)
 
-    signature = generate_signature(signature)
-    sender = MessageSender('4357735942', "TEXT")
+    signatureNo = signature['status'] = "DECLINE"
+    signatureNo = generate_signature(signatureNo)
+
+    ## REMOVE IN PRODUCTION
+    if(user.contact_preference == "TEXT"):
+        sendTo = '4357735942'
+    else:
+        sendTo = 'jwdonaldson99@gmail.com'
+    ## REMOVE IN PRODUCTION
+
+    sender = MessageSender(sendTo, user.contact_preference)
     sender.send_message(
         subject="Appointment Available!",
         message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
-        presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
+        presigned_url_yes=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureYes,
+        presigned_url_no=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureNo,
     )
-    sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
-    sender.send_message(
-        subject="Appointment Available!",
-        message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
-        presigned_url=settings.BASE_API_URL+"base/testVerifyUrl/"+signature,
-    )
-    return JsonResponse({})
+    # sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
+    # sender.send_message(
+    #     subject="Appointment Available!",
+    #     message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
+    #     presigned_url=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signature,
+    # )
+    return
 
 
-def testVerifyUrl(request, signature):
+def confirmAppointmentUrl(request, signature):
     signer = signing.TimestampSigner()
     try:
         ## Signed url only valid for 24 hours
         signatureObject = signer.unsign_object(signature, max_age=86400)
         print(signatureObject)
+        print(signatureObject['matchedTimes'])
+
+        ## VERIFY THAT STUDENT HASN"T ALREADY ACCEPTED OR DECLINED
+
+        ## If accept save student to calendar view
+            ## REDIRECT TO FRONT END ACCEPTED SCREEN
+        ## Else decline find way to note decline and start process again. 
+            ## REDIRECT TO FRONT END DECLINE SCREEN
     except signing.BadSignature:
         print("Tampering detected!")
-    return JsonResponse({})
+    return JsonResponse({"error" : "Tampering detected!"})
