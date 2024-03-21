@@ -58,12 +58,12 @@ class MessageSender:
 
     def send_sms(self, message, subject, presigned_url_yes=None, presigned_url_no=None):
         sms_content = (
-            f"{message}YES:\n: {presigned_url_yes} \n NO: \n {presigned_url_no}" if presigned_url else message
+            f"{message} \n YES:\n {presigned_url_yes} \n NO: \n {presigned_url_no}" if presigned_url_yes else message
         )
 
         # SMS sending logic using the AWS SDK or another SMS gateway
         phone_number = "+1" + self.sendTo
-        session = Session()
+        session = Session(profile="JacobMindfulTrack")
 
         client = session.create_client(
             "sns",
@@ -74,7 +74,7 @@ class MessageSender:
 
         response = client.publish(
             PhoneNumber=phone_number,
-            Message="MindfulTrack " + subject + ": " + sms_content,
+            Message="MindfulTrack " + subject + " " + sms_content,
         )
         return response["MessageId"]
 
@@ -103,7 +103,7 @@ class MessageSender:
 
 def generate_signature(signValue):
     signer = signing.TimestampSigner()
-    value = signer.sign_object({'value': signValue})
+    value = signer.sign_object(signValue)
     return value
 
 
@@ -114,12 +114,13 @@ def sendSignedUrl(signature):
     #     "user_id" : student[3],
     #     "matchedTimes" : availMatch
     # }
-    user = Person.objects.filter(user_id=signature["user_id"]).first()
-    
-    signatureYes = signature['status'] = "ACCEPT"
+    user = Person.objects.filter(person_id=signature["user_id"]).first()
+    signature['status'] = "ACCEPT"
+    signatureYes = signature
     signatureYes = generate_signature(signatureYes)
-
-    signatureNo = signature['status'] = "DECLINE"
+    
+    signature['status'] = "DECLINE"
+    signatureNo = signature
     signatureNo = generate_signature(signatureNo)
 
     ## REMOVE IN PRODUCTION
@@ -136,12 +137,13 @@ def sendSignedUrl(signature):
         presigned_url_yes=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureYes,
         presigned_url_no=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureNo,
     )
-    # sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
-    # sender.send_message(
-    #     subject="Appointment Available!",
-    #     message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
-    #     presigned_url=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signature,
-    # )
+    sender = MessageSender('jwdonaldson99@gmail.com', "EMAIL")
+    sender.send_message(
+        subject="Appointment Available!",
+        message="The following time slot has become available. Select yes to reserve your spot. Select no to wait for next available slot.",
+        presigned_url_yes=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureYes,
+        presigned_url_no=settings.BASE_API_URL+"base/confirmAppointmentUrl/"+signatureNo,
+    )
     return
 
 
