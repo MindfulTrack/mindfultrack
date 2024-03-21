@@ -115,6 +115,9 @@ def sendSignedUrl(signature):
     #     "matchedTimes" : availMatch
     # }
     user = Person.objects.filter(person_id=signature["user_id"]).first()
+  
+    # Convert each time object to a string
+    signature['matchedTimes'] = [t.strftime("%H:%M") for t in signature['matchedTimes'][0]]
     signature['status'] = "ACCEPT"
     signatureYes = signature
     signatureYes = generate_signature(signatureYes)
@@ -161,6 +164,7 @@ def confirmAppointmentUrl(request, signature):
             ## REDIRECT TO FRONT END ACCEPTED SCREEN
         ## Else decline find way to note decline and start process again. 
             ## REDIRECT TO FRONT END DECLINE SCREEN
+        return JsonResponse({"this worked!" : "this worked!"})
     except signing.BadSignature:
         print("Tampering detected!")
-    return JsonResponse({"error" : "Tampering detected!"})
+        return JsonResponse({"error" : "Tampering detected!"})
