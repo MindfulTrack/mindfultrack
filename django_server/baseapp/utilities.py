@@ -161,9 +161,14 @@ def confirmAppointmentUrl(request, signature):
         ## VERIFY THAT STUDENT HASN"T ALREADY ACCEPTED OR DECLINED
 
         ## If accept save student to calendar view
-            ## REDIRECT TO FRONT END ACCEPTED SCREEN
+        if signatureObject['status'] == 'ACCEPT':
+            return redirect(os.environ.get('CALLBACK_URL')+"/appointmentConfirm/appointmentYes")
         ## Else decline find way to note decline and start process again. 
-            ## REDIRECT TO FRONT END DECLINE SCREEN
+        elif signatureObject['status'] == 'DECLINE':
+            return redirect(os.environ.get('CALLBACK_URL')+"/appointmentConfirm/appointmentNo")
+        ## NO STATUS ERROR
+        else:
+            return JsonResponse({"error" : "Tampering detected!"})
         return JsonResponse({"this worked!" : "this worked!"})
     except signing.BadSignature:
         print("Tampering detected!")
