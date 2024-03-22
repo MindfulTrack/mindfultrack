@@ -465,7 +465,23 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
             <DialogContentText>
               To join the queue we need a few more details. Please fill out the form below.
             </DialogContentText>
-            {/* <input name="person" value={session.user.id} hidden/> */}
+            <TextField
+              autoFocus
+              id="contact_preference"
+              name="contact_preference"
+              sx={{marginTop: '3%'}} 
+              select
+              label="Contact Preference"
+              fullWidth
+              required
+            >
+                <MenuItem key="EMAIL" value="EMAIL">
+                  EMAIL
+                </MenuItem>
+                <MenuItem key="TEXT" value="TEXT">
+                  TEXT
+                </MenuItem>
+            </TextField>
             <TextField
               autoFocus
               id="university-select"

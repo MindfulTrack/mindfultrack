@@ -49,6 +49,7 @@ class Person(models.Model):
     id = models.BigAutoField(primary_key=True)
     person = models.OneToOneField(User, db_column="user_id", on_delete=models.CASCADE)
     events = models.ManyToManyField("CalendarEvent")
+    contact_preference = models.CharField(blank=True, null=True, default="TEXT")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     gender = models.CharField(blank=True, null=True, max_length=1)
     age = models.IntegerField(blank=True, null=True)

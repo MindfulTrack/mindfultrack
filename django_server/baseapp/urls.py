@@ -39,7 +39,7 @@ urlpatterns = [
     #Availability Match
     path('availabilityMatch/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
     
-    path('testVerifyUrl/<str:signature>', testVerifyUrl, name='testVerifyUrl'),
+    path('confirmAppointmentUrl/<str:signature>', confirmAppointmentUrl, name='confirmAppointmentUrl'),
     path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),
     
 ]
