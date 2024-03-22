@@ -256,7 +256,7 @@ class PieChartsView(APIView):
         for x in leaveReasons:
             if x['leaveReason'] != "None":
                 x['leaveReason'] = QueueLeaveReason.objects.get(id = x['leaveReason'])
-                serializer = QueueLeaveReasonSerializer(x['leaveReason'])
+                serializer = QueueLeaveReasonSerializerDashboard(x['leaveReason'])
                 x['leaveReason'] = serializer.data
                 returnReasons.append(x['leaveReason']['leaveReason'])
                 returnCounts.append(x['count'])

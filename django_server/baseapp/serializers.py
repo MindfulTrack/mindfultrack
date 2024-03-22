@@ -167,7 +167,7 @@ class FavoriteResourcesSerializer(serializers.ModelSerializer):
         model = ResourceDetail
         fields = '__all__'
 
-class QueueLeaveReasonSerializer(serializers.ModelSerializer):
+class QueueLeaveReasonSerializerDashboard(serializers.ModelSerializer):
     class Meta:
         model = QueueLeaveReason
         fields = ["leaveReason"]
