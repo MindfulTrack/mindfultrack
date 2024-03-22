@@ -49,6 +49,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
       <CircularProgress /> <div>Loading...</div>
       </Box>
   }
+  else if (!session.user.inQueue){
+    return <Alert variant="outlined" severity="error">You are not in the queue. Please set your availability on the availability page.</Alert>
+  }
   else{
     
   return (
@@ -61,7 +64,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
           </Typography>
         </Paper>
       </Box>
-
       {/* Main Body */}
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         {/* Left Side */}
