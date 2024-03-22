@@ -100,7 +100,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
         <Box sx={{ width: '100%', marginRight: 2, marginLeft: 2}}>
           <Paper sx={{ backgroundColor: "#e6e6e6", padding: 2, marginTop: 2, marginBottom: 2, marginRight: 2, flex: '100%', width: '100%', height: '70vh' }}>
             <Typography variant='h2' color='text.main' sx={{ textAlign: 'center' }}>
-              Reason for leaving?
+              Reason for Leaving:
             </Typography>
 
             <Box sx={{paddingTop: 1, marginTop: '3%'}}>
