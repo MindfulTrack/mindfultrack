@@ -51,8 +51,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <!-- <li><a href="#usage">Usage</a></li> -->
+    <!-- <li><a href="#roadmap">Roadmap</a></li> -->
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -122,35 +122,97 @@ Install Python 3.12
 _After installing python and node you can setup the Next.js server and Django server._
 
 #### SETUP NEXT.JS
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/MindfulTrack/mindfultrack.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-3. Run Next.js Server
-   ```sh
-   npm run dev
-   ```
+1. Clone the repo
+```sh
+  git clone https://github.com/MindfulTrack/mindfultrack.git
+```
+2. Install NPM packages
+```sh
+  npm install
+```
+3. Create .env.local file in nextjs_server folder. Add the following:
+```sh
+  NEXTAUTH_URL=http://127.0.0.1:3000/
+  NEXTAUTH_SECRET=<add here>
+  NEXTAUTH_BACKEND_URL=http://127.0.0.1:8000/api/
+  NEXT_PUBLIC_BACKEND_URL=http://127.0.0.1:8000/api/
+  NEXT_PUBLIC_BACKEND_URL_BASE=http://127.0.0.1:8000/
+
+  GOOGLE_CLIENT_ID=<add here>
+  GOOGLE_CLIENT_SECRET=<add here>
+
+  NEXT_PUBLIC_BASE_URL_DEV=http://localhost:3000
+  NEXT_PUBLIC_BASE_URL_PROD=<add here>
+
+```
+4. Run Next.js Server
+```sh
+  npm run dev
+```
 
 #### SETUP DJANGO
 1. Install Django and Dependencies
-   ```python
-   pip install -r requirements.txt
-   ```
-2. Migrate Scheme to Database
-   ```python
-   python manage.py migrate
-   ```
-3. Run Server
-   ```python
-   python manage.py runserver
-   ```
+```python
+  pip install -r requirements.txt
+```
+2. Create .env.dev file in django_server folder. Add the following:
+```sh
+  DB_ENGINE=<add here>
+  POSTGRES_DB=<add here>
+  POSTGRES_USER=<add here>
+  POSTGRES_PASSWORD=<add here>
+  DB_HOST=<add here - we recommend using rds on aws>
+  DB_PORT=<add here>
+
+  DJANGO_SECRET=<add here>
+  EMAIL_HOST=<add here - we recommend using AWS SES>
+  EMAIL_PORT=<add here>
+  EMAIL_HOST_USER=<add here - ses iam user in aws>
+  EMAIL_HOST_PASSWORD=<add here>
+
+  GOOGLE_CLIENT_ID=<add here>
+  GOOGLE_CLIENT_SECRET=<add here>
+
+  CALLBACK_URL="http://127.0.0.1:3000/"
+  EMAIL_CONFIRM_REDIRECT_BASE_URL="http://localhost:3000/email/confirm/"
+  PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL="http://localhost:3000/password-reset/confirm/"
+
+  ENVTYPE="DEV"
+
+  AWS_ACCESS_KEY=<local development purposes only>
+  AWS_SECRET_KEY=<local development purposes only>
+  ```
+3. Migrate Scheme to Database
+```python
+  python manage.py migrate
+```
+4. Run Server
+```python
+  python manage.py runserver
+```  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Integrations
+MindfulTrack was built with AWS ECS and github actions making it easy for universities to fork the project and use the task definitions to automatically deploy a live site to their AWS account. If setup correctly every merge should result in a redeployment on the live site allowing for quick updates the production site.
+
+Keys for a successful integration:
+1. Setup an AWS Account
+2. Follow pipeline setup steps in [cicd-workflow.yml](.github\workflows\cicd-workflow.yml) found in the .github\workflows folder. 
+3. Update the [mindfultrack-task-definition.json](.github\workflows\mindfultrack-task-definition.json) to meet the needs of your container instances as well as to map to the appropriate resources.
+4. Add .env file to root directory outside of nextjs_server and django_server
+```sh
+  ECR_REGISTRY=<add registry>
+  ECR_REPOSITORY_CLIENT=<add here>
+  ECR_REPOSITORY_SERVER=<add here>
+  IMAGE_TAG=<add here>
+
+  ```
+#### Other recommendations
+1. Register a domain on route 53 and route to the load balancer created during the ECS pipeline process and setup above.
+2. Register with AWS SES (Simple Email Service) to add emailing functionality quickly.
+3. Provision a phone number through AWS Pinpoint to implement texting.
 
 
 
