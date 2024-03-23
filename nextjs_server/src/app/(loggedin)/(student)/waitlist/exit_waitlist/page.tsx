@@ -9,6 +9,7 @@ import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import {useSession} from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 interface WaitlistPageProps {
 
@@ -20,6 +21,7 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
   const [error, setError] : any = useState(null);
   const [success, setSuccess] : any = useState(null);
   const {data: session, update} : any = useSession({required: true});
+  const router = useRouter();
 
   useEffect(() => {
     const fetchLeaveReason = async () => {
@@ -48,11 +50,12 @@ const WaitlistExitPage: React.FC<WaitlistPageProps> = async () => {
         const plainFormData = Object.fromEntries(formData.entries());
 	      const formDataJsonString = JSON.stringify(plainFormData);
         const removeFromQueue = await customFetch('base/leaveQueue/', 'POST', formDataJsonString);
-        setSuccess('Waitlist Exited')
+        setSuccess('Waitlist Exited. Logging user out.')
         const updateSessions = async () => {
   
           // Call the update method to refresh the session
           await update();
+          router.push('/logout'); 
         };
 
         setTimeout(() => {
