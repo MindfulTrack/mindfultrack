@@ -157,7 +157,15 @@ def confirmAppointmentUrl(request, signature):
         signatureObject = signer.unsign_object(signature, max_age=86400)
         print(signatureObject)
         print(signatureObject['matchedTimes'])
+        
+        student = Person.objects.filter(person_id=signatureObject["user_id"]).first()
+        counselor = Person.objects.filter(person_id=8).first()
 
+        calendarEvent = CalendarEvent.objects.filter(person=counselor, start=signatureObject['matchedTimes'][0], end=signatureObject['matchedTimes'][1]).annotate(associated_user_count=models.Count('person')).first()
+        print(calendarEvent)
+        
+        if calendarEvent.associated_user_count > 1:
+            print("STUDENT ALREADY TIED TO VISIT")
         ## VERIFY THAT STUDENT HASN"T ALREADY ACCEPTED OR DECLINED
 
         ## If accept save student to calendar view
@@ -169,7 +177,7 @@ def confirmAppointmentUrl(request, signature):
         ## NO STATUS ERROR
         else:
             return JsonResponse({"error" : "Tampering detected!"})
-        return JsonResponse({"this worked!" : "this worked!"})
+
     except signing.BadSignature:
         print("Tampering detected!")
         return JsonResponse({"error" : "Tampering detected!"})
