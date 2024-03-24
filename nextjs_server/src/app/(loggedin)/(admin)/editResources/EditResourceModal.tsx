@@ -74,16 +74,20 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   };
 
   const handleDeleteClick = async () => {
-    try {
-      const request = await customFetch(`base/resourceDetails/${selectedResource?.id}/`, 'DELETE');
-      console.log(request);
-    } catch (error) {
-      console.log(error);
-    };
+    const check = confirm("Are you sure you want to DELETE this resource:  " + selectedResource?.name + "\n\nThis action cannot be undone.");
 
-    handleReset();
-    handleClose();
-  }
+    if (check) {
+      try {
+        const request = await customFetch(`base/resourceDetails/${selectedResource?.id}/`, 'DELETE');
+        console.log(request);
+      } catch (error) {
+        console.log(error);
+      };
+  
+      handleReset();
+      handleClose();
+    };
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;

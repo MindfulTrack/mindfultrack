@@ -1,7 +1,6 @@
 import { Roles } from '../ts/constants';
   
   export const checkPermission = (userRole: string[]) => {
-      console.log(userRole)
       if (userRole === null || userRole.length === 0)
           return false;
   

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'drf_spectacular',
+    'storages'
 ]
 
 MIDDLEWARE = [

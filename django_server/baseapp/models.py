@@ -101,7 +101,7 @@ class AvailableTimeSlot(models.Model):
 
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
-    image = models.CharField(max_length=500, default='https://picsum.photos/id/147/2000/1700')
+    image = models.CharField(max_length=255)
 
     class Meta:
             managed = False

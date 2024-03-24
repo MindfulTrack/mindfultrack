@@ -1,4 +1,5 @@
 import json
+import os
 from .models import *
 from .serializers import *
 from datetime import datetime, time
@@ -88,9 +89,8 @@ class ResourceCategoryView(viewsets.ModelViewSet):
     queryset = ResourceCategory.objects.all()
     serializer_class = ResourceCategorySerializer
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class FavoriteResourcesView(APIView):
-
     def get(self, request, format=None):
       filtered_resources = ResourceDetail.objects.filter(favoritedBy__id = request.user.id)
       arrFavoriteResources = []
