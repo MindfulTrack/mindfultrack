@@ -59,8 +59,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'drf_spectacular',
-    'storages'
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [

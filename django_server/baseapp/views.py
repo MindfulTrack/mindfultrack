@@ -1,5 +1,4 @@
 import json
-import os
 from .models import *
 from .serializers import *
 from .utilities import *
