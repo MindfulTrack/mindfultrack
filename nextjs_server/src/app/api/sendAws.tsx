@@ -2,9 +2,9 @@ import S3 from 'aws-sdk/clients/s3';
 
 export default async function aws(image: File) {
   const s3 = new S3({
-    region: "us-east-2",
-    accessKeyId: "AKIA5FTZDMMVVOJPP4F6",
-    secretAccessKey: "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",
+    region: process.env.region,
+    accessKeyId: process.env.accessKeyId,
+    secretAccessKey: process.env.secretAccessKey,
   });
 
 
