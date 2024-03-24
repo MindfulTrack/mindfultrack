@@ -102,7 +102,7 @@ class AvailableTimeSlot(models.Model):
 
 class ResourceCategory(models.Model):
     name = models.CharField(max_length=255)
-    image = models.CharField(max_length=500, default='https://picsum.photos/id/147/2000/1700')
+    image = models.CharField(max_length=255)
 
     class Meta:
             managed = False
@@ -115,7 +115,7 @@ class ResourceDetail(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(blank=True, null=True, max_length=255)
     url = models.CharField(blank=True, null=True, max_length=500)
-    category = models.ForeignKey(ResourceCategory, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(ResourceCategory, on_delete=models.CASCADE, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     favoritedBy = models.ManyToManyField(User, blank=True)
 
