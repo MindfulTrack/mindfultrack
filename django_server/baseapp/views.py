@@ -2,12 +2,13 @@ import json
 import os
 from .models import *
 from .serializers import *
+from .utilities import *
 from datetime import datetime, time
 import dateutil.relativedelta
-from django.http import HttpResponse
-from django.http.response import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.db.models import Count
+from django.db.models import Count, Avg, F
+from django.db import connection
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -35,27 +36,19 @@ def healthcheck(request):
     return HttpResponse(request)
 
 #Tests
-class TestView(APIView):
-    def get(self, request):
-        tests = Test.objects.all()
-        serializer = TestSerializer(tests, many=True)
-        return Response(serializer.data)
 
-# @permission_classes([IsAuthenticated])
-# class StudentQueueView(APIView):
-#     def get (self, request, person_id, format=None):
-#         student_entry = get_object_or_404(StudentQueue, person_id = person_id)
-#         student_position = StudentQueue.objects.filter(
-#             startTime__lt = student_entry.startTime
-#         ).count() + 1
-#         return Response(student_position)
-    
 @permission_classes([IsAuthenticated, StaffPermission])
 class TestAuthView(APIView):
     def get (self, request):
         days = DayOfWeek.objects.all()
         serializer = TestAuthSerializer(days, many=True)
         print(days)
+
+        # years = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate"]
+
+        # Person.objects.filter(id = 3136).update(
+        #     year_in_school = years[3]
+        # )
         return Response(serializer.data)
 
 @permission_classes([IsAuthenticated, StudentPermission])
@@ -162,6 +155,7 @@ class PersonView(viewsets.ModelViewSet):
         
         person = Person()
         person.person_id = request.user.id
+        person.contact_preference = data['contact_preference']
         person.university_id = data['university']
         person.college = data['college']
         person.major = data['major']
@@ -174,12 +168,11 @@ class PersonView(viewsets.ModelViewSet):
         return Response({'message':'Person Saved'})
 
 
-# class PersonPermissionView(RetrieveAPIView):
-#     # GET person Permissions
-#     def retrieve(self, request, person_id):
-#         person = get_object_or_404(Person, id = person_id)
-#         serializer = PersonPermissionSerializer(person)
-#         return Response(serializer.data)
+# Counselor Calendar
+@permission_classes([IsAuthenticated])
+class CalendarView(viewsets.ModelViewSet):
+    queryset = CalendarEvent.objects.all()
+    serializer_class = CalendarSerializer
 
 #University
 @permission_classes([IsAuthenticated])
@@ -195,7 +188,7 @@ class QueueLeaveReasonView(viewsets.ReadOnlyModelViewSet):
     serializer_class = QueueLeaveReasonSerializer
 
 # Dashboard API's
-@permission_classes([IsAuthenticated, AdminPermission])
+# @permission_classes([IsAuthenticated, AdminPermission])
 class DashboardDataView(APIView):
     def get(self, format=None):
         currentQueue = StudentQueue.objects.filter(endTime__isnull=True).count()
@@ -208,11 +201,14 @@ class DashboardDataView(APIView):
             endTime__gt = datetime.today().replace(day=1),
             leaveReason = 3
         ).count()
-        # averageWaitTime = StudentQueue.objects.exclude(endtime__isnull = True)   
+        averageWaitTime = StudentQueue.objects.exclude(
+            endTime__isnull = True
+        ).aggregate(Avg('queueTime'))
         dashboardData = {
             "currentQueue" : currentQueue,
             "monthExits" : monthExits,
             "monthServices" : monthServices,
+            "averageWaitTime" : averageWaitTime["queueTime__avg"],
         }
 
         return Response(dashboardData)
@@ -222,49 +218,63 @@ class PieChartsView(APIView):
     def get(self, format=None):
         leaveReasons = (StudentQueue.objects
             .exclude(leaveReason__isnull=True)
-            # .select_related('leaveReason')
             .values('leaveReason')
             .annotate(count=Count('leaveReason'))
             .order_by()
         )
+        collegesData = (Person.objects
+            .values('college')
+            .annotate(count=Count('college'))
+            .order_by()
+        )
+        genderData = (Person.objects
+            .values('gender')
+            .annotate(count=Count('gender'))
+            .order_by()
+        )
+        yearData = (Person.objects
+            .values('year_in_school')
+            .annotate(count=Count('year_in_school'))
+            .order_by()            
+        )
         returnReasons = []
         returnCounts = []
+        colleges = []
+        collegeCounts = []
+        genders = []
+        genderCounts = []
+        years = []
+        yearCounts = []
+        for row in genderData:
+            if row['count'] > 0:
+                genders.append(row['gender'])
+                genderCounts.append(row['count'])
+        for row in collegesData:
+            if row['count'] > 0:
+                colleges.append(row['college'])
+                collegeCounts.append(row['count'])
         for x in leaveReasons:
             if x['leaveReason'] != "None":
                 x['leaveReason'] = QueueLeaveReason.objects.get(id = x['leaveReason'])
-                serializer = QueueLeaveReasonSerializer(x['leaveReason'])
+                serializer = QueueLeaveReasonSerializerDashboard(x['leaveReason'])
                 x['leaveReason'] = serializer.data
                 returnReasons.append(x['leaveReason']['leaveReason'])
                 returnCounts.append(x['count'])
-
+        for row in yearData:
+            if row['count'] > 0:
+                years.append(row['year_in_school'])
+                yearCounts.append(row['count'])
         returnData = {
             "reasons" : returnReasons,
-            "counts" : returnCounts,
+            "leaveCounts" : returnCounts,
+            "colleges" : colleges,
+            "collegeCounts": collegeCounts,
+            "genders" : genders,
+            "genderCounts" : genderCounts,
+            "years" : years,
+            "yearCounts" : yearCounts,
         }
         return Response(returnData)
-    
-# # @permission_classes([IsAuthenticated, AdminPermission])
-# class CurrentQueueView(APIView):
-#     def get(self, request, format=None):
-#         currentQueue = StudentQueue.objects.filter(endTime__isnull=True).count()
-#         return Response(currentQueue)
-    
-# class CurrentMonthExitsView(APIView):
-#     def get(self, format=None):
-#         monthExits = StudentQueue.objects.filter(
-#             endTime__gt = datetime.today().replace(day=1)
-#         ).exclude(
-#             leaveReason = 3
-#         ).count()
-#         return Response(monthExits)
-    
-# class CurrentMonthReceiveServicesView(APIView):
-#     def get(self, format=None):
-#         monthServices = StudentQueue.objects.filter(
-#             endTime__gt = datetime.today().replace(day=1),
-#             leaveReason = 3
-#         ).count()
-#         return Response(monthServices)
     
 class LineChartDataView(APIView):
     def get(self, format=None):
@@ -283,10 +293,104 @@ class LineChartDataView(APIView):
         return Response(chartData)
 
 
-    # class QueuePositionView(APIView):
-    # def get (self, request, person_id, format=None):
-    #     student_entry = get_object_or_404(StudentQueue, person_id = person_id)
-    #     student_position = StudentQueue.objects.filter(
-    #         startTime__lt = student_entry.startTime
-    #     ).count() + 1
-    #     return Response(student_position)
+class AvailabilityMatchView(APIView): 
+    def get(self, format=None):
+        # Variable for the matched student
+        finalMatch = {}
+
+        # Function to run query to see if their is a match
+        def find_matches(user_id, counselor_id):
+            availMatchQuery = '''
+                WITH available_time_slots AS (
+                    SELECT ats.id AS available_time_slot_id,
+                        ts."startTime" AS available_start_time,
+                        ts."endTime" AS available_end_time
+                    FROM baseapp_availableTimeSlot ats
+                    JOIN baseapp_timeSlot ts ON ats."timeSlot_id" = ts."id"
+                    WHERE ats."user_id" = %s -- Replace with student id from top of list
+                    AND to_char('2024/03/13'::date, 'Day') = ts."dayOfWeek" -- To get day of week for specific date
+                )
+                SELECT
+                    ats1.available_start_time AS first_half_hour_start_time,
+                    ats2.available_end_time AS second_half_hour_end_time
+                FROM available_time_slots ats1
+                JOIN available_time_slots ats2 ON ats1.available_end_time = ats2.available_start_time
+                WHERE ats2.available_end_time - ats1.available_start_time >= interval '1 hour'
+                AND EXISTS (
+                    SELECT 1
+                    FROM baseapp_calendarEvent ce
+                    WHERE ce.user_id = %s -- Replace with counselor's id that has designated availability
+                    AND CAST(ce."start" AS DATE) = CAST('2024/03/13' AS DATE) -- Consider only specific date for calendar event
+                    AND (ats1."available_start_time" >= cast(ce.start as time) and (ats2."available_end_time" <= cast(ce.end as time)))
+                );
+                ''' % (user_id, counselor_id)
+            cursor.execute(availMatchQuery)
+            availMatch = cursor.fetchall()
+            return(availMatch)
+        
+        searchedStudentIdsString = "(0," # To keep track of students that have been searched
+        with connection.cursor() as cursor:
+            # Get the top 25 students in line
+            cursor.execute('''
+                select sq."id", sq."startTime", sq."endTime", sq."user_id" from baseapp_studentqueue sq 
+                where sq."endTime" is null 
+                order by sq."startTime" limit 25
+                ''')
+            topStudents = cursor.fetchall()
+            #topStudents.insert(0, [0,0,0,3766]) #adding a known match for testing
+
+            # Loop through each of the top 25 students and run the match query with their id to see if their availability matches with the counselor's
+            for student in topStudents:
+                # Build out a string with the previously searched studentIds for the "NOT IN" parameter on the sql query
+                searchedStudentIdsString = searchedStudentIdsString[:-1]
+                searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
+                availMatch = find_matches(student[3], 8)                
+                # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
+                if len(availMatch) != 0:
+                    print("there's a match!")
+                    print(availMatch)
+                    finalMatch = {
+                        "user_id" : student[3],
+                        "matchedTimes" : availMatch
+                    }
+                    sendSignedUrl(finalMatch)
+
+                    break
+
+            # If no matches, find the next 25 students and re run the process. Repeat until a match is found or it reaches 100 times.            
+            for x in range(100):
+                # Find the next 25 students in the queue
+                cursor.execute('''
+                        select sq."id", sq."startTime", sq."endTime", sq."user_id" from baseapp_studentqueue sq 
+                        where sq."endTime" is null 
+                        and sq."user_id" not in %s
+                        order by sq."startTime" limit 25;
+                    ''' %searchedStudentIdsString)
+                topStudents = cursor.fetchall()
+
+                # Loop through the next 25 students and see if there is a match, if there is, exit the for loop
+                for student in topStudents:
+                    # Add student to string of searched ids
+                    searchedStudentIdsString = searchedStudentIdsString[:-1]
+                    searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
+
+                    availMatch = find_matches(student[3], 8) 
+              
+                    # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
+                    if len(availMatch) != 0:
+                        print("there's a match!")
+                        print(availMatch)
+                        finalMatch = {
+                            "user_id" : student[3],
+                            "matchedTimes" : availMatch
+                        }
+                        sendSignedUrl(finalMatch)
+                        break
+                
+                # If finalMatch has a value assigned to it (meaning a student match has been found), exit the outer for loop
+                if finalMatch != {}:
+                    break
+
+        return Response(finalMatch)
+
+    

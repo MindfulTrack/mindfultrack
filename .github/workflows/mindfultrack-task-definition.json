@@ -79,6 +79,10 @@
                 {
                     "name": "CALLBACK_URL",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/callback_url"
+                },
+                {
+                    "name": "ENVTYPE",
+                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/envtype"
                 }
             ],
             "mountPoints": [],

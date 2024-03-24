@@ -49,10 +49,11 @@ class Person(models.Model):
     id = models.BigAutoField(primary_key=True)
     person = models.OneToOneField(User, db_column="user_id", on_delete=models.CASCADE)
     events = models.ManyToManyField("CalendarEvent")
+    contact_preference = models.CharField(blank=True, null=True, default="TEXT")
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     gender = models.CharField(blank=True, null=True, max_length=1)
     age = models.IntegerField(blank=True, null=True)
-    year_in_school = models.IntegerField(blank=True, null=True)
+    year_in_school = models.CharField(blank=True, null=True)
     college = models.CharField(blank=True, null=True)
     major = models.CharField(blank=True, null=True)
 
@@ -116,7 +117,7 @@ class ResourceDetail(models.Model):
     url = models.CharField(blank=True, null=True, max_length=500)
     category = models.ForeignKey(ResourceCategory, on_delete=models.CASCADE, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    favoritedBy = models.ManyToManyField(User, blank=True, null=True)
+    favoritedBy = models.ManyToManyField(User, blank=True)
 
     class Meta:
         managed = False
@@ -133,7 +134,7 @@ class CalendarEvent(models.Model):
     oneDayEvent = models.BooleanField()
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
-    organizer = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
+    organizer = models.ForeignKey(User, db_column="user_id", related_name="calendar", on_delete=models.CASCADE)
     
 
 

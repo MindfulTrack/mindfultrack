@@ -1,13 +1,9 @@
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 // import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function PasswordResetForm({params}) {
   const baseUrl = process.env.NODE_ENV === 'production' 
@@ -17,7 +13,7 @@ export default function PasswordResetForm({params}) {
   // const router = useRouter();
 
   const handleSubmit = async (event) => {
-
+    const [open, setOpen] = useState(false);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -31,6 +27,8 @@ export default function PasswordResetForm({params}) {
       })
     });
     if(response.status == 200){
+      setOpen(true)
+
       console.log("password reset")
     }
     console.log(response)
@@ -48,6 +46,9 @@ export default function PasswordResetForm({params}) {
         <Typography component="h1" variant="h5">
           Password Reset
         </Typography>
+        { open ? <Alert severity="success" onClose={() => setOpen(false)}>
+        Password Reset!
+        </Alert> : null}
         {/* const defaultTheme = createTheme(); */}
         <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField

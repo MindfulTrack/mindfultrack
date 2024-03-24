@@ -33,7 +33,7 @@ const NavBar: React.FC<NavBarProps> = () => {
     return (
       <>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="fixed">
+          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
 
               <div style={{ display: 'inline-flex' }}>
@@ -63,7 +63,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                   <Home sx={{ fontSize: '33px', color: 'text.tertiary' }}/>
                 </IconButton>
                 <Button color="inherit" sx={{ cursor: "pointer" }} onClick={redirectLink}>
-                  {session.user?.first_name} {session.user?.last_name}
+                  {session.user?.first_name}
                 </Button>
                   </>
                 )

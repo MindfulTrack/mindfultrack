@@ -21,6 +21,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { Event } from "../../../ts/types";
 import { Delete, Circle } from "@mui/icons-material";
 import { eventColorPalette } from "../../../ts/constants";
+import customFetch from '../../api/fetchInterceptor';
+import MyContext from '../../MyContext';
 
 interface AddEventModalProps {
   open: boolean;
@@ -49,6 +51,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [changedFromAllDay, setChangedFromAllDay] = useState(false);
   const [selectedColor, setSelectedColor] = useState("1");
   const [validated, setValidated] = useState(false);
+  const { userId } = React.useContext(MyContext)!;
 
   const handleAllDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (allDayEvent && !changedFromAllDay) {
@@ -103,7 +106,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     handleClose()
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setChangedFromAllDay(false);
     setValidated(false);
     const backgroundColor = eventColorPalette
@@ -117,21 +120,69 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       id: isNewEvent ? Math.round(Math.random() * 1000).toString() : selectedEvent?.id,
       title: eventTitle,
       eventLocation: eventLocation,
+      backgroundColor: backgroundColor[0].value,
       allDay: allDayEvent,
+      editable: true,
+      oneDayEvent: todayOnly,
       start: allDayEvent ? dayjs(eventStart).format('YYYY-MM-DD') : dayjs(eventStart).format('YYYY-MM-DDTHH:mm'),
       end: allDayEvent ? dayjs(eventEnd).format('YYYY-MM-DD') : dayjs(eventEnd).format('YYYY-MM-DDTHH:mm'),
-      organizerId: isNewEvent ? Math.round(Math.random() * 1000) : selectedEvent?.organizerId,
-      backgroundColor: backgroundColor[0].value,
-      oneDayEvent: todayOnly
+      organizer: isNewEvent ? userId : selectedEvent?.organizer
     };
 
-    handleEventsUpdate(savedEvent);
+    if (isNewEvent) {
+      handleEventsUpdate(savedEvent);
+    } else {
+      try {
+        const response = await customFetch(
+          'base/counselorCalendar/' + selectedEvent?.id + '/',
+          'PUT',
+          {
+            id: selectedEvent?.id,
+            title: eventTitle,
+            eventLocation: eventLocation,
+            backgroundColor: backgroundColor[0].value,
+            allDay: allDayEvent,
+            editable: true,
+            oneDayEvent: todayOnly, 
+            start: allDayEvent ? dayjs(eventStart).add(6, 'hour').format('YYYY-MM-DD') : dayjs(eventStart).add(6, 'hour').format('YYYY-MM-DDTHH:mm'),
+            end: allDayEvent ? dayjs(eventEnd).add(6, 'hour').format('YYYY-MM-DD') : dayjs(eventEnd).add(6, 'hour').format('YYYY-MM-DDTHH:mm'),
+            organizer: userId
+          },
+        );
+        if (response.ok) {
+          console.log('Event updated successfully');
+          // handle UI updates here
+        } else {
+          console.error('Failed to update event');
+          // handle error here
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+      handleCancel();
+      window.location.reload();
+    }
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     let confirmation = confirm("Are you sure you would like to delete this event? " + '"' + selectedEvent?.title + '"')
     if (confirmation) {
-      handleDelete(selectedEvent?.id);
+      try {
+        const response = await customFetch(
+          'base/counselorCalendar/' + selectedEvent?.id + '/',
+          'DELETE'
+        );
+        if (response.ok) {
+          console.log('Event deleted successfully');
+           // Close the modal
+        } else {
+          console.error('Failed to delete event');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+      handleCancel();
+      window.location.reload();
     }
   }
 

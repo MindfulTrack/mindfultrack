@@ -26,8 +26,15 @@ load_dotenv('.env.dev')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET')
 
+ENVTYPE=os.environ.get('ENVTYPE') ## PROD OR DEV
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVTYPE == 'PROD':
+    DEBUG = False
+    BASE_API_URL="https://mindfultrack.org:8000/api/"
+else:
+    DEBUG = True
+    BASE_API_URL="http://localhost:8000/api/"
 
 # Application definition
 
@@ -304,6 +311,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")    
 DEFAULT_FROM_EMAIL = "jwdonaldson99@gmail.com" 
 
+AWS_REGION="us-west-2"
 
 UNFOLD = {
     "SITE_TITLE": "Mindfultrack",

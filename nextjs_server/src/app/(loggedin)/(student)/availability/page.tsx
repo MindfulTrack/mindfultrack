@@ -246,6 +246,35 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
     setReset(true);
   }
 
+  const updateEventSlots = async () => {
+    try {
+      const eventSlots = await customFetch('base/studentAvailability');
+
+      //Filter eventSlots by personID
+      const filteredSlots = eventSlots
+      .filter((slot: { person: number; }) => slot.person === userId);
+
+      setEventSlots(eventSlots);
+      setfilteredSlots(filteredSlots);
+
+      //Change static file to isSelected = True where slotID == slotID in eventSlots
+      if (filteredSlots.length > 0) {
+        timeSlots.forEach(slot => {
+          for (let i = 0; i < filteredSlots.length; i++) {
+            if (slot.timeSlotID === filteredSlots[i].timeSlot) {
+              slot.isSelected = true;
+            }
+          }
+        });
+      }
+
+      setSelectedTimeSlots(timeSlots);
+
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
   const handleClick = (event : any) => {
     event.preventDefault();
     let filteredTimeSlots = selectedTimeSlots.filter(slot => slot.isSelected === true);
@@ -287,11 +316,22 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
   
     // Delete old slots
     slotsToDelete.forEach(async (slot) => {
-      const response = await customFetch(
-        'base/studentAvailability/' + slot.id + '/',
-        'DELETE',
-      );
+      try {
+        const response = await customFetch(
+          'base/studentAvailability/' + slot.id + '/',
+          'DELETE',
+        );
+      } catch (error) {
+        console.error(error);
+      }
+
+      timeSlots.forEach(staticSlot => {
+          if (staticSlot.timeSlotID === slot.id) {
+            staticSlot.isSelected = false;
+          }
+      });
     });
+    
 
     setSaving(true);
     setOriginalSelection(selectedTimeSlots);
@@ -425,7 +465,23 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
             <DialogContentText>
               To join the queue we need a few more details. Please fill out the form below.
             </DialogContentText>
-            {/* <input name="person" value={session.user.id} hidden/> */}
+            <TextField
+              autoFocus
+              id="contact_preference"
+              name="contact_preference"
+              sx={{marginTop: '3%'}} 
+              select
+              label="Contact Preference"
+              fullWidth
+              required
+            >
+                <MenuItem key="EMAIL" value="EMAIL">
+                  EMAIL
+                </MenuItem>
+                <MenuItem key="TEXT" value="TEXT">
+                  TEXT
+                </MenuItem>
+            </TextField>
             <TextField
               autoFocus
               id="university-select"

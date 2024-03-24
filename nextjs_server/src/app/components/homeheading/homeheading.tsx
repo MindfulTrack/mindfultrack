@@ -46,7 +46,7 @@ const HomeHeading: React.FC<HomeHeadingProps> = () => {
               notify you when it is your turn to receive your school's services.
             </Typography>
             </div>
-            <Image src={pic} style={{ borderRadius: '15px' }} priority />
+            <Image src={pic} style={{ borderRadius: '15px' }} priority objectFit="cover" />
           </div>
         </Grid>
       </Grid>

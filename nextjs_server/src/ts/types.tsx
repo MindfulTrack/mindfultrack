@@ -2,12 +2,13 @@ export interface Event {
   id: string;
   title: string;
   eventLocation?: string;
+  backgroundColor: string;
   allDay: boolean;
+  editable: boolean;
+  oneDayEvent: boolean;
   start: string;
   end: string;
-  organizerId?: number;
-  backgroundColor: string;
-  oneDayEvent: boolean;
+  organizer?: number;
 };
 
 export interface ResourceViewModel {

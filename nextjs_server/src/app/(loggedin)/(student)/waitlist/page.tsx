@@ -17,6 +17,7 @@ interface WaitlistPageProps {
 const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
   const {data: session, status} : any = useSession({required: true});
   const [progress, setProgress] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(0)
   const [spotInLine, setSpotInLine] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,6 +31,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
         setLoading(false);
         const positionPercentage = Math.round((queueResponse.length - spotInLineResponse) / queueResponse.length * 100);
         setProgress(positionPercentage);
+        const timeLeft = Math.round((queueResponse.length - spotInLineResponse) / 5)
+        setTimeRemaining(timeLeft)
       } catch (error : any) {
         setError(error.message);
       }
@@ -49,6 +52,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
       <CircularProgress /> <div>Loading...</div>
       </Box>
   }
+  else if (!session.user.inQueue){
+    return <Alert variant="outlined" severity="error">You are not in the queue. Please set your availability on the availability page.</Alert>
+  }
   else{
     
   return (
@@ -61,7 +67,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
           </Typography>
         </Paper>
       </Box>
-
       {/* Main Body */}
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         {/* Left Side */}
@@ -103,7 +108,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = async () => {
               </Grid>
               <Grid item lg={6} sx={{ marginTop: '7%' }}>
                 <Typography variant='h3'>Estimated Time Remaining:</Typography>
-                <Typography sx={{ fontSize: '40px' }}>2 weeks</Typography>
+                <Typography sx={{ fontSize: '40px' }}>{ timeRemaining } days</Typography>
 
                 <Typography variant='h3' sx={{ paddingTop: '2rem' }}>Number of people in front of you:</Typography>
                 <Typography sx={{ fontSize: '40px' }}>{spotInLine}</Typography>

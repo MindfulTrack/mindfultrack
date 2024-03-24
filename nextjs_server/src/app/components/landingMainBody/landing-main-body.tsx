@@ -16,33 +16,38 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
       <Container maxWidth="lg">
         <Card sx={{backgroundColor: 'primary.main'}}>
           <Grid
-            // container
-            justifyContent="center"
-            alignItems="center"
+            container
+            // justifyContent="center"
+            // alignItems="center"
             rowSpacing={4}
+            spacing={2}
             sx={{
               padding: {
                 xs: "50px 16px",
                 sm: "50px 58px",
                 md: "50px 35px 50px 35px",
               },
-
               zIndex: 3,
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '10px' }}>
-              <Image
-                alt="jeremy"
-                src={happyStudents}
-                priority={true}
-                width={600}
-                height={150}
-                style={{
-                  borderRadius: '15px',
-                }}
-              />
-
-              <Grid item xs={12} md={5} sx={{ paddingLeft: '40px' }}>
+              <Grid item xs={12} sm={6} sx={{}}>
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <Image
+                    alt="jeremy"
+                    src={happyStudents}
+                    priority={true}
+                    layout="fill" 
+                    objectFit="cover"
+                    // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    // width={600}
+                    // height={150}
+                    style={{
+                      borderRadius: '15px',
+                    }}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <Typography
                   variant="h2"
                   color="text.tertiary"
@@ -63,7 +68,6 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
                   </ul>
                 </Typography>
               </Grid>
-            </div>
           </Grid>
         </Card>
         <Copyright color="primary" />

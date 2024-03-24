@@ -1,6 +1,6 @@
 from .views import *
+from .utilities import *
 from django.urls import path, include
-from .views import FavoriteResourcesView
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our ViewSets with it.
@@ -13,6 +13,7 @@ router.register(r'resourceCategory', ResourceCategoryView, basename='resourceCat
 router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetails')
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
 router.register(r'queueLeaveReason', QueueLeaveReasonView, basename='queueLeaveReason')
+router.register(r'counselorCalendar', CalendarView, basename='counselorCalendar')
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -22,7 +23,6 @@ urlpatterns = [
 
     
     #Tests
-    path('test/', TestView.as_view(), name='test'),
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
 
     #Queue
@@ -35,5 +35,11 @@ urlpatterns = [
     path('lineChartData/', LineChartDataView.as_view(), name='lineChartData'),
     path('dashboardData/', DashboardDataView.as_view(), name='dashboardData'),
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
+
+    #Availability Match
+    path('availabilityMatch/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
+    
+    path('confirmAppointmentUrl/<str:signature>', confirmAppointmentUrl, name='confirmAppointmentUrl'),
+    path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),
     
 ]
