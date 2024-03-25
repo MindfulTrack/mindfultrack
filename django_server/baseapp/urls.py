@@ -14,13 +14,13 @@ router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetail
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
 router.register(r'queueLeaveReason', QueueLeaveReasonView, basename='queueLeaveReason')
 router.register(r'counselorCalendar', CalendarView, basename='counselorCalendar')
-# router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('healthcheck/', healthcheck, name='healthcheck'),
 
     path('favoriteResources/', FavoriteResourcesView.as_view(), name='favoriteResources'),
+
     
     #Tests
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
