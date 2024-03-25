@@ -37,7 +37,7 @@ urlpatterns = [
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
 
     #Availability Match
-    path('availabilityMatch/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
+    path('availabilityMatch/<int:event_id>/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
     
     path('confirmAppointmentUrl/<str:signature>', confirmAppointmentUrl, name='confirmAppointmentUrl'),
     path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),
