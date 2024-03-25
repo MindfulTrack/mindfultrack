@@ -293,12 +293,12 @@ class LineChartDataView(APIView):
 
 
 class AvailabilityMatchView(APIView): 
-    def get(self, format=None):
+    def get(self, event_id, format=None):
         # Variable for the matched student
         finalMatch = {}
 
         # Function to run query to see if their is a match
-        def find_matches(user_id, counselor_id):
+        def find_matches(user_id, event_id):
             availMatchQuery = '''
                 WITH available_time_slots AS (
                     SELECT ats.id AS available_time_slot_id,
@@ -318,11 +318,10 @@ class AvailabilityMatchView(APIView):
                 AND EXISTS (
                     SELECT 1
                     FROM baseapp_calendarEvent ce
-                    WHERE ce.user_id = %s -- Replace with counselor's id that has designated availability
-                    AND CAST(ce."start" AS DATE) = CAST('2024/03/13' AS DATE) -- Consider only specific date for calendar event
+                    WHERE ce.id = %s -- Event Id associated with the current request
                     AND (ats1."available_start_time" >= cast(ce.start as time) and (ats2."available_end_time" <= cast(ce.end as time)))
                 );
-                ''' % (user_id, counselor_id)
+                ''' % (user_id, event_id)
             cursor.execute(availMatchQuery)
             availMatch = cursor.fetchall()
             return(availMatch)
@@ -343,7 +342,7 @@ class AvailabilityMatchView(APIView):
                 # Build out a string with the previously searched studentIds for the "NOT IN" parameter on the sql query
                 searchedStudentIdsString = searchedStudentIdsString[:-1]
                 searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
-                availMatch = find_matches(student[3], 8)                
+                availMatch = find_matches(student[3], event_id)                
                 # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
                 if len(availMatch) != 0:
                     print("there's a match!")
@@ -373,7 +372,7 @@ class AvailabilityMatchView(APIView):
                     searchedStudentIdsString = searchedStudentIdsString[:-1]
                     searchedStudentIdsString = searchedStudentIdsString + ", " + str(student[3]) + ")"
 
-                    availMatch = find_matches(student[3], 8) 
+                    availMatch = find_matches(student[3], event_id) 
               
                     # Check if there were any matched times, if so, save the times to a dictionary and exit the for loop
                     if len(availMatch) != 0:
@@ -381,7 +380,8 @@ class AvailabilityMatchView(APIView):
                         print(availMatch)
                         finalMatch = {
                             "user_id" : student[3],
-                            "matchedTimes" : availMatch
+                            "matchedTimes" : availMatch,
+                            "calendarEven_id" : event_id
                         }
                         sendSignedUrl(finalMatch)
                         break
