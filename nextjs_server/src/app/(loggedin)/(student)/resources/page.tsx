@@ -10,6 +10,7 @@ import { ResourceViewModel } from '../../../../ts/types';
 import {useSession} from "next-auth/react";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
 interface ResourcesMainPageProps {
 
 };
@@ -18,7 +19,6 @@ interface ResourcesMainPageProps {
 const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
   const {data: session, status} : any = useSession({required: true});
   const router = useRouter();
-
   if(!session.user.inQueue && session.user.groups[0] === 'Student'){
     router.push("/availability")
   }

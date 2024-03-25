@@ -13,7 +13,6 @@ import { headers } from 'next/headers';
 import { Suspense } from 'react';
 import Loading from './components/loading';
 
-
 interface RootLayoutProps {
   children: ReactNode
 }
@@ -38,7 +37,6 @@ const RootLayout: React.FC<RootLayoutProps> = async ({children}) => {
                     <CssBaseline />
 
                     <NavBar />
-
                     {children}
                   </MyProvider>
                 </ThemeProvider>

@@ -56,7 +56,7 @@ class Person(models.Model):
     year_in_school = models.CharField(blank=True, null=True)
     college = models.CharField(blank=True, null=True)
     major = models.CharField(blank=True, null=True)
-
+    
     def __str__(self):
         return self.person.first_name + " " + self.person.last_name
 

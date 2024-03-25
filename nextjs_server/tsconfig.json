@@ -32,7 +32,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "**/*.jsx",
-    "**/*.js"  ],
+    "**/*.js",
+    "node_modules/@sendbird/uikit-react/index.d.ts" ],
   "exclude": [
     "node_modules"
   ]

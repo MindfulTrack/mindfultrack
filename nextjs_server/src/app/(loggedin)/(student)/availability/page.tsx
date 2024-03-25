@@ -367,8 +367,6 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
                 updateSessions();
 
               }, 3000)
-              
-              
           }
         }
       }, 2000);
@@ -587,7 +585,6 @@ const StudentAvailabilityPage: React.FC<StudentAvailabilityPageProps> = () => {
                 <FormControlLabel value="M" control={<Radio />} label="Male" />
               </RadioGroup>
             </FormControl>
-
           </DialogContent>
           <DialogActions>
             <Button type="submit">Continue</Button>

@@ -5,8 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import HomeHeading from './components/homeheading/homeheading';
 import LandingMainBody from './components/landingMainBody/landing-main-body';
-// import Footer from './components/Footer';
-
 interface LandingPageProps {
 };
 
@@ -25,7 +23,8 @@ const LandingPage: React.FC<LandingPageProps> = () => {
       <CssBaseline />
       <HomeHeading />
       <LandingMainBody />
-      {/* <Footer /> */}
+      
+      
     </Container>
   );
 };

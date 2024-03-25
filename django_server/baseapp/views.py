@@ -161,6 +161,7 @@ class PersonView(viewsets.ModelViewSet):
         person.year_in_school = int(data['year_in_school'])
         person.age = int(data['age'])
         person.gender = data['gender']
+        person.preferred_contact = data['preferred_contact']
         person.save()
         
 
