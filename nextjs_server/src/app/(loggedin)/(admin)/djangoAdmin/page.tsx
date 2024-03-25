@@ -9,7 +9,6 @@ interface AdminDjangoPageProps {
 };
 
 const AdminDjangoPage: React.FC<AdminDjangoPageProps> = async () => {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_BASE;
   const pathname = usePathname();
   useEffect(() => {
     const iframe = document.getElementById('django-admin-iframe');
@@ -39,7 +38,7 @@ const AdminDjangoPage: React.FC<AdminDjangoPageProps> = async () => {
       <Box display="inline-block" width="100%" height="600px" overflow="hidden" borderRadius="10px" style={{marginTop: "14px", marginBottom:"50px"}}>
         <iframe
           id="django-admin-iframe"
-          src={backendUrl+"admin"}
+          src="https://mindfultrack.org:8000/admin/"
           title="Django Admin"
           width="100%"
           height="100%"
