@@ -29,6 +29,7 @@ interface AddEventModalProps {
   open: boolean;
   isNewEvent: boolean;
   handleClose: Function;
+  handleReset: Function;
   selectedEvent: Event | undefined;
   handleEventsUpdate: Function;
   handleDelete: Function;
@@ -40,6 +41,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   selectedEvent,
   isNewEvent,
   handleEventsUpdate,
+  handleReset,
   handleDelete
 }) => {
 
@@ -105,6 +107,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const handleCancel = () => {
     setChangedFromAllDay(false);
     setValidated(false);
+    handleReset();
     handleClose()
   };
 
@@ -177,8 +180,8 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         console.error('Error:', error);
       }
 
+      handleReset();
       handleCancel();
-      // window.location.reload();
     }
   };
 
@@ -199,8 +202,10 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       } catch (error) {
         console.error('Error:', error);
       }
+
+      handleDelete();
+      handleReset();
       handleCancel();
-      window.location.reload();
     }
   }
 

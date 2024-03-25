@@ -39,6 +39,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const [isNewEvent, setIsNewEvent] = useState(false);
   const {data: session, update} : any = useSession({required: true});
   const { userId } = React.useContext(MyContext)!;
+  const [resetData, setResetData] = useState(false);
   
 
   useEffect(() => {
@@ -52,11 +53,16 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       }
     }   
     fetchEvents();
-  }, []);
+  }, [resetData]);
 
   const handleClose = () => {
-    setOpenSlot(false)
+    setOpenSlot(false);
   };
+
+  const handleReset = () => {
+    setIsNewEvent(false);
+    setResetData(!resetData);
+  }
 
   const handleDateClick = (selected: any) => {
     console.log(selected.dateStr)
@@ -94,6 +100,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
 
     setSelectedEvent(event);
     setOpenSlot(true);
+    setResetData(!resetData);
   };
 
   const currentDate = new Date();
@@ -169,6 +176,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
     }
   
     setOpenSlot(false);
+    setResetData(!resetData);
   };
 
   const [adjustedEnd, setAdjustedEnd] = useState("");
@@ -195,6 +203,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
     const updatedEvents = currentEvents.filter(event => event.id !== id);
     setCurrentEvents(updatedEvents);
     setOpenSlot(false);
+    setResetData(!resetData);
   };
 
   return (
@@ -206,6 +215,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
             open={openSlot}
             isNewEvent={isNewEvent}
             handleClose={handleClose}
+            handleReset={handleReset}
             selectedEvent={selectedEvent}
             handleEventsUpdate={handleEventsUpdate}
             handleDelete={handleDelete}
