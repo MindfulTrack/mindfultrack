@@ -23,6 +23,7 @@ import { Delete, Circle } from "@mui/icons-material";
 import { eventColorPalette } from "../../../ts/constants";
 import customFetch from '../../api/fetchInterceptor';
 import MyContext from '../../MyContext';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 interface AddEventModalProps {
   open: boolean;
@@ -52,6 +53,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [selectedColor, setSelectedColor] = useState("1");
   const [validated, setValidated] = useState(false);
   const { userId } = React.useContext(MyContext)!;
+  const [forStudents, setIsChecked] = useState(false);
 
   const handleAllDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (allDayEvent && !changedFromAllDay) {
@@ -117,7 +119,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       setEventEndTime(addedDay);
     }
     const savedEvent = {
-      id: isNewEvent ? Math.round(Math.random() * 1000).toString() : selectedEvent?.id,
+      id: isNewEvent ? Math.round(Math.random() * 1000) : Number(selectedEvent?.id),
       title: eventTitle,
       eventLocation: eventLocation,
       backgroundColor: backgroundColor[0].value,
@@ -131,13 +133,23 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
 
     if (isNewEvent) {
       handleEventsUpdate(savedEvent);
+
+      // Initiate Calendar Matching
+      if (forStudents) {
+        console.log('Match Students');
+      } else {
+        console.log('Personal Event');
+      }
+
     } else {
+
+      // Update Calendar Event
       try {
         const response = await customFetch(
           'base/counselorCalendar/' + selectedEvent?.id + '/',
           'PUT',
           {
-            id: selectedEvent?.id,
+            id: Number(selectedEvent?.id),
             title: eventTitle,
             eventLocation: eventLocation,
             backgroundColor: backgroundColor[0].value,
@@ -151,16 +163,22 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         );
         if (response.ok) {
           console.log('Event updated successfully');
-          // handle UI updates here
         } else {
           console.error('Failed to update event');
-          // handle error here
+        }
+
+        // Initiate Calendar Matching
+        if (forStudents) {
+          console.log('Match Students');
+        } else {
+          console.log('Personal Event');
         }
       } catch (error) {
         console.error('Error:', error);
       }
+
       handleCancel();
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -198,6 +216,11 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const handleColorSelect = (event: SelectChangeEvent) => {
     setSelectedColor(event.target.value as string);
   }
+
+  // Handle checkbox change
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
   return (
     <Dialog open={open} onClose={handleCancel}>
@@ -294,45 +317,53 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             :
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <DesktopDateTimePicker
-                  // label="Start"
-                  // autoFocus={true}
-                  value={eventStart}
-                  onChange={(newStartTime) => setEventStartTime(newStartTime)}
-                  format="ddd, MMM D, h:mm a"
-                  slotProps={{
-                    layout: {
-                      sx: {
-                        '.MuiDateCalendar-root': {
-                          paddingTop: '10px',
-                          color: 'text.primary',
-                          backgroundColor: '#ffffff',
-                          scrollbarWidth: 'none'
-                        },
-                        '.MuiPickersLayout-contentWrapper': {
-                          backgroundColor: '#ffffff',
-                          paddingTop: '10px',
-                        },
-                        '.MuiDialogActions-root': {
-                          backgroundColor: '#ffffff'
-                        },
-                        '.MuiMultiSectionDigitalClockSection-root': {
-                          scrollbarWidth: 'none'
-                        },
-                        '.MuiPickersYear-yearButton': {
-                          scrollbarWidth: 'none',
-                          color: '#141414'
-                        }
+              <DesktopDateTimePicker
+                label="Start"
+                // autoFocus={true}
+                value={eventStart}
+                onChange={(newStartTime) => {
+                  if (newStartTime) {
+                    // Set the start time
+                    setEventStartTime(newStartTime);
+                    // Set the end time to be one hour later
+                    const newEndTime = newStartTime.add(1, 'hour');
+                    setEventEndTime(newEndTime);
+                  }
+                }}
+                format="ddd, MMM D, h:mm a"
+                slotProps={{
+                  layout: {
+                    sx: {
+                      '.MuiDateCalendar-root': {
+                        paddingTop: '10px',
+                        color: 'text.primary',
+                        backgroundColor: '#ffffff',
+                        scrollbarWidth: 'none'
+                      },
+                      '.MuiPickersLayout-contentWrapper': {
+                        backgroundColor: '#ffffff',
+                        paddingTop: '10px',
+                      },
+                      '.MuiDialogActions-root': {
+                        backgroundColor: '#ffffff'
+                      },
+                      '.MuiMultiSectionDigitalClockSection-root': {
+                        scrollbarWidth: 'none'
+                      },
+                      '.MuiPickersYear-yearButton': {
+                        scrollbarWidth: 'none',
+                        color: '#141414'
                       }
-                    },
-                    textField: {
-                      color: dayjs(eventEnd)?.valueOf() <= dayjs(eventStart)?.valueOf() && !todayOnly ? 'error' : 'secondary'
                     }
-                  }}
-                />
+                  },
+                  textField: {
+                    color: dayjs(eventEnd)?.valueOf() <= dayjs(eventStart)?.valueOf() && !todayOnly ? 'error' : 'secondary'
+                  }
+                }}
+              />
               </Grid>
               <Grid item xs={6}>
-                <DesktopDateTimePicker
+                {/* <DesktopDateTimePicker
                   // label="End"
                   value={isNewEvent && changedFromAllDay ? eventStart?.add(1, 'hour') : eventEnd}
                   onChange={(newEndTime) => setEventEndTime(newEndTime)}
@@ -370,6 +401,11 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
                       color: dayjs(eventEnd)?.valueOf() <= dayjs(eventStart)?.valueOf() && !todayOnly ? 'error' : 'secondary'
                     }
                   }}
+                /> */}
+                <TextField
+                  label="End Time"
+                  value={eventEnd ? eventEnd.format("ddd, MMM D, h:mm a") : ""}
+                  disabled
                 />
               </Grid>
             </Grid>
@@ -386,6 +422,17 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
               <MenuItem key={color.id} value={color.id}><Box sx={{ display: 'flex' }}><Circle sx={{ color: color.value, pr: 1 }} />{color.name}</Box></MenuItem>
             ))}
           </Select>
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={forStudents}
+                onChange={handleCheckboxChange}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            }
+            label="Available for Students?"
+          />
         </Box>
       </DialogContent>
 

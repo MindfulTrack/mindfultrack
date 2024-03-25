@@ -8,12 +8,13 @@ import {
   Button,
   Typography,
   Box,
-  InputLabel,
   IconButton
 } from "@mui/material";
 import { ResourceDetailsViewModel } from "../../../../ts/types";
 import customFetch from "../../../api/fetchInterceptor";
-import { Delete } from "@mui/icons-material";
+import { Upload, UploadFile } from "@mui/icons-material";
+import AWS from 'aws-sdk';
+import aws from "../../../api/sendAws";
 
 interface AddResourceCategoryModalProps {
   open: boolean;
@@ -28,16 +29,26 @@ const AddResourceCategoryModal: React.FC<AddResourceCategoryModalProps> = ({
 }) => {
 
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [resourceImageName, setResourceImageName] = useState('');
+  const [resourceImage, setResourceImage] = useState(null);
 
+  
+  
   const handleCancel = () => {
     handleClose()
   };
-
+  
   const handleSubmit = async () => {
+    if (resourceImage) {
+      const response = aws(resourceImage);
+      console.log(response)
+    }
+
     const body = {
       "name": newCategoryName,
-      "image": "https://picsum.photos/400/300"
+      "image": "https://mindfultrack-files.s3.us-east-2.amazonaws.com/images/" + resourceImageName
     };
+
     try {
       const request = await customFetch('base/resourceCategory/', 'POST', body);
       console.log(request);
@@ -49,18 +60,16 @@ const AddResourceCategoryModal: React.FC<AddResourceCategoryModalProps> = ({
     handleClose();
   };
 
-  const handleDeleteClick = () => {
-
-  }
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
     setNewCategoryName(newName);
   };
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newLocation = e.target.value;
 
+  const handleFileSelect = (event: any) => {
+    setResourceImage(event.target.files[0]);
+    setResourceImageName(event.target.files[0].name);
   };
+
 
   return (
     <Dialog open={open} onClose={handleCancel}>
@@ -68,7 +77,10 @@ const AddResourceCategoryModal: React.FC<AddResourceCategoryModalProps> = ({
         <Typography variant="body1" color='primary'>Add Resource Category</Typography>
         <DialogContent sx={{ backgroundColor: 'tertiary.main' }}>
           <Typography>Category Name:</Typography>
-          <TextField sx={{width: '100%'}} size="small" value={newCategoryName} onChange={handleTitleChange}/>
+          <TextField sx={{ width: '100%' }} size="small" value={newCategoryName} onChange={handleTitleChange} />
+
+          <Typography>Upload Image:</Typography>
+          <input type="file" onChange={handleFileSelect} />
         </DialogContent>
 
         <DialogActions sx={{ backgroundColor: 'tertiary.main' }}>

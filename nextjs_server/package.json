@@ -27,6 +27,7 @@
     "@mui/x-data-grid": "^6.19.6",
     "@mui/x-data-grid-generator": "^6.19.6",
     "@mui/x-date-pickers": "^6.19.3",
+    "aws-sdk": "^2.1584.0",
     "axios": "^1.6.5",
     "chart.js": "^4.4.2",
     "dayjs": "^1.11.10",

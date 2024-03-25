@@ -14,13 +14,13 @@ router.register(r'resourceDetails', ResourceDetailView, basename='resourceDetail
 router.register(r'leaveQueue', LeaveQueue, basename='leaveQueue')
 router.register(r'queueLeaveReason', QueueLeaveReasonView, basename='queueLeaveReason')
 router.register(r'counselorCalendar', CalendarView, basename='counselorCalendar')
-# router.register(r'favoriteResources', FavoriteResourcesView, basename='favoriteResources')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('healthcheck/', healthcheck, name='healthcheck'),
 
     path('favoriteResources/', FavoriteResourcesView.as_view(), name='favoriteResources'),
+
     
     #Tests
     path('testAuth/', TestAuthView.as_view(), name='testAuth'),
@@ -37,7 +37,7 @@ urlpatterns = [
     path('pieChartData/', PieChartsView.as_view(), name='pieChartData'),
 
     #Availability Match
-    path('availabilityMatch/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
+    path('availabilityMatch/<int:event_id>/', AvailabilityMatchView.as_view(), name='availabilityMatch'),
     
     path('confirmAppointmentUrl/<str:signature>', confirmAppointmentUrl, name='confirmAppointmentUrl'),
     path('sendSignedUrl/<str:signature>', sendSignedUrl, name='sendSignedUrl'),

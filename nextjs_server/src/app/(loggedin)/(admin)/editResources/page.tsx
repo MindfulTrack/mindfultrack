@@ -1,5 +1,5 @@
 'use client'
-import { Typography, Paper, Box, Grid, Select, MenuItem, InputLabel, TextField, SelectChangeEvent, InputAdornment, Icon, Button } from "@mui/material";
+import { Typography, Paper, Box, Grid, Select, MenuItem, InputLabel, TextField, SelectChangeEvent, InputAdornment, Icon, Button, Card, CardMedia } from "@mui/material";
 import React from "react";
 import { ResourceDetailsViewModel, ResourceViewModel } from "../../../../ts/types";
 import customFetch from "../../../api/fetchInterceptor";
@@ -8,6 +8,7 @@ import ResourceMgmtCard from "./ResourceMgmtCard";
 import { Edit, Save, Cancel } from "@mui/icons-material";
 import EditResourceModal from "./EditResourceModal";
 import AddResourceCategoryModal from "./AddResourceCategoryModal";
+import aws from "../../../api/sendAws";
 
 interface ResourceManagementProps {
 
@@ -17,7 +18,8 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
   const [resourceDetails, setResourceDetails] = useState<ResourceDetailsViewModel[]>([]);
   const [selectedResource, setSelectedResource] = useState<any>(null);
   const [resourceCategories, setResourceCategories] = useState<ResourceViewModel[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('0');
+  const [selectedCategoryImage, setSelectedCategoryImage] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [tempCategoryName, setTempCategoryName] = useState('');
   const [editCategoryName, setEditCategoryName] = useState(false);
@@ -25,6 +27,9 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
   const [addCategoryModal, setAddCategoryModalOpen] = useState(false);
   const [resetData, setResetData] = useState(false);
   const [newResource, setNewResource] = useState(false);
+  const [resourceImageName, setResourceImageName] = useState('');
+  const [resourceImage, setResourceImage] = useState(null);
+  const [resetImage, setResetImage] = useState(false);
 
   // Get all resources
   useEffect(() => {
@@ -48,8 +53,12 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
     const selectedName = resourceCategories.filter((item) => item.id === parseInt(selectedCategory));
     if (selectedName.length === 1) {
       setCategoryName(selectedName[0].name);
+      setSelectedCategoryImage(selectedName[0].image);
       setTempCategoryName(selectedName[0].name);
-    }
+    };
+
+    setResourceImage(null);
+
   }, [selectedCategory])
 
   const handleCategorySelect = (event: SelectChangeEvent) => {
@@ -102,6 +111,7 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
 
     setEditCategoryName(false);
     setSelectedCategory(selectedCategory);
+    setTempCategoryName(categoryName);
     setResetData(!resetData);
   };
 
@@ -120,20 +130,56 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
   };
 
   const handleDeleteResourceCategory = async (id: string) => {
-    try {
-      const request = await customFetch(`base/resourceCategory/${id}/`, 'DELETE');
-      console.log(request);
-    } catch (error) {
-      console.log(error);
-    }
 
-    setSelectedCategory('');
-    setResetData(!resetData);
+    const check = confirm("Are you sure you want to DELETE:  " + categoryName + "\n\nThis action cannot be undone.")
+
+    if (check) {
+      try {
+        const request = await customFetch(`base/resourceCategory/${id}/`, 'DELETE');
+        console.log(request);
+      } catch (error) {
+        console.log(error);
+      }
+
+      setSelectedCategory('');
+      setResetData(!resetData);
+    };
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
     setCategoryName(newName);
+  };
+
+  const handleFileSelect = (event: any) => {
+    setResourceImage(event.target.files[0]);
+    setResourceImageName(event.target.files[0].name);
+  };
+
+  const handleSaveNewResourceImage = async () => {
+    if (resourceImage) {
+      aws(resourceImage).then(response => {
+        const url = response;
+        if (url) {
+          setSelectedCategoryImage(url);
+        }
+      });
+    };
+
+    const body = {
+      "name": categoryName,
+      "image": "https://mindfultrack-files.s3.us-east-2.amazonaws.com/images/" + resourceImageName
+    };
+
+    try {
+      const request = await customFetch(`base/resourceCategory/${selectedCategory}/`, 'PUT', body);
+      console.log(request);
+    } catch (error) {
+      console.log(error)
+    };
+
+    setResetImage(!resetImage);
+
   };
 
   return (
@@ -149,75 +195,116 @@ const ResourceManagement: React.FC<ResourceManagementProps> = () => {
 
       {/* Category selection and deletion button */}
       <Grid container spacing={2}>
-        <Grid item lg={3}>
-          <InputLabel sx={{ pb: '10px' }}>Select a Resource Category</InputLabel>
-          <Select
-            sx={{ width: '100%' }}
-            color="primary"
-            placeholder="Category"
-            value={selectedCategory}
-            onChange={handleCategorySelect}
-          >
-            <MenuItem value={0}>--Select--</MenuItem>
-            {resourceCategories
-              .sort((a: any, b: any) => a.id - b.id)
-              .map((category) => (
-                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-              ))}
-          </Select>
-        </Grid>
+        <Grid item lg={5}>
+          <Grid container spacing={2}>
+            <Grid item lg={8}>
+              <InputLabel sx={{ pb: '10px' }}>Select a Resource Category</InputLabel>
+              <Select
+                sx={{ width: '100%' }}
+                color="primary"
+                placeholder="Category"
+                value={selectedCategory}
+                onChange={handleCategorySelect}
+              >
+                <MenuItem value={0}>--Select--</MenuItem>
+                {resourceCategories
+                  .sort((a: any, b: any) => a.id - b.id)
+                  .map((category) => (
+                    <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                  ))}
+              </Select>
+            </Grid>
 
-        <Grid item lg={9}>
-          {selectedCategory ?
-            <Box sx={{ pt: 5, pl: 3 }}>
-              <Button variant="contained" color="warning" size="small" onClick={() => handleDeleteResourceCategory(selectedCategory)}>Delete Resource Category</Button>
+            <Grid item lg={4}>
+              {selectedCategory && selectedCategory !== '0' ?
+                <Box sx={{ pt: 5, pl: 3 }}>
+                  <Button variant="contained" color="warning" size="small" onClick={() => handleDeleteResourceCategory(selectedCategory)}>Delete {tempCategoryName} Category</Button>
+                </Box>
+                :
+                <></>
+              }
+            </Grid>
+          </Grid>
+          {selectedCategory && selectedCategory !== '0' ?
+            <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: "space-between", pt: 4 }}>
+              <Box sx={{ width: "100%" }}>
+                <InputLabel sx={{ pb: '10px' }}>Edit Resource Name:</InputLabel>
+                <TextField
+                  disabled={editCategoryName ? false : true}
+                  sx={{ width: '100%' }}
+                  value={categoryName}
+                  onChange={handleTitleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {!editCategoryName ?
+                          <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleEditName}>
+                            <Edit color="primary" />
+                          </Icon>
+                          :
+                          <>
+                            <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleSaveEditName}>
+                              <Save color="primary" />
+                            </Icon>
+                            <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleCancelEditName}>
+                              <Cancel color='error' />
+                            </Icon>
+                          </>
+                        }
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Box>
             </Box>
             :
             <></>
           }
         </Grid>
+        {selectedCategory && selectedCategory !== '0' ?
+          <Grid item lg={7}>
+            <Grid container spacing={2}>
+              <Grid item lg={7}>
+                <Card sx={{ width: "80%", ml: '6rem', mt: 2 }}>
+                  <CardMedia
+                    component={"img"}
+                    image={selectedCategoryImage}
+                    height={"250px"}
+                  />
+                </Card>
+              </Grid>
+              <Grid item lg={5}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Box sx={{ pt: 1 }}>
+                    <InputLabel>Edit Resource Image:</InputLabel>
+                    <input type="file" onChange={handleFileSelect} />
+                  </Box >
+                  <Box sx={{ pt: 2 }}>
+                    {resourceImage ?
+                      <Button variant="contained" size="small" sx={{ pl: "30px", pr: "30px" }} color="primary" onClick={handleSaveNewResourceImage}>Save</Button>
+                      :
+                      <></>
+                    }
+                  </Box>
+                </Box >
+              </Grid>
+            </Grid>
+          </Grid>
+          :
+          <></>
+        }
       </Grid>
 
       {/* Edit resource name and resources in the category */}
-      {selectedCategory ?
-        <Box sx={{ pt: 4 }}>
-          <Box>
-            <InputLabel sx={{ pb: '10px' }}>Edit Resource Name:</InputLabel>
-            <TextField
-              disabled={editCategoryName ? false : true}
-              sx={{ width: '40%' }}
-              value={categoryName}
-              onChange={handleTitleChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {!editCategoryName ?
-                      <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleEditName}>
-                        <Edit color="primary" />
-                      </Icon>
-                      :
-                      <>
-                        <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleSaveEditName}>
-                          <Save color="primary" />
-                        </Icon>
-                        <Icon sx={{ pr: 4, cursor: 'pointer' }} onClick={handleCancelEditName}>
-                          <Cancel color='error' />
-                        </Icon>
-                      </>
-                    }
-                  </InputAdornment>
-                )
-              }}
-            />
-
-          </Box>
+      {selectedCategory && selectedCategory !== '0' ?
+        <Box >
 
           {resourceDetails.filter((item) => item.category == parseInt(selectedCategory)).length === 0 ?
             <Button variant="contained" size="small" sx={{ mt: 4 }} onClick={() => handleResourceSelect(-1)}>Add Resource</Button>
             :
-            <Box sx={{display: 'flex', flexDirection: 'row', pb: '15px'}}>
-            <InputLabel sx={{ pb: '10px', pt: 4 }}>Select a resource to edit: </InputLabel>
-            <Button variant="outlined" size="small" sx={{ mt: 4, ml: '15px' }} onClick={() => handleResourceSelect(-1)}>Add Resource</Button>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pb: '15px' }}>
+              <InputLabel sx={{ pb: '10px', pt: 4 }}>Select a resource to edit: </InputLabel>
+              <Button variant="outlined" size="small" sx={{ mt: 4, ml: '15px' }} onClick={() => handleResourceSelect(-1)}>Add Resource</Button>
             </Box>
           }
 
