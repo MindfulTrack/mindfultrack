@@ -381,7 +381,7 @@ class AvailabilityMatchView(APIView):
                         finalMatch = {
                             "user_id" : student[3],
                             "matchedTimes" : availMatch,
-                            "calendarEven_id" : event_id
+                            "calendarEvent_id" : event_id
                         }
                         sendSignedUrl(finalMatch)
                         break
