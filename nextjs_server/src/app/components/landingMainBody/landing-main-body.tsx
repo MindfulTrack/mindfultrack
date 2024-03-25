@@ -30,24 +30,21 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
               zIndex: 3,
             }}
           >
-              <Grid item xs={12} sm={6} sx={{}}>
+              <Grid item xs={12} sm={6}>
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <Image
                     alt="jeremy"
-                    src={happyStudents}
+                    src={"https://mindfultrack-files.s3.us-east-2.amazonaws.com/images/byuStudent.jpg"}
                     priority={true}
                     layout="fill" 
                     objectFit="cover"
-                    // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    // width={600}
-                    // height={150}
                     style={{
                       borderRadius: '15px',
                     }}
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6} sx={{pl: '2rem'}}>
                 <Typography
                   variant="h2"
                   color="text.tertiary"
@@ -55,16 +52,17 @@ const LandingMainBody: React.FC<LandingMainBodyProps> = () => {
                     fontWeight: "400",
                     marginBottom: "40px",
                     textAlign: { xs: "center", md: "left" },
+                    pl: 2
                   }}
                 >
-                  What can MindfulTrack <br /> do for <strong>you?</strong>
+                  What can you expect on MindfulTrack?
                 </Typography>
-                <Typography variant="subtitle1" sx={{ marginBottom: "40px" }}>
+                <Typography variant="subtitle2" sx={{ marginBottom: "40px", pl: 2 }}>
                   <ul>
-                    <li>Expore cool resources chosen by your university</li>
-                    <li>Expore cool resources chosen by your university</li>
-                    <li>Expore cool resources chosen by your university</li>
-                    <li>Expore cool resources chosen by your university</li>
+                    <li>Efficient waitlist and scheduling management</li>
+                    <li>Access to curated resources for self-help and education while awaiting services</li>
+                    <li>Detailed statistics and key insights for administrators to track organizational impact</li>
+                    <li>Tailored support and empowerment on the journey to mental wellness</li>
                   </ul>
                 </Typography>
               </Grid>
