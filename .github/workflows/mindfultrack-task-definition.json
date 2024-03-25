@@ -148,10 +148,6 @@
                 {
                     "name": "NEXT_PUBLIC_BASE_URL_DEV",
                     "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/next_public_base_url_dev"
-                },
-                {
-                    "name": "DJANGO_ADMIN_URL",
-                    "valueFrom": "arn:aws:ssm:us-west-2:905418335019:parameter/prod/django_admin_url"
                 }
             ],
             "mountPoints": [],

@@ -10,6 +10,7 @@ import { ResourceViewModel } from '../../../../ts/types';
 import {useSession} from "next-auth/react";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import ChatBot from '../../../components/ChatBot/ChatBot'
 
 interface ResourcesMainPageProps {
 
@@ -66,6 +67,7 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
             )
           })}
         </Grid>
+        <ChatBot/>
       </div>
     </Box>
   );
