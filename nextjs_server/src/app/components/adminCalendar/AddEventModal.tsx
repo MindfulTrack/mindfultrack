@@ -53,7 +53,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const [selectedColor, setSelectedColor] = useState("1");
   const [validated, setValidated] = useState(false);
   const { userId } = React.useContext(MyContext)!;
-  const [isChecked, setIsChecked] = useState(false);
+  const [forStudents, setIsChecked] = useState(false);
 
   const handleAllDayEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (allDayEvent && !changedFromAllDay) {
@@ -119,7 +119,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       setEventEndTime(addedDay);
     }
     const savedEvent = {
-      id: isNewEvent ? Math.round(Math.random() * 1000).toString() : selectedEvent?.id,
+      id: isNewEvent ? Math.round(Math.random() * 1000) : Number(selectedEvent?.id),
       title: eventTitle,
       eventLocation: eventLocation,
       backgroundColor: backgroundColor[0].value,
@@ -133,13 +133,23 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
 
     if (isNewEvent) {
       handleEventsUpdate(savedEvent);
+
+      // Initiate Calendar Matching
+      if (forStudents) {
+        console.log('Match Students');
+      } else {
+        console.log('Personal Event');
+      }
+
     } else {
+
+      // Update Calendar Event
       try {
         const response = await customFetch(
           'base/counselorCalendar/' + selectedEvent?.id + '/',
           'PUT',
           {
-            id: selectedEvent?.id,
+            id: Number(selectedEvent?.id),
             title: eventTitle,
             eventLocation: eventLocation,
             backgroundColor: backgroundColor[0].value,
@@ -153,16 +163,22 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         );
         if (response.ok) {
           console.log('Event updated successfully');
-          // handle UI updates here
         } else {
           console.error('Failed to update event');
-          // handle error here
+        }
+
+        // Initiate Calendar Matching
+        if (forStudents) {
+          console.log('Match Students');
+        } else {
+          console.log('Personal Event');
         }
       } catch (error) {
         console.error('Error:', error);
       }
+
       handleCancel();
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -410,7 +426,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
           <FormControlLabel
             control={
               <Checkbox
-                checked={isChecked}
+                checked={forStudents}
                 onChange={handleCheckboxChange}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
