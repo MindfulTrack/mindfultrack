@@ -4,7 +4,6 @@ import Link from '@mui/material/Link';
 import "./hero.styles.css";
 import React from "react";
 import Image from "next/legacy/image";
-import pic from '/public/static/images/indexMainHeading1.jpg'
 
 interface HomeHeadingProps {
 

@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Box, AppBar, Toolbar, Typography, Button, Link, IconButton } from '@mui/material';
 import { useSession } from "next-auth/react";
 import Divider from '@mui/material/Divider';
-import BYU_White from '/public/static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 import { Home } from '@mui/icons-material';
@@ -40,7 +39,7 @@ const NavBar: React.FC<NavBarProps> = () => {
 
                 <Link href="https://byu.edu" target="_blank">
                   <Image
-                    src={BYU_White}
+                    src={"https://mindfultrack-files.s3.us-east-2.amazonaws.com/logos/BYU_White.png"}
                     width={140}
                     height={40}
                     priority={true}
