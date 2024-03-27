@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 import { Home } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
 
 interface NavBarProps {
 
@@ -23,6 +24,26 @@ const NavBar: React.FC<NavBarProps> = () => {
   const redirectLink = () => {
     router.push('/resources');
   }
+  // React.useEffect(() => {
+  //   console.log("window.innerWidth", window.innerWidth);
+  // });
+  // function isMobileWidth() {
+  //   return window.innerWidth < 750;
+  // }
+
+  // const [isMobile, setIsMobile] = useState(isMobileWidth());
+
+  // useEffect(() => {
+  //   function handleWindowresize() {
+  //     setIsMobile(isMobileWidth());
+  //   }
+
+  //   window.addEventListener('resize', handleWindowresize);
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowresize);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -30,6 +51,16 @@ const NavBar: React.FC<NavBarProps> = () => {
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
 
+
+  // If the user is authenticated redirect to `/profile`
+  // if (session) {
+    // router.push("profile");
+    return (
+      <>
+        {/* { !isMobile } */}
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+            <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
             <div style={{ display: 'inline-flex' }}>
               <Typography variant="h2" component="div" sx={{ pr: "15px", cursor: 'pointer' }} onClick={handleGoHome}>MindfulTrack</Typography>
 

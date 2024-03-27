@@ -24,16 +24,20 @@ $breakPoint: 1000px;
 }
 
 .cardWrapper {
-  display: flex;
-  flex-direction: row;
+  // display: flex;
+  display: grid;
+  // flex-direction: row;
+  grid-template-columns: 1fr;
+  gap: 5px;
 
-  justify-content: space-evenly;
-  max-width: 100%;
-  width: 100%;
+  // justify-content: space-evenly;
+  // max-width: 100%;
+  // width: 100%;
 
   @media screen and (min-width: $breakPoint) {
-    flex-direction: column;
-    max-width: 20%;
+    // flex-direction: column;
+    // max-width: 20%;
+    grid-template-rows: 1fr 1fr 1fr;
   }
 }
 

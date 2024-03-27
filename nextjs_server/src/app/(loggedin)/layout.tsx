@@ -1,10 +1,15 @@
 'use client'
 import React, { ReactNode } from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import Box from '@mui/material/Box';
 import SideNavBar from '../components/Sidebar';
 import { Container } from '@mui/material';
 import {useSession} from "next-auth/react";
+import IconButton from '@mui/material';
+import Menu from '@mui/material';
+import MenuItem from '@mui/material';
+import Hidden from '@mui/material';
+import { useEffect, useState} from 'react';
 
 interface LoggedInLayoutProps {
   children: ReactNode
@@ -27,7 +32,11 @@ const LoggedInLayout: React.FC<LoggedInLayoutProps> = ({ children }) => {
   
   return (
     <>
-      <SideNavBar userRole={role}/>
+      
+        <SideNavBar userRole={role}/>
+      
+          
+        
       <Box
         component="div"
         sx={{
