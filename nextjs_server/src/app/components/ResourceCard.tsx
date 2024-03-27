@@ -32,6 +32,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ name, id, image }) => {
           image={image}
           object-fit='contain'
           height={150}
+          fetchPriority='high'
         />
         <CardContent>
           <Typography variant="h5" component="div" fontWeight={500} align='left'>
