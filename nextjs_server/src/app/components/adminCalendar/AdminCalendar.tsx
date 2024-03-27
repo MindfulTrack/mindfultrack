@@ -37,8 +37,11 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
   const [openSlot, setOpenSlot] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [isNewEvent, setIsNewEvent] = useState(false);
+  const [forStudent, setforStudent] = useState(false);
   const {data: session, update} : any = useSession({required: true});
   const { userId } = React.useContext(MyContext)!;
+  const [resetData, setResetData] = useState(false);
+  const [nextID, setNextID] = useState(0);
   
 
   useEffect(() => {
@@ -46,30 +49,47 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
       try {
         const allEvents = await customFetch('base/counselorCalendar');
         const userEvents = allEvents.filter((event: Event) => event.organizer === userId);
+        const eventWithLargestId = allEvents.reduce((max: Event, event: Event) => max.id > event.id ? max : event, userEvents[0]);
+  
         setCurrentEvents(userEvents);
+        setNextID(eventWithLargestId.id + 1);
+        
       } catch (error : any) {
         console.log(error)
       }
     }   
     fetchEvents();
-  }, []);
+  }, [resetData]);
+
+  useEffect(() => {
+    console.log(nextID);
+  }, [nextID]);
 
   const handleClose = () => {
-    setOpenSlot(false)
+    setOpenSlot(false);
   };
+
+  const handleReset = () => {
+    setIsNewEvent(false);
+    setResetData(!resetData);
+  }
+
+  const selectStudent = () => {
+    setforStudent(true);
+  }
 
   const handleDateClick = (selected: any) => {
     console.log(selected.dateStr)
     setIsNewEvent(true);
     const newEvent = {
-      id: (Math.random() * 1000).toString(),
+      id: (nextID).toString(),
       title: "",
       eventLocation: "",
       allDay: selected.allDay ? true : false,
       editable: true, //selected.editable ? true : false,
       start: selected.dateStr,
       end: dayjs(selected.dateStr).add(1,'hour').format(),
-      organizer: Math.random() * 1000,
+      organizer: userId,
       backgroundColor: '#141414',
       oneDayEvent: selected.allDay ? true : false
     };
@@ -94,6 +114,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
 
     setSelectedEvent(event);
     setOpenSlot(true);
+    setResetData(!resetData);
   };
 
   const currentDate = new Date();
@@ -169,6 +190,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
     }
   
     setOpenSlot(false);
+    setResetData(!resetData);
   };
 
   const [adjustedEnd, setAdjustedEnd] = useState("");
@@ -195,6 +217,7 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
     const updatedEvents = currentEvents.filter(event => event.id !== id);
     setCurrentEvents(updatedEvents);
     setOpenSlot(false);
+    setResetData(!resetData);
   };
 
   return (
@@ -205,7 +228,10 @@ const AdminCalendar: React.FC<AdminCalendarProps> = () => {
           <AddEventModal
             open={openSlot}
             isNewEvent={isNewEvent}
+            nextID={nextID}
             handleClose={handleClose}
+            handleReset={handleReset}
+            selectStudent={selectStudent}
             selectedEvent={selectedEvent}
             handleEventsUpdate={handleEventsUpdate}
             handleDelete={handleDelete}
