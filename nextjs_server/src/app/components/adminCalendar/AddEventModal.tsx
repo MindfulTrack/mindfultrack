@@ -27,6 +27,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 interface AddEventModalProps {
   open: boolean;
+  nextID: number;
+  selectStudent: Function;
   isNewEvent: boolean;
   handleClose: Function;
   handleReset: Function;
@@ -37,9 +39,11 @@ interface AddEventModalProps {
 
 const AddEventModal: React.FC<AddEventModalProps> = ({
   open,
+  nextID,
   handleClose,
   selectedEvent,
   isNewEvent,
+  selectStudent,
   handleEventsUpdate,
   handleReset,
   handleDelete
@@ -107,6 +111,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
   const handleCancel = () => {
     setChangedFromAllDay(false);
     setValidated(false);
+    selectStudent(false);
     handleReset();
     handleClose()
   };
@@ -121,8 +126,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
       const addedDay = dayjs(eventEnd).add(1, 'day');
       setEventEndTime(addedDay);
     }
+
     const savedEvent = {
-      id: isNewEvent ? Math.round(Math.random() * 1000) : Number(selectedEvent?.id),
+      id: isNewEvent ? Math.round(nextID) : Number(selectedEvent?.id),
       title: eventTitle,
       eventLocation: eventLocation,
       backgroundColor: backgroundColor[0].value,
@@ -137,13 +143,28 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
     if (isNewEvent) {
       handleEventsUpdate(savedEvent);
 
-      // Initiate Calendar Matching
+      //Get ID For New Event
       if (forStudents) {
-        console.log('Match Students');
+        try {
+          const response = await customFetch(
+            'base/availabilityMatch/' + nextID + '/'
+          );
+          console.log(response);
+        
+          if (response.ok) {
+            console.log('Matching initiated successfully');
+          } else {
+            console.error('Matching Failed');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
       } else {
-        console.log('Personal Event');
+        console.log('Non-Student Event');
       }
 
+      // Initiate Calendar Matching
+     
     } else {
 
       // Update Calendar Event
@@ -164,22 +185,11 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
             organizer: userId
           },
         );
-        if (response.ok) {
-          console.log('Event updated successfully');
-        } else {
-          console.error('Failed to update event');
-        }
-
-        // Initiate Calendar Matching
-        if (forStudents) {
-          console.log('Match Students');
-        } else {
-          console.log('Personal Event');
-        }
       } catch (error) {
         console.error('Error:', error);
       }
 
+      selectStudent(false);
       handleReset();
       handleCancel();
     }
@@ -195,7 +205,7 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         );
         if (response.ok) {
           console.log('Event deleted successfully');
-           // Close the modal
+          handleCancel();
         } else {
           console.error('Failed to delete event');
         }
@@ -203,9 +213,9 @@ const AddEventModal: React.FC<AddEventModalProps> = ({
         console.error('Error:', error);
       }
 
-      handleDelete();
+      selectStudent(false);
       handleReset();
-      handleCancel();
+      handleCancel();      
     }
   }
 
