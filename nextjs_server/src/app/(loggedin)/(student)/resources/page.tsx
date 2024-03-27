@@ -10,6 +10,7 @@ import { ResourceViewModel } from '../../../../ts/types';
 import {useSession} from "next-auth/react";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import scss from "./Resources.module.scss";
 interface ResourcesMainPageProps {
 
 };
@@ -51,12 +52,13 @@ const ResourcesMainPage: React.FC<ResourcesMainPageProps> = () => {
         </Paper>
       </Box>
 
-        <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row">
+        {/* <Grid container rowSpacing={3} columnSpacing={3} flexDirection="row" className={scss.resource}> */}
+        <Grid container gap={2} className={scss.resource}>
           {resources
           .sort((a: any, b: any) => a.id - b.id)
           .map((item) => {
             return (
-              <Grid xs={3} key={item.id}>
+              <Grid key={item.id}>
                 <ResourceCard
                   name={item.name}
                   id={item.id}

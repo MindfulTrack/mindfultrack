@@ -8,6 +8,7 @@ import BYU_White from '/public/static/byuLogo/Monogram/PNG/BYU_White.png';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
 import { Home } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
 
 interface NavBarProps {
 
@@ -25,6 +26,26 @@ const NavBar: React.FC<NavBarProps> = () => {
   const redirectLink = () => {
     router.push('/resources');
   }
+  // React.useEffect(() => {
+  //   console.log("window.innerWidth", window.innerWidth);
+  // });
+  // function isMobileWidth() {
+  //   return window.innerWidth < 750;
+  // }
+
+  // const [isMobile, setIsMobile] = useState(isMobileWidth());
+
+  // useEffect(() => {
+  //   function handleWindowresize() {
+  //     setIsMobile(isMobileWidth());
+  //   }
+
+  //   window.addEventListener('resize', handleWindowresize);
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleWindowresize);
+  //   };
+  // }, []);
 
 
   // If the user is authenticated redirect to `/profile`
@@ -32,6 +53,7 @@ const NavBar: React.FC<NavBarProps> = () => {
     // router.push("profile");
     return (
       <>
+        {/* { !isMobile } */}
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
