@@ -293,7 +293,7 @@ class LineChartDataView(APIView):
 
 
 class AvailabilityMatchView(APIView): 
-    def get(self, event_id, format=None):
+    def get(self, request, event_id, format=None):
         # Variable for the matched student
         finalMatch = {}
 
