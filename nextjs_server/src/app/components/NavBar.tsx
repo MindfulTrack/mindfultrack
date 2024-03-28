@@ -45,11 +45,11 @@ const NavBar: React.FC<NavBarProps> = () => {
   //   };
   // }, []);
 
-  return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-          <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
+  // return (
+  //   <>
+  //     <Box sx={{ flexGrow: 1 }}>
+  //       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+  //         <Toolbar sx={{ justifyContent: 'space-between', height: '90px' }}>
 
 
   // If the user is authenticated redirect to `/profile`
